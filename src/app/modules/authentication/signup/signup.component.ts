@@ -155,16 +155,16 @@ export class SignupComponent implements OnInit {
     const property = new FormGroup({
       pHFNo: new FormControl('', [Validators.required]),
       pParcelNo: new FormControl('', [Validators.required]),
-      pPlotNo: new FormControl('', [Validators.required]),
-      pPlotArea: new FormControl('', []),
-      pBuiltUpArea: new FormControl('', []),
-      pTotalArea: new FormControl('', []), 
+      pPlotNo: new FormControl('0', [Validators.required]),
+      pPlotArea: new FormControl('0', []),
+      pBuiltUpArea: new FormControl('0', []),
+      pTotalArea: new FormControl('0', []), 
       pZone: new FormControl('', []),
       pVoteWeightage: new FormControl('', []),
       pEligibity: new FormControl('', []), 
-      pRooms: new FormControl('', []),
-      pBathrooms: new FormControl('', []),
-      pCarParkSlots: new FormControl('', []), 
+      pRooms: new FormControl('0', []),
+      pBathrooms: new FormControl('0', []),
+      pCarParkSlots: new FormControl('0', []), 
       pDocuments: new FormArray([]),
     });
     this.properties.push(property);
@@ -365,8 +365,8 @@ export class SignupComponent implements OnInit {
     })
 
     //Email submit
-    this.authenticationService.sendNewUserEmail(data.cprno, data.password, data.email, this.mCurDate).subscribe((res: any) => {
-      console.log(res)
+    this.authenticationService.sendNewUserEmail(data.cprno, data.name, data.password, data.email, this.mCurDate).subscribe((res: any) => {
+      console.log('EMAIL SENT')
     }, (err: any) => {
       console.log(err)
     })

@@ -4,6 +4,26 @@
     <span class="menu-item-title" style="font-size: larger;">&nbsp;&nbsp;&nbsp;IFAGATE</span>
   </a>
   <br>
+  <li class="menu-item expandable-item nav-item" [routerLinkActive]="['active']" *ngIf="showVoting">
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header class="menu-link">
+        <div class="item-header-content">
+          <mat-panel-title>
+            <i class="fa fa-address-card"></i>
+            <span class="menu-item-title">&nbsp;&nbsp;&nbsp;Profile</span>
+          </mat-panel-title>
+          <!-- <mat-panel-description class="menu-item-description">Coming soon</mat-panel-description> -->
+        </div>
+      </mat-expansion-panel-header>
+      <li class="menu-item nav-item" [routerLinkActive]="['active']">
+        <a class="menu-link nav-link" [routerLinkActive]="['active']" [routerLink]="['/home/account']">
+          <i class="menu-item-icon"></i>
+          <span class="menu-item-title">Property Details</span>
+        </a>
+      </li>
+      <br>
+    </mat-expansion-panel>
+  </li>
   <li class="menu-item expandable-item nav-item" [routerLinkActive]="['active']" *ngIf="showCRM">
     <mat-expansion-panel [expanded]="false">
       <mat-expansion-panel-header class="menu-link">
@@ -93,12 +113,44 @@
       <mat-expansion-panel-header class="menu-link">
         <div class="item-header-content">
           <mat-panel-title>
+            <i class="fa fa-credit-card"></i>
+            <span class="menu-item-title">&nbsp;&nbsp;&nbsp;Bills & Payments</span>
+          </mat-panel-title>
+          <!-- <mat-panel-description class="menu-item-description">Coming soon</mat-panel-description> -->
+        </div>
+      </mat-expansion-panel-header>
+      <li class="menu-item nav-item" [routerLinkActive]="['active']">
+        <a class="menu-link nav-link" [routerLinkActive]="['active']" [routerLink]="['/notifications/emails']">
+          <i class="menu-item-icon"></i>
+          <span class="menu-item-title">Invoices</span>
+        </a>
+      </li>
+      <li class="menu-item nav-item" [routerLinkActive]="['active']">
+        <a class="menu-link nav-link" [routerLinkActive]="['active']" [routerLink]="['/notifications/emails']">
+          <i class="menu-item-icon"></i>
+          <span class="menu-item-title">Receipts</span>
+        </a>
+      </li>
+      <br>
+    </mat-expansion-panel>
+  </li>
+  <li class="menu-item expandable-item nav-item" [routerLinkActive]="['active']" *ngIf="showVoting">
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header class="menu-link">
+        <div class="item-header-content">
+          <mat-panel-title>
             <i class="fa fa-bullhorn"></i>
             <span class="menu-item-title">&nbsp;&nbsp;&nbsp;Notifications</span>
           </mat-panel-title>
           <!-- <mat-panel-description class="menu-item-description">Coming soon</mat-panel-description> -->
         </div>
       </mat-expansion-panel-header>
+      <li class="menu-item nav-item" [routerLinkActive]="['active']">
+        <a class="menu-link nav-link" [routerLinkActive]="['active']" [routerLink]="['/notifications/emails']">
+          <i class="menu-item-icon"></i>
+          <span class="menu-item-title">Emails</span>
+        </a>
+      </li>
       <li class="menu-item nav-item" [routerLinkActive]="['active']">
         <a class="menu-link nav-link" [routerLinkActive]="['active']" [routerLink]="['/notifications/announcements']">
           <i class="menu-item-icon"></i>

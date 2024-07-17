@@ -67,17 +67,97 @@ export class AuthenticationService {
     return this.http.post(this.url + 's/new', JSON.stringify(newUsr), { headers: headers })
   }
 
-  sendNewUserEmail(cprno: string, password: string, recipient: string, creatdt: string) {
+  getAllEmails(cprno: string) {
+    return this.http.get(this.url + '/getAllEmails/' + cprno)
+  }
+
+  sendNewUserEmail(cprno: string, name: string, password: string, recipient: string, creatdt: string) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const newUsr = {
       cprno: cprno,
+      name: name,
       password: password,
       recipient: recipient,
       creatdt: creatdt,
     }
 
     return this.http.post(this.url + '/email/registration', JSON.stringify(newUsr), { headers: headers })
+  }
+
+  sendUserLoginEmail(cprno: string, name: string,recipient: string, creatdt: string, time: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newUsr = {
+      cprno: cprno,
+      name: name,
+      recipient: 'noohmanzoor02@gmail.com',
+      creatdt: creatdt,
+      date: creatdt,
+      time: time,
+    }
+
+    return this.http.post(this.url + '/email/login', JSON.stringify(newUsr), { headers: headers })
+  }
+
+  userUploadDocument(cprno: string, name: string,recipient: string, creatdt: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newUsr = {
+      cprno: cprno,
+      name: name,
+      recipient: 'noohmanzoor02@gmail.com',
+      creatdt: creatdt,
+      date: creatdt,
+    }
+
+    return this.http.post(this.url + '/email/upload', JSON.stringify(newUsr), { headers: headers })
+  }
+  
+  userAGMRegistrationDocEmail(cprno: string, agmtitle: string, name: string, recipient: string, creatdt: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newUsr = {
+      cprno: cprno,
+      agmtitle: agmtitle,
+      name: name,
+      recipient: 'noohmanzoor02@gmail.com',
+      creatdt: creatdt,
+      date: creatdt,
+    }
+
+    return this.http.post(this.url + '/email/agmregistration', JSON.stringify(newUsr), { headers: headers })
+  }
+  
+  userAGMRegistrationProxyEmail(cprno: string, name: string,proxname: string,agmtitle: string,recipient: string, creatdt: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newUsr = {
+      cprno: cprno,
+      name: name,
+      proxname: proxname,
+      agmtitle: agmtitle,
+      recipient: 'noohmanzoor02@gmail.com',
+      creatdt: creatdt,
+      date: creatdt,
+    }
+
+    return this.http.post(this.url + '/email/agmproxy', JSON.stringify(newUsr), { headers: headers })
+  }
+
+  userElectionNominationEmail(year: string, cprno: string, name: string, recipient: string, creatdt: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newUsr = {
+      year: year,
+      cprno: cprno,
+      name: name,
+      recipient: 'noohmanzoor02@gmail.com',
+      creatdt: creatdt,
+      date: creatdt,
+    }
+
+    return this.http.post(this.url + '/email/electionNomination', JSON.stringify(newUsr), { headers: headers })
   }
 
   logout(): Observable<any> {
@@ -99,6 +179,17 @@ export class AuthenticationService {
     }
 
     return this.http.post(this.url + '/changePassword', JSON.stringify(newUsr), { headers: headers })
+  }
+
+  changeImage(imagename: string, cprno: String) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    
+    const newUsr = {
+      imagename: imagename,
+      cprno: cprno
+    }
+
+    return this.http.post(this.url + '/changeImage', JSON.stringify(newUsr), { headers: headers })
   }
 
 }

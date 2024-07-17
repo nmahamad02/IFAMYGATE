@@ -10,7 +10,8 @@
                 <mat-card-content>
                     <form class="form-container" [formGroup]="detailForm">
                         <div class="col-12" *ngIf="showMemberDetails">
-                            <h6>&#9312; Let's start by entering your details</h6>
+                            <h6>&#9312; Let's start by entering your details.</h6>
+                            <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The following pages will allow you to add, review and edit property details. If you would like to skip that step for now, please press the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skip button below.</h6>
                             <hr>
                             <div class="row">
                                 <div class="col-9">
@@ -193,7 +194,7 @@
                         </div>
                         <div class="col-12" *ngIf="showPropertyDocuments">
                             <h6>&#9314; You will need to upload your documents such as your CPR, the title deed of your property, and EWA receipt.</h6>
-                            <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(PLEASE NOTE: Acceptable file types are: PDF. Please ensure that the document is legible before you upload it. Images cannotes be inserted here.)</h6>
+                            <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(PLEASE NOTE: Acceptable file types are: PDF. Please ensure that the document is legible before you upload it. Images cannot be <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uploaded here.)</h6>
                             <hr>
                             <ng-container formArrayName="properties">
                                 <mat-card *ngFor="let prop of properties.controls; let i = index;" [formGroupName]="i" >
@@ -300,6 +301,7 @@
                         </div>
                     </form>
                     <hr>
+                    <button class="btn btn-secondary" (click)="changePage(3)" *ngIf="showMemberDetails">Skip Property Details</button>
                     <button class="btn btn-light" (click)="changePage(-1)" *ngIf="!showMemberDetails">Previous</button>
                     <button class="btn btn-primary" style="float: right;" (click)="changePage(1)" *ngIf="!showLoginDetails">Next</button>
                     <button class="btn btn-success" style="float: right;" (click)="submitForm()" *ngIf="showLoginDetails">Submit</button>

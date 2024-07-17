@@ -88,5 +88,55 @@ export class VotingService {
       return this.http.post(this.url + '/vote/update', JSON.stringify(newTran), { headers: headers })
     }
 
+    getAGMRecord(year: string) {
+      return this.http.get(this.url + '/AGMmaster/' + year)
+    } 
+
+    getRegistrationDetail(agmcode: string) {
+      return this.http.get(this.url + '/getRegistrationDetail/' + agmcode)
+    } 
+    
+    checkMemberRegistration(agmcode: string, cprno: string) {
+      return this.http.get(this.url + '/member/registration/' + agmcode + '/' + cprno)
+    } 
   
+    insertMemberRegistration(agmtitle: string, cprno: string, name: string, membtype: string, email: string, createDate: string, isprimary: string, primarymember: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newTran = {
+      agmtitle: agmtitle,
+      cprno: cprno, 
+      name: name,
+      membtype: membtype,
+      email: email,
+      createDate: createDate,
+      isprimary: isprimary,
+      primarymember: primarymember
+    }
+    return this.http.post(this.url + '/insert/member/registration', JSON.stringify(newTran), { headers: headers })
+  }
+  
+  checkMemberNomination(agmcode: string, cprno: string) {
+    return this.http.get(this.url + '/member/nomination/' + agmcode + '/' + cprno)
+  }
+  
+  getNominationList(agmcode: string) {
+    return this.http.get(this.url + '/member/nomination/list/' + agmcode)
+  } 
+
+  insertMemberNomination(year: string, category: string, blno: string, blitem: string, bleng: string, blear: string, agmtitle: string, agmcode: string) {
+  const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+  const newTran = {
+    year: year,
+    category: category, 
+    blno: blno,
+    blitem: blitem,
+    bleng: bleng,
+    blear: '',
+    agmtitle: agmtitle,
+    agmcode: agmcode,
+  }
+  return this.http.post(this.url + '/insert/member/nomination', JSON.stringify(newTran), { headers: headers })
+ }
 }

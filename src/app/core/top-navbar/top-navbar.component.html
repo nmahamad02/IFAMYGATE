@@ -17,11 +17,9 @@
       </div>
       <div class="navbar-user">
         <div class="user-image-wrapper">
-          <!--
           <cc-aspect-ratio [ratio]="{w: 1, h: 1}">
-            <cc-image-shell class="user-image" animation="spinner" [src]="loggedUser?.image" [alt]="'user image'"></cc-image-shell>
+            <cc-image-shell class="user-image" animation="spinner" src="{{imageSrc}}" [alt]="'user image'"></cc-image-shell>
           </cc-aspect-ratio>
-          -->
         </div>
         <div ngbDropdown class="user-actions-dropdown" placement="bottom-right" display="static">
           <button class="user-action-toggle-btn btn btn-link" id="accountMenu" ngbDropdownToggle></button>
@@ -78,13 +76,11 @@
         
         <div class="navbar-user"> 
           <p></p>
-          <!--
           <div class="user-image-wrapper">
             <cc-aspect-ratio [ratio]="{w: 1, h: 1}">
-              <cc-image-shell class="user-image" animation="spinner" [src]="loggedUser?.image" [alt]="'user image'"></cc-image-shell>
+              <cc-image-shell class="user-image" animation="spinner" src="{{imageSrc}}" [alt]="'user image'"></cc-image-shell>
             </cc-aspect-ratio>
           </div>  
-          -->
           <div ngbDropdown class="user-actions-dropdown" placement="bottom-right" display="static">
             <button class="user-action-toggle-btn btn btn-link" id="accountMenu" ngbDropdownToggle>
               <!--

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CrmService } from 'src/app/services/crm/crm.service';
 import { UploadService } from 'src/app/services/upload/upload.service';
+import { AuthenticationService } from '../../authentication/authentication.service';
 
 @Component({
   selector: 'app-account',
@@ -10,6 +12,9 @@ import { UploadService } from 'src/app/services/upload/upload.service';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+
+  @ViewChild('propLookupDialog', { static: false }) propLookupDialog!: TemplateRef<any>;
+
   propertyForm: FormGroup;
   propArr: any[] = [];
   proxArr: any[] = [];
@@ -29,7 +34,7 @@ export class AccountComponent implements OnInit {
 
   imageSrc: string = '';
 
-  constructor(private crmservice: CrmService, private router: Router, private route: ActivatedRoute, private uploadService: UploadService) { 
+  constructor(private crmservice: CrmService, private router: Router, private snackBar: MatSnackBar, private route: ActivatedRoute, private uploadService: UploadService, private authenticationService: AuthenticationService, private dialog: MatDialog) { 
     this.propertyForm = new FormGroup({ 
       cprno: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
@@ -112,6 +117,7 @@ export class AccountComponent implements OnInit {
                 pBathrooms: new FormControl(this.proxArr[i].NO_OF_BATHROOMS, []),
                 pCarParkSlots: new FormControl(this.proxArr[i].NO_OF_CARPARK_SLOTS, []), 
                 pDocuments: new FormArray([]),
+                pNewDocuments: new FormArray([]),
               });
               this.crmservice.getAllDocuments(this.proxArr[0].memberno, this.proxArr[i].house_flat_no).subscribe((resp: any) => {
                 console.log(resp)
@@ -120,7 +126,7 @@ export class AccountComponent implements OnInit {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
-                    pDocumentUrl: new FormControl(docUrl, [])
+                    pDocumentUrl: new FormControl(docUrl, []),
                   });
                   this.proxyDocuments(i).push(document)
                 }
@@ -172,27 +178,134 @@ export class AccountComponent implements OnInit {
                 pRooms: new FormControl(this.propArr[i].NO_OF_ROOMS, []),
                 pBathrooms: new FormControl(this.propArr[i].NO_OF_BATHROOMS, []),
                 pCarParkSlots: new FormControl(this.propArr[i].NO_OF_CARPARK_SLOTS, []), 
+                pCPRStatus: new FormControl('', []), 
+                pTitleDeedStatus: new FormControl('', []), 
+                pEWAReceiptStatus: new FormControl('', []), 
                 pDocuments: new FormArray([]),
+                pNewDocuments: new FormArray([]),
               });
               this.crmservice.getAllDocuments(this.propArr[0].memberno, this.propArr[i].house_flat_no).subscribe((resp: any) => {
                 console.log(resp)
                 const docArr = resp.recordset;
+                var pCPRStatus = "Not Submitted", pTitleDeedStatus = "Not Submitted", pEWAReceiptStatus = "Not Submitted";
                 for(let j=0; j<docArr.length; j++) {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
                     pDocumentUrl: new FormControl(docUrl, [])
                   });
+                  if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                    pCPRStatus = 'In Process'
+                  } if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                    pTitleDeedStatus = 'In Process'
+                  } if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                    pEWAReceiptStatus = 'In Process'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                    pCPRStatus = 'Valid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                    pTitleDeedStatus = 'Valid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                    pEWAReceiptStatus = 'Valid'
+                  }
                   this.documents(i).push(document)
                 }
+                this.properties.at(i).patchValue({
+                  pCPRStatus: pCPRStatus,
+                  pTitleDeedStatus: pTitleDeedStatus,
+                  pEWAReceiptStatus: pEWAReceiptStatus
+                })
               })
               this.properties.push(prop);
-              break;
+              console.log(this.properties.at(i).value)
+              //break;
             }
           })
         }
       }
     })
+  }
+
+  addNewDocuments(propIndex: number) {
+    let dialogRef = this.dialog.open(this.propLookupDialog);
+    console.log(this.properties)
+  }
+
+  onFileChange(event: any, propIndex: number) {
+    var filesList: FileList = event.target.files;
+    const reader = new FileReader();
+
+    if(event.target.files && event.target.files.length) {
+      const fileToUpload: any = filesList.item(0);
+      console.log(fileToUpload);
+      console.log(fileToUpload.type)
+      if(fileToUpload.type === 'application/pdf') {
+        const fileNm: string = fileToUpload.name;
+        console.log(fileNm);
+        reader.readAsDataURL(fileToUpload);
+        reader.onload = () => {
+          const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + fileNm
+            const document = new FormGroup({
+              pDocument: new FormControl(fileToUpload, []),
+              pDocumentSrc: new FormControl(reader.result as String, []),
+              pDocumentSource: new FormControl(fileNm, []),
+              pDocumentType: new FormControl('', []),      
+              pDocumentUrl: new FormControl(docUrl, [])
+            });
+            this.newDocuments(propIndex).push(document)
+        };
+        this.clearExtra(propIndex)
+        //this.selectedFileToUpload = fileToUpload;
+      } else {
+        this.snackBar.open("Only PDF Files Supported!", "OK");
+        //this.clearExtra(propIndex)
+      }
+    }
+  }
+
+  clearExtra(propIndex: number) {
+    for(let i=0; i<this.newDocuments(propIndex).length; i++){
+      if(this.newDocuments(propIndex).at(i).value.pDocument === ""){
+        console.log('empty')
+        this.deleteDocument(i,propIndex);
+      } else {
+        console.log(this.newDocuments(propIndex).at(i).value.pDocument)
+      }
+    }
+  }
+
+  addDocument(propIndex:number) {
+    const document = new FormGroup({
+      pDocument: new FormControl('', []),
+      pDocumentSrc: new FormControl('', []),
+      pDocumentSource: new FormControl('', []),
+      pDocumentType: new FormControl('', []),      
+      pDocumentUrl: new FormControl('', [])
+    });
+    this.newDocuments(propIndex).push(document)
+  }
+
+  deleteDocument(index: number, propIndex: number) {
+    this.newDocuments(propIndex).removeAt(index)
+  }
+
+  submitNewDocuments(propIndex: number) {
+    const data = this.propertyForm.value
+    console.log(this.properties.at(propIndex))
+    for(let j=0; j<this.newDocuments(propIndex).length; j++) {
+      console.log(this.newDocuments(propIndex))
+      this.uploadService.uploadDoc(this.newDocuments(propIndex).at(j).value.pDocument)
+      this.crmservice.addNewDocument(data.cprno,this.properties.at(propIndex).value.pHFNo,this.newDocuments(propIndex).at(j).value.pDocumentSource,this.newDocuments(propIndex).at(j).value.pDocumentType).subscribe((res: any) => {
+        console.log(res)
+      }, (err: any) => {
+        console.log(err)
+      })
+    }
+    this.authenticationService.userUploadDocument(data.cprno, data.name, data.email, this.mCurDate).subscribe((res: any) => {
+      console.log('EMAIL SENT')
+    }, (err: any) => {
+      console.log(err)
+    })
+    this.getDetails(data.cprno)
   }
 
   formatDate(date: any) {
@@ -217,6 +330,10 @@ export class AccountComponent implements OnInit {
 
   documents(propIndex: number): FormArray {
     return this.properties.at(propIndex).get("pDocuments") as FormArray
+  }
+
+  newDocuments(propIndex: number): FormArray {
+    return this.properties.at(propIndex).get("pNewDocuments") as FormArray
   }
 
   get proxyProperties(): FormArray {

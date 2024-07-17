@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrmService } from 'src/app/services/crm/crm.service';
+import { VotingService } from 'src/app/services/voting/voting.service';
 import * as XLSX from "xlsx";
 
 @Component({
@@ -11,16 +12,115 @@ import * as XLSX from "xlsx";
 export class AttendanceComponent implements OnInit {
   @ViewChild("table1", {static: false}) table: ElementRef;
 
+  utc = new Date();
+  mCurDate = this.formatDate(this.utc);
+  mCYear = new Date().getFullYear();
+
   membList: any[] = []
 
-  constructor(private crmService: CrmService, private router: Router) { }
+  constructor(private crmService: CrmService, private router: Router, private votingService: VotingService) { }
 
   ngOnInit() {
     this.getData();
   }
 
   getData() {
-    this.crmService.getAllMembers().subscribe((res: any) => {
+    for(let i=this.mCYear; i>=2023; i--) {
+      let record = []
+      this.votingService.getAGMRecord(i.toString()).subscribe((res: any) => {
+        console.log(res)
+        for(let j=0; j<res.recordset.length; j++) {
+          this.votingService.getRegistrationDetail(res.recordset[j].AGMCODE).subscribe((resp: any) => {
+            console.log(resp)
+            for(let k=0; k<resp.recordset.length; k++) {
+              if(resp.recordset[k].membtype === 'O') {
+                let A = {
+                  cprno: resp.recordset[k].Memberno,
+                  name: resp.recordset[k].name,
+                  agmname: resp.recordset[k].agmname,
+                  agmdate: resp.recordset[k].agmdate,
+                  registered: resp.recordset[k].CREATEDDATE,  
+                  status: resp.recordset[k].votingStatus,
+                  proxy: 'N',
+                  titledeed: 'Y',
+                  cprdoc: 'Y',
+                  balance: '0'
+                }
+                record.push(A)
+              } else {
+                let B = {
+                  cprno: resp.recordset[k].Memberno,
+                  name: resp.recordset[k].name,
+                  agmname: resp.recordset[k].agmname,
+                  agmdate: resp.recordset[k].agmdate,
+                  registered: resp.recordset[k].CREATEDDATE,  
+                  status: resp.recordset[k].votingStatus,
+                  proxy: resp.recordset[k].proxy_OF,
+                  titledeed: 'Y',
+                  cprdoc: 'Y',
+                  balance: '0'
+                }
+                record.push(B)
+              }
+            }
+          })
+        }
+      })
+      this.membList.push(record)
+    }
+  }
+
+  fireEvent() {
+    console.log(this.membList)
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
+      this.table.nativeElement
+    );
+
+    /* new format */
+    var fmt = "0.00";
+    /* change cell format of range B2:D4 */
+    var range = { s: { r: 1, c: 1 }, e: { r: 2, c: 100000 } };
+    for (var R = range.s.r; R <= range.e.r; ++R) {
+      for (var C = range.s.c; C <= range.e.c; ++C) {
+        var cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
+        if (!cell || cell.t != "n") continue; // only format numeric cells
+        cell.z = fmt;
+      }
+    }
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    var fmt = "@";
+    wb.Sheets["Sheet1"]["F"] = fmt;
+
+    /* save to file */
+    XLSX.writeFile(wb, "Voter-Register-List.xlsx");
+  }
+
+  public gotoPropertyDetails(url, id) {
+    var myurl = `${url}/${id}`;
+    this.router.navigateByUrl(myurl).then(e => {
+    });
+  }
+
+  formatDate(date: any) {
+    var d = new Date(date), day = '' + d.getDate(), month = '' + (d.getMonth() + 1), year = d.getFullYear();
+
+    if (day.length < 2) {
+      day = '0' + day;
+    } 
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    return [day, month, year].join('-');
+  }
+}
+
+
+
+
+
+
+    /*this.crmService.getAllMembers().subscribe((res: any) => {
       for(let i=0; i<res.recordset.length; i++) {
         let mCPR = '', mTd = '', mProx = '';
         this.crmService.checkCprDoc(res.recordset[i].MemberNo).subscribe((res: any) => {
@@ -79,37 +179,4 @@ export class AttendanceComponent implements OnInit {
         })
       }
       console.log(this.membList)
-    })
-  }
-
-  fireEvent() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-      this.table.nativeElement
-    );
-
-    /* new format */
-    var fmt = "0.00";
-    /* change cell format of range B2:D4 */
-    var range = { s: { r: 1, c: 1 }, e: { r: 2, c: 100000 } };
-    for (var R = range.s.r; R <= range.e.r; ++R) {
-      for (var C = range.s.c; C <= range.e.c; ++C) {
-        var cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
-        if (!cell || cell.t != "n") continue; // only format numeric cells
-        cell.z = fmt;
-      }
-    }
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    var fmt = "@";
-    wb.Sheets["Sheet1"]["F"] = fmt;
-
-    /* save to file */
-    XLSX.writeFile(wb, "Voter-Register-List.xlsx");
-  }
-
-  public gotoPropertyDetails(url, id) {
-    var myurl = `${url}/${id}`;
-    this.router.navigateByUrl(myurl).then(e => {
-    });
-  }
-}
+    })*/

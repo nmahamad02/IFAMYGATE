@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <div class="row no-gutters">
+        <div class="visualization-heading col-12">
+            <div class="heading-info">
+                <h2 class="heading-title">Emails and Communications</h2>
+                <hr>
+            </div>
+        </div>
+        <hr>
+        <div class="col-12" >
+            <mat-accordion>
+                <mat-expansion-panel hideToggle *ngFor="let m of emailList; let i = index">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> {{ m.CREATEDT | date: 'longDate' }} | {{ m.REPORT_DESC }}</mat-panel-title>
+                        <mat-panel-description> {{ m.MAIL_SUBJECT_SQL }}</mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                        <div class="col-12" style="white-space: pre-line">
+                            {{ m.MAIL_BODY_SQL }}
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+</div>

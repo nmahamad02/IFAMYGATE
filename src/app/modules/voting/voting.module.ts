@@ -20,6 +20,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from "@angular/material/sort";
+import { MatExpansionModule } from '@angular/material/expansion';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatRadioModule } from '@angular/material/radio';
 import { VotingDetailsComponent } from './voting-details/voting-details.component';
@@ -66,6 +67,7 @@ export const votingRoutes = [
     MatPaginatorModule,
     MatRadioModule,
     MatSortModule,
+    MatExpansionModule,
     PdfViewerModule,
     MatFormFieldModule,
     MatInputModule,

@@ -14,50 +14,90 @@
                 </div>
             </div>
             <hr>
-            <mat-tab-group>
-                <mat-tab label="Member List">
-                    <table #table1 class="table table-striped table-hover table-sm table-bordered" >
-                        <thead>
-                            <tr style="background-color: darkblue; color: white;">
-                                <th></th>
-                                <th>Landlord Name</th>
-                                <th>CPR</th>
-                                <th>Proxy Name</th>
-                                <th>Proxy CPR</th>
-                                <th>Date</th>
-                                <th>Title Deed</th>
-                                <th>CPR Copy</th>
-                                <th>Proxy Form</th>
-                                <th>Balance Due</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let m of membList; let i = index">
-                                <td>{{ i+1 }}</td>
-                                <td>{{ m.mName }}</td>
-                                <td>{{ m.membNo }}</td>
-                                <td>{{ m.mProxName }}</td>
-                                <td>{{ m.mProxCPR }}</td>
-                                <td>{{ m.mDate | date:'longDate' }}</td>
-                                <td>{{ m.mTitleDeedStatus }}</td>
-                                <td>{{ m.mCPRStatus }}</td>
-                                <td>{{ m.mProxyFormStatus }}</td>
-                                <td>BHD {{ m.mBalance }}</td>
-                                <td>
-                                    <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white"  style="border-radius: 50%;"  (click)="gotoPropertyDetails('/crm/property/details', m.membNo)">
-                                    View
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </mat-tab>
-                <mat-tab label="Members who have not sent documents">
-
-                </mat-tab>
-            </mat-tab-group>
-
+            <div class="col-12">
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle *ngFor="let m of membList; let i = index">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> 
+                                <h6>{{ m[0].agmdate | date: 'longDate' }}</h6> 
+                            </mat-panel-title>
+                            <mat-panel-description> {{ m[0].agmname }}</mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-12">
+                                <table #table1 class="table table-striped table-hover table-sm table-bordered" >
+                                    <thead>
+                                        <tr style="background-color: darkblue; color: white;">
+                                            <th></th>
+                                            <th>Name</th>
+                                            <th>CPR</th>
+                                            <th>Status</th>
+                                            <th>Registered Date</th>
+                                            <th>Title Deed</th>
+                                            <th>CPR Copy</th>
+                                            <th>Balance Due</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let n of membList[i]; let i = index">
+                                            <td>{{ i+1 }}</td>
+                                            <td>{{ n.cprno }}</td>
+                                            <td>{{ n.name }}<p *ngIf="n.proxy !=='N'">Proxy of: {{ n.proxy }}</p></td>
+                                            <td>{{ n.status }}</td>
+                                            <td>{{ n.registered | date:'longDate' }}</td>
+                                            <td>{{ n.titledeed }}</td>
+                                            <td>{{ n.cprdoc }}</td>
+                                            <td>BHD {{ n.balance }}</td>
+                                            <td>
+                                                <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white"  style="border-radius: 50%;"  (click)="gotoPropertyDetails('/crm/property/details', n.cprno)">
+                                                View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+            <!--<table #table1 class="table table-striped table-hover table-sm table-bordered" >
+                <thead>
+                    <tr style="background-color: darkblue; color: white;">
+                        <th></th>
+                        <th>Landlord Name</th>
+                        <th>CPR</th>
+                        <th>Proxy Name</th>
+                        <th>Proxy CPR</th>
+                        <th>Date</th>
+                        <th>Title Deed</th>
+                        <th>CPR Copy</th>
+                        <th>Proxy Form</th>
+                        <th>Balance Due</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let m of membList; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ m.mName }}</td>
+                        <td>{{ m.membNo }}</td>
+                        <td>{{ m.mProxName }}</td>
+                        <td>{{ m.mProxCPR }}</td>
+                        <td>{{ m.mDate | date:'longDate' }}</td>
+                        <td>{{ m.mTitleDeedStatus }}</td>
+                        <td>{{ m.mCPRStatus }}</td>
+                        <td>{{ m.mProxyFormStatus }}</td>
+                        <td>BHD {{ m.mBalance }}</td>
+                        <td>
+                            <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white"  style="border-radius: 50%;"  (click)="gotoPropertyDetails('/crm/property/details', m.membNo)">
+                            View
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>-->
         </div>
     </div>    
-</div>
+</div>    
