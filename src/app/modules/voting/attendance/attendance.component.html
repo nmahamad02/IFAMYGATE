@@ -36,6 +36,8 @@
                                             <th>Title Deed</th>
                                             <th>CPR Copy</th>
                                             <th>Balance Due</th>
+                                            <th>Eligibility</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -49,9 +51,15 @@
                                             <td>{{ n.titledeed }}</td>
                                             <td>{{ n.cprdoc }}</td>
                                             <td>BHD {{ n.balance }}</td>
+                                            <td>{{ n.position }}</td>
                                             <td>
-                                                <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white"  style="border-radius: 50%;"  (click)="gotoPropertyDetails('/crm/property/details', n.cprno)">
+                                                <button class="btn-primary"  (click)="gotoPropertyDetails('/crm/property/details', n.cprno)">
                                                 View
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button class="btn-danger" (click)="deregister(n.cprno,n.agmcode)">
+                                                X
                                                 </button>
                                             </td>
                                         </tr>

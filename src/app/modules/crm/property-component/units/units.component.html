@@ -235,6 +235,18 @@
                                                                 </button>
                                                             </div>
                                                         </div>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <button class="btn-danger btn text-white btn-block" title="Invalid" (click)="validateDoc(documents(i).at(j).value,'Invalid')">
+                                                                    <mat-icon>close</mat-icon> 
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <button class="btn-success btn text-white btn-block" title="Valid" (click)="validateDoc(documents(i).at(j).value,'Valid')">
+                                                                    <mat-icon>check</mat-icon> 
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </mat-card-content>
                                                 </mat-card>
                                             </div>

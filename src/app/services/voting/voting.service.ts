@@ -116,6 +116,16 @@ export class VotingService {
     return this.http.post(this.url + '/insert/member/registration', JSON.stringify(newTran), { headers: headers })
   }
   
+  updateRegistration(agmcode: string, memberno: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newTran = {
+      agmcode: agmcode,
+      memberno: memberno, 
+    }
+    return this.http.post(this.url + '/update/registration', JSON.stringify(newTran), { headers: headers })
+  }
+
   checkMemberNomination(agmcode: string, cprno: string) {
     return this.http.get(this.url + '/member/nomination/' + agmcode + '/' + cprno)
   }

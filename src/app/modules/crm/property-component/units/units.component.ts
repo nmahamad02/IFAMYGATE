@@ -296,6 +296,14 @@ export class UnitsComponent implements OnInit {
     }
   }
 
+  validateDoc(document: any,status: string){
+    console.log(document)
+    let data = this.propertyForm.value
+    this.crmservice.updateDocStatus(data.cprno,document.pDocumentSource,status).subscribe((res: any) => {
+    })
+    alert(`Document successfully marked ${status}`)
+  }
+
   clearExtra(propIndex: number) {
     for(let i=0; i<this.documents(propIndex).length; i++){
       if(this.documents(propIndex).at(i).value.pDocument === ""){

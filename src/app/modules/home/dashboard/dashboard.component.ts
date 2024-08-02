@@ -207,12 +207,18 @@ export class DashboardComponent implements OnInit {
                   pTitleDeedStatus = 'In Process'
                 } if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
                   pEWAReceiptStatus = 'In Process'
-                } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
                   pCPRStatus = 'Valid'
-                } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
                   pTitleDeedStatus = 'Valid'
-                } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
                   pEWAReceiptStatus = 'Valid'
+                } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                  pCPRStatus = 'Invalid'
+                } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                  pTitleDeedStatus = 'Invalid'
+                } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                  pEWAReceiptStatus = 'Invalid'
                 }
                 this.documents(i).push(document)
               }
@@ -241,34 +247,27 @@ export class DashboardComponent implements OnInit {
         this.mesTxtColour = '#2f5c2f';
         this.mexBorColour = '1px solid #2f5c2f';
         this.registerLink = true;
-      } else if ((propData.properties[i].pCPRStatus === 'Valid') && (propData.properties[i].pTitleDeedStatus === 'In Process')) {
+      } else if ((propData.properties[i].pCPRStatus === 'In Process') || (propData.properties[i].pTitleDeedStatus === 'In Process')) {
         this.messageString = 'Kindly wait for your documents to be verified to register for the AGM';
         this.mesBgdColour = '#fae891';
         this.mesTxtColour = 'goldenrod';
         this.mexBorColour = '1px solid #f5cd05';
         this.closewitlink = true;
         break;
-      } else if ((propData.properties[i].pCPRStatus === 'In Process') && (propData.properties[i].pTitleDeedStatus === 'Valid')) {
-        this.messageString = 'Kindly wait for your documents to be verified to register for the AGM';
-        this.mesBgdColour = '#fae891';
-        this.mesTxtColour = 'goldenrod';
-        this.mexBorColour = '1px solid #f5cd05';
-        this.closewitlink = true;
-        break;
-      } else if ((propData.properties[i].pCPRStatus === 'Not Submitted') && (propData.properties[i].pCPRStatus === 'In Process')) {
-        this.messageString = 'Kindly submit all necessary documents to be able to register for the AGM';
-        this.mesBgdColour = '#fa9191';
-        this.mesTxtColour = '#fc0303';
-        this.mexBorColour = '1px solid #fc0303';
-        this.resubmitLink = true;
-      } else if ((propData.properties[i].pCPRStatus === ' In Process') && (propData.properties[i].pCPRStatus === 'Not Submitted')) {
+      } else if ((propData.properties[i].pCPRStatus === 'Not Submitted') || (propData.properties[i].pCPRStatus === 'Not Submitted')) {
         this.messageString = 'Kindly submit all necessary documents to be able to register for the AGM';
         this.mesBgdColour = '#fa9191';
         this.mesTxtColour = '#fc0303';
         this.mexBorColour = '1px solid #fc0303';
         this.resubmitLink = true;
       } else if ((propData.properties[i].pCPRStatus === 'Invalid') || (propData.properties[i].pCPRStatus === 'Invalid')) {
-        this.messageString = 'Your documents are invalid, kindly resubmit all necessary documents to be able to register for the AGM';
+        this.messageString = 'Your documents are invalid, kindly resubmit all necessary documents to be able to register';
+        this.mesBgdColour = '#fa9191';
+        this.mesTxtColour = '#fc0303';
+        this.mexBorColour = '1px solid #fc0303';
+        this.resubmitLink = true;
+      } else {
+        this.messageString = 'Kindly submit all necessary documents to be able to register for the AGM';
         this.mesBgdColour = '#fa9191';
         this.mesTxtColour = '#fc0303';
         this.mexBorColour = '1px solid #fc0303';
@@ -323,6 +322,7 @@ export class DashboardComponent implements OnInit {
               proxDoc: imgNm
             });
           };
+          this.selectedFileToUploadProx = fileToUpload;
         } else {
           //this.snackBar.open("Only PDF Files Supported!", "OK");
           alert('Only PDF Files Supported!')
@@ -345,6 +345,7 @@ export class DashboardComponent implements OnInit {
               cprDoc: imgNm
             });
           };
+          this.selectedFileToUploadCpr = fileToUpload;
         } else {
           //this.snackBar.open("Only PDF Files Supported!", "OK");
           alert('Only PDF Files Supported!')
@@ -367,6 +368,7 @@ export class DashboardComponent implements OnInit {
               ppDoc: imgNm
             });
           };
+          this.selectedFileToUploadPp = fileToUpload;
         } else {
           //this.snackBar.open("Only PDF Files Supported!", "OK");
           alert('Only PDF Files Supported!')
@@ -389,6 +391,7 @@ export class DashboardComponent implements OnInit {
               gccDoc: imgNm
             });
           };
+          this.selectedFileToUploadGcc = fileToUpload;
         } else {
           //this.snackBar.open("Only PDF Files Supported!", "OK");
           alert('Only PDF Files Supported!')
@@ -410,6 +413,7 @@ export class DashboardComponent implements OnInit {
             imgDoc: imgNm
           });
         }
+        this.selectedFileToUploadImg = fileToUpload;
       }
     }
   }
@@ -568,7 +572,7 @@ export class DashboardComponent implements OnInit {
       this.votingService.checkMemberNomination('AGM2024-2', this.uC).subscribe((res: any) => {
         console.log(res.recordset)
         if(res.recordset.length === 0) {
-          /*this.uploadService.uploadDoc(this.selectedFileToUploadCpr)
+          this.uploadService.uploadDoc(this.selectedFileToUploadCpr)
           this.crmService.addNewDocument(data.cprno,'CPR',data.cprDoc,'CPR').subscribe((res: any) => {
               console.log(res)
           }, (err: any) => {
@@ -589,7 +593,7 @@ export class DashboardComponent implements OnInit {
           this.uploadService.uploadImage(this.selectedFileToUploadImg)
           this.authenticationService.changeImage(data.imgDoc, this.uC).subscribe((res:any) => {
             console.log(res)
-          })*/
+          })
           this.votingService.getNominationList('AGM2024-2').subscribe((resp: any) => {
             console.log(resp.recordset)
             var blitem: number
@@ -623,7 +627,7 @@ export class DashboardComponent implements OnInit {
         }
       }, (err: any) => {
         console.log(err)
-        /*this.uploadService.uploadDoc(this.selectedFileToUploadCpr)
+        this.uploadService.uploadDoc(this.selectedFileToUploadCpr)
         this.crmService.addNewDocument(data.cprno,'CPR Copy',data.cprDoc,'CPR').subscribe((res: any) => {
             console.log(res)
         }, (err: any) => {
@@ -644,7 +648,7 @@ export class DashboardComponent implements OnInit {
         this.uploadService.uploadImage(this.selectedFileToUploadImg)
         this.authenticationService.changeImage(data.imgDoc, this.uC).subscribe((res:any) => {
           console.log(res)
-        })*/
+        })
         this.votingService.getNominationList('AGM2024-2').subscribe((resp: any) => {
           console.log(resp.recordset)
           var blitem: number

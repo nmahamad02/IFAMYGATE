@@ -151,11 +151,10 @@ export class CrmService {
     return this.http.get(this.url + '/properties/maximum')
   }
 
-  addNewProperty(jobNo: string, houseNo: string, cprno: string, rooms: string, bathrooms: string,carparks: string, totalArea: string, titleDeed: string, plotno: string, plotArea: string, builtUpArea: string) {
+  addNewProperty(houseNo: string, cprno: string, rooms: string, bathrooms: string,carparks: string, totalArea: string, titleDeed: string, plotno: string, plotArea: string, builtUpArea: string) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const newTran = {
-      jobNo: jobNo,
       houseNo: houseNo,
       cprno: cprno,
       rooms: rooms,
@@ -226,6 +225,17 @@ export class CrmService {
     return this.http.post(this.url + '/document/new', JSON.stringify(newTran), { headers: headers })
   }
 
+  updateDocStatus(memberno: string, name: string, status: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newTran = {
+      memberno: memberno,
+      name: name,
+      status: status,
+    }
+    return this.http.post(this.url + '/document/update/status', JSON.stringify(newTran), { headers: headers })
+  }
+
   deleteDocument(memberno: string, houseno: string) {
     return this.http.get(this.url + '/document/delete/' + memberno + '/' + houseno)
   }
@@ -292,12 +302,11 @@ export class CrmService {
     return this.http.post(this.url + '/opbal/update', JSON.stringify(newTran), { headers: headers })
   }
 
-  addNewJob(jobNo: string, year: string, houseNo: string, createDate: string, cpr: string, fullname: string) {
+  addNewJob(year: string, houseNo: string, createDate: string, cpr: string, fullname: string) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     const newTran = {
       name: fullname,
-      jobNo: jobNo,
       year: year,
       houseNo: houseNo,
       cpr: cpr,

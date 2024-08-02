@@ -13,6 +13,10 @@ export class VotingOverviewComponent implements OnInit {
   votingType: any[] = []
   memberList: any[] = []
 
+  utc = new Date();
+  mCurDate = this.formatDate(this.utc);
+  mCYear = new Date().getFullYear();
+
   uC = JSON.parse(localStorage.getItem('userid'));
 
   constructor(private votingService: VotingService, private router: Router, private crmservice: CrmService, private dataSharingService: DataSharingService) { 
@@ -23,10 +27,23 @@ export class VotingOverviewComponent implements OnInit {
   }
 
   getData() {
-    this.votingService.getActiveVoteTypes().subscribe((res: any) => {
-      this.votingType = res.recordset
-    })
-    this.crmservice.getMemberFromCPR(this.uC).subscribe((res: any) => {
+    for(let i=this.mCYear; i>=2023; i--) {
+      let record = []
+      this.votingService.getAGMRecord(i.toString()).subscribe((res: any) => {
+        console.log(res)
+        for(let j=0; j<res.recordset.length; j++) {
+          let A = {
+            agmcode: res.recordset[j].AGMCODE,
+            agmname: res.recordset[j].AGMNAME,
+            agmdate: res.recordset[j].AGMDATE,
+            status: res.recordset[j].AGMSTATUS,
+          }
+          record.push(A)
+        }
+        this.votingType.push(record)
+      })
+    }
+    /*this.crmservice.getMemberFromCPR(this.uC).subscribe((res: any) => {
       console.log(res)
       for(let i=0; i<res.recordset.length;i++){
         if(res.recordset[i].MEMBTYPE==='O') {
@@ -47,7 +64,7 @@ export class VotingOverviewComponent implements OnInit {
           })
         }
       }
-    })
+    })*/
   }
 
   public gotoVotingDetails(url, category, year, membno, membname, membtype) {
@@ -60,6 +77,19 @@ export class VotingOverviewComponent implements OnInit {
       membtype: membtype
     }
     this.dataSharingService.setData(membData)
+  }
+
+
+  formatDate(date: any) {
+    var d = new Date(date), day = '' + d.getDate(), month = '' + (d.getMonth() + 1), year = d.getFullYear();
+
+    if (day.length < 2) {
+      day = '0' + day;
+    } 
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    return [day, month, year].join('-');
   }
 
 }

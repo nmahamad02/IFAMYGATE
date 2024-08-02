@@ -200,12 +200,18 @@ export class AccountComponent implements OnInit {
                     pTitleDeedStatus = 'In Process'
                   } if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
                     pEWAReceiptStatus = 'In Process'
-                  } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                  } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
                     pCPRStatus = 'Valid'
-                  } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                  } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
                     pTitleDeedStatus = 'Valid'
-                  } if((docArr[j].DOCUMENTSTATUS === 'Y') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                  } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
                     pEWAReceiptStatus = 'Valid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                    pCPRStatus = 'Invalid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                    pTitleDeedStatus = 'Invalid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                    pEWAReceiptStatus = 'Invalid'
                   }
                   this.documents(i).push(document)
                 }
