@@ -63,7 +63,9 @@ export class DashboardComponent implements OnInit {
   mCsec = new Date().getSeconds();
   mid = this.mCYear + this.mCsec;
 
-  videoSource = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FC-Walkthrough.mov"
+  signupvideoSource = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FC-SignUp.mov"
+  nominationvideoSource = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Board-nomination.mov"
+  votevideoSource = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FC-Walkthrough.mov"
 
   uC = JSON.parse(localStorage.getItem('userid'));
 

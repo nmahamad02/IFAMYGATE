@@ -5,6 +5,30 @@
                 <h2 class="heading-title">Downloads</h2>
                 <hr>
             </div>
+            <div class="row">
+                <div class="col-4">
+                    <mat-card>
+                        <mat-card-content>
+                            <mat-card-header>HOA Nomination (AR)</mat-card-header>
+                            <pdf-viewer [src]="arUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                            <button class="btn btn-primary" (click)="downloadAr()">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-4">
+                    <mat-card>
+                        <mat-card-content>
+                            <mat-card-header>HOA Nomination (EN)</mat-card-header>
+                            <pdf-viewer [src]="enUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                            <button class="btn btn-primary" (click)="downloadEn()">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
         </div>
     </div>    
 </div>

@@ -299,7 +299,7 @@ export class SignupComponent implements OnInit {
             })
           }
           //JOB INSERT
-          this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
+          this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
             console.log(res)
           }, (err: any) => {
             console.log(err)
@@ -339,7 +339,7 @@ export class SignupComponent implements OnInit {
             })
           }
           //JOB INSERT
-          this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
+          this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
             console.log(res)
           }, (err: any) => {
             console.log(err)

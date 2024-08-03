@@ -5,6 +5,8 @@ import { DownloadsComponent } from './downloads/downloads.component';
 import { RouterModule } from '@angular/router';
 import { EmailsComponent } from './emails/emails.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule} from '@angular/material/card'
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 export const notificationRoutes = [
@@ -16,10 +18,10 @@ export const notificationRoutes = [
     path: 'emails',
     component: EmailsComponent
   },
-  /*{
+  {
     path: 'downloads',
     component: DownloadsComponent
-  },*/
+  },
 ];
 
 @NgModule({
@@ -27,6 +29,8 @@ export const notificationRoutes = [
   imports: [
     CommonModule,
     MatExpansionModule,
+    MatCardModule,
+    PdfViewerModule,
     RouterModule.forChild(notificationRoutes)
   ]
 })

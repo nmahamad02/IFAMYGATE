@@ -172,12 +172,32 @@
             <hr>
             <div class="col-12">
                 <h6 class="heading-title">How to use the FC Portal?</h6>
-                <div class="video">
-                    <video controls #videoPlayer style="width: 100%;">
-                        <source src="{{videoSource}}" type="video/mp4" />
-                        Browser not supported
-                    </video>
-                </div>
+                <mat-tab-group>
+                    <mat-tab label="Sign Up">
+                        <div class="video">
+                            <video controls #videoPlayer style="width: 100%;">
+                                <source src="{{signupvideoSource}}" type="video/mp4" />
+                                Browser not supported
+                            </video>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Nomination for Board Election">
+                        <div class="video">
+                            <video controls #videoPlayer style="width: 100%;">
+                                <source src="{{nominationvideoSource}}" type="video/mp4" />
+                                Browser not supported
+                            </video>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Voting">
+                        <div class="video">
+                            <video controls #videoPlayer style="width: 100%;">
+                                <source src="{{votevideoSource}}" type="video/mp4" />
+                                Browser not supported
+                            </video>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
             </div>
             <br>
             <div class="col-12">
