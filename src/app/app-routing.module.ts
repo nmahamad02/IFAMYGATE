@@ -47,6 +47,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/notifications/notifications.module').then(m => m.NotificationsModule)
       },
       {
+        path: 'finance',
+        loadChildren: () => import('./modules/finance/finance.module').then(m => m.FinanceModule)
+      },
+      {
         path: 'home',
         loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
       },

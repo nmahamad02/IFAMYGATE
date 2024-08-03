@@ -287,7 +287,7 @@ export class SignupComponent implements OnInit {
         console.log(res);
         if(res.recordset.length === 0) {
         //PROPERTY INSERT
-        this.crmService.addNewProperty(data.properties[i].pHFNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
+        this.crmService.addNewProperty(data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
           console.log(response);
           //PROPERTY DOCUMENTS INSERT
           for(let j=0; j<data.properties[i].pDocuments.length; j++) {
@@ -327,7 +327,7 @@ export class SignupComponent implements OnInit {
       }, err => {
         console.log(err)
         //PROPERTY INSERT              
-        this.crmService.addNewProperty(data.properties[i].pHFNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
+        this.crmService.addNewProperty(data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
           console.log(response);
           //PROPERTY DOCUMENTS INSERT
           for(let j=0; j<data.properties[i].pDocuments.length; j++) {
