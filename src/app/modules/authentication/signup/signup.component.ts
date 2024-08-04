@@ -292,7 +292,7 @@ export class SignupComponent implements OnInit {
           //PROPERTY DOCUMENTS INSERT
           for(let j=0; j<data.properties[i].pDocuments.length; j++) {
             this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
-            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
+            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
               console.log(res)
             }, (err: any) => {
               console.log(err)
@@ -314,7 +314,7 @@ export class SignupComponent implements OnInit {
           //PROPERTY DOCUMENTS UPDATE
           for(let j=0; j<data.properties[i].pDocuments.length; j++) {
             this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
-            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
+            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
               console.log(res)
             }, (err: any) => {
               console.log(err)

@@ -144,9 +144,9 @@
                                 &nbsp;
                                 <h6>Announcement:</h6> 
                             </mat-panel-title>
-                            <mat-panel-description style="color: white;"> General Assembly Meeting Dates 2023-2024 </mat-panel-description>
+                            <mat-panel-description style="color: white;"> General Assembly Meeting Dates 2023-2024<br>To be announced soon</mat-panel-description>
                         </mat-expansion-panel-header>
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-6">
                                 <h5 style="text-align: center; "><u>Announcement</u></h5><br>
                                 <p style="text-align: justify;"><b>Dear Floating City Owners Association</b></p>
@@ -165,7 +165,7 @@
                                     يجب أن يجتمع كل اتحاد ملاك فرعي (ملاك الشقق في المبنى الواحد) قبل الجمعية العمومية لاتحاد ملاك المدينة العائمة من أجل مراجعة ومناقشة البنود التي ستتم مناقشتها في الجمعية العمومية الرئيسية وتفويض عضو واحد منهم لتمثيلهم والتصويت عنهم في اجتماع الجمعية العمومية لاتحاد ملاك المدينة العائمة.                        
                                 </p>
                             </div>
-                        </div>
+                        </div>-->
                     </mat-expansion-panel>
                 </mat-accordion>
             </div>
@@ -464,15 +464,15 @@
                                                 <mat-card-content>
                                                     <div class="col-12">
                                                         <mat-form-field class="full-width"> 
-                                                            <mat-label>Passport Copy</mat-label>
-                                                            <input type="text" formControlName="ppDoc" accept="application/pdf" matInput>
+                                                            <mat-label>Application Form</mat-label>
+                                                            <input type="text" formControlName="appDoc" accept="application/pdf" matInput>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-12">
-                                                         <pdf-viewer [src]="ppSrc" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                                         <pdf-viewer [src]="appSrc" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                                     </div>
                                                     <div class="col-12">
-                                                        <input id="ppDoc" type="file" class="form-control" (change)="onFileChange($event,'P')">
+                                                        <input id="appDoc" type="file" class="form-control" (change)="onFileChange($event,'P')">
                                                     </div>
                                                     <div class="col-12">
                                                         <button class="btn-danger btn text-white btn-sm" title="Cancel this document" (click)="deleteDocument()">
@@ -487,15 +487,15 @@
                                                 <mat-card-content>
                                                     <div class="col-12">
                                                         <mat-form-field class="full-width"> 
-                                                            <mat-label>CPR Copy</mat-label>
-                                                            <input type="text" formControlName="cprDoc" accept="application/pdf" matInput>
+                                                            <mat-label>Clearance Certificate</mat-label>
+                                                            <input type="text" formControlName="ccrDoc" accept="application/pdf" matInput>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-12">
-                                                         <pdf-viewer [src]="cprSrc" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                                         <pdf-viewer [src]="ccrSrc" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                                     </div>
                                                     <div class="col-12">
-                                                        <input id="cprDoc" type="file" class="form-control" (change)="onFileChange($event,'C')">
+                                                        <input id="ccrDoc" type="file" class="form-control" (change)="onFileChange($event,'C')">
                                                     </div>
                                                     <div class="col-12">
                                                         <button class="btn-danger btn text-white btn-sm" title="Cancel this document" (click)="deleteDocument()">

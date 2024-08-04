@@ -28,9 +28,9 @@ export class DashboardComponent implements OnInit {
 
   proxySrc: string = 'NaN';
   selectedFileToUploadProx = new File([""], "pdf");
-  cprSrc: string = 'NaN';
+  ccrSrc: string = 'NaN';
   selectedFileToUploadCpr = new File([""], "pdf");
-  ppSrc: string = 'NaN';
+  appSrc: string = 'NaN';
   selectedFileToUploadPp = new File([""], "pdf");
   gccSrc: string = 'NaN';
   selectedFileToUploadGcc = new File([""], "pdf");
@@ -99,8 +99,8 @@ export class DashboardComponent implements OnInit {
       proxmobile: new FormControl('', []),
       proxemail: new FormControl('', [Validators.required]),
       proxDoc: new FormControl('NaN', []),
-      ppDoc: new FormControl('NaN', []),
-      cprDoc: new FormControl('NaN', []),
+      appDoc: new FormControl('NaN', []),
+      ccrDoc: new FormControl('NaN', []),
       gccDoc: new FormControl('NaN', []),
       imgDoc: new FormControl('NaN', []),
     });
@@ -341,10 +341,10 @@ export class DashboardComponent implements OnInit {
           console.log(imgNm);
           reader.readAsDataURL(fileToUpload);
           reader.onload = () => {
-            this.cprSrc = reader.result as string;
+            this.ccrSrc = reader.result as string;
             this.propertyForm.patchValue({
               //image: reader.result
-              cprDoc: imgNm
+              ccrDoc: imgNm
             });
           };
           this.selectedFileToUploadCpr = fileToUpload;
@@ -364,10 +364,10 @@ export class DashboardComponent implements OnInit {
           console.log(imgNm);
           reader.readAsDataURL(fileToUpload);
           reader.onload = () => {
-            this.ppSrc = reader.result as string;
+            this.appSrc = reader.result as string;
             this.propertyForm.patchValue({
               //image: reader.result
-              ppDoc: imgNm
+              appDoc: imgNm
             });
           };
           this.selectedFileToUploadPp = fileToUpload;
@@ -560,13 +560,13 @@ export class DashboardComponent implements OnInit {
   submitNomination() {
     const data = this.propertyForm.value
     console.log(data)
-    console.log(data.ppDoc)
-    console.log(data.cprDoc)
+    console.log(data.appDoc)
+    console.log(data.ccrDoc)
     console.log(data.gccDoc)
     console.log(data.imgDoc)
-    if(this.ppSrc === "NaN") {
+    if(this.appSrc === "NaN") {
       alert('Please insert all the requisite documents')
-    } else if (this.cprSrc === "NaN") {
+    } else if (this.ccrSrc === "NaN") {
       alert('Please insert all the requisite documents')
     } else if  (this.gccSrc === "NaN") {
       alert('Please insert all the requisite documents')
@@ -575,19 +575,19 @@ export class DashboardComponent implements OnInit {
         console.log(res.recordset)
         if(res.recordset.length === 0) {
           this.uploadService.uploadDoc(this.selectedFileToUploadCpr)
-          this.crmService.addNewDocument(data.cprno,'CPR',data.cprDoc,'CPR').subscribe((res: any) => {
-              console.log(res)
+          this.crmService.addNewDocument(data.cprno,'Clearance',data.ccrDoc,'CC').subscribe((res: any) => {
+            console.log(res)
           }, (err: any) => {
             console.log(err)
           })
           this.uploadService.uploadDoc(this.selectedFileToUploadGcc)
-          this.crmService.addNewDocument(data.cprno,'GCC',data.gccDoc,'GCC').subscribe((res: any) => {
+          this.crmService.addNewDocument(data.cprno,'Good Conduct Certificate',data.gccDoc,'GCC').subscribe((res: any) => {
             console.log(res)
           }, (err: any) => {
             console.log(err)
           })
           this.uploadService.uploadDoc(this.selectedFileToUploadPp)
-          this.crmService.addNewDocument(data.cprno,'PP',data.ppDoc,'PASSPORT').subscribe((res: any) => {
+          this.crmService.addNewDocument(data.cprno,'Nomination Form',data.appDoc,'NOMINAION').subscribe((res: any) => {
             console.log(res)
           }, (err: any) => {
             console.log(err)
@@ -630,7 +630,7 @@ export class DashboardComponent implements OnInit {
       }, (err: any) => {
         console.log(err)
         this.uploadService.uploadDoc(this.selectedFileToUploadCpr)
-        this.crmService.addNewDocument(data.cprno,'CPR Copy',data.cprDoc,'CPR').subscribe((res: any) => {
+        this.crmService.addNewDocument(data.cprno,'Clearance',data.ccrDoc,'CC').subscribe((res: any) => {
             console.log(res)
         }, (err: any) => {
           console.log(err)
@@ -642,7 +642,7 @@ export class DashboardComponent implements OnInit {
           console.log(err)
         })
         this.uploadService.uploadDoc(this.selectedFileToUploadPp)
-        this.crmService.addNewDocument(data.cprno,'Passport Copy',data.ppDoc,'PASSPORT').subscribe((res: any) => {
+        this.crmService.addNewDocument(data.cprno,'Nomination Form',data.appDoc,'NOMINAION').subscribe((res: any) => {
           console.log(res)
         }, (err: any) => {
           console.log(err)
@@ -691,9 +691,9 @@ export class DashboardComponent implements OnInit {
       this.selectedFileToUploadProx = new File([""], "pdf");
     } else if (type === 'P') {
       this.propertyForm.patchValue({
-        ppDoc: ""
+        appDoc: ""
       })
-      this.ppSrc = ''
+      this.appSrc = ''
       this.selectedFileToUploadPp = new File([""], "pdf");
     } else if (type === 'G') {
       this.propertyForm.patchValue({
@@ -703,9 +703,9 @@ export class DashboardComponent implements OnInit {
       this.selectedFileToUploadGcc = new File([""], "pdf");
     } if (type === 'C') {
       this.propertyForm.patchValue({
-        cprDoc: ""
+        ccrDoc: ""
       })
-      this.cprSrc = ''
+      this.ccrSrc = ''
       this.selectedFileToUploadGcc = new File([""], "pdf");
     }
   }
