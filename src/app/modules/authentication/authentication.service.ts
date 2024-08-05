@@ -91,7 +91,7 @@ export class AuthenticationService {
     const newUsr = {
       cprno: cprno,
       name: name,
-      recipient: 'noohmanzoor02@gmail.com',
+      recipient: recipient,
       creatdt: creatdt,
       date: creatdt,
       time: time,
@@ -106,7 +106,7 @@ export class AuthenticationService {
     const newUsr = {
       cprno: cprno,
       name: name,
-      recipient: 'noohmanzoor02@gmail.com',
+      recipient: recipient,
       creatdt: creatdt,
       date: creatdt,
     }
@@ -121,7 +121,7 @@ export class AuthenticationService {
       cprno: cprno,
       agmtitle: agmtitle,
       name: name,
-      recipient: 'noohmanzoor02@gmail.com',
+      recipient: recipient,
       creatdt: creatdt,
       date: creatdt,
     }
@@ -137,7 +137,7 @@ export class AuthenticationService {
       name: name,
       proxname: proxname,
       agmtitle: agmtitle,
-      recipient: 'noohmanzoor02@gmail.com',
+      recipient: recipient,
       creatdt: creatdt,
       date: creatdt,
     }
@@ -152,7 +152,7 @@ export class AuthenticationService {
       year: year,
       cprno: cprno,
       name: name,
-      recipient: 'noohmanzoor02@gmail.com',
+      recipient: recipient,
       creatdt: creatdt,
       date: creatdt,
     }

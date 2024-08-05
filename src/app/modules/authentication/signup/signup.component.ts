@@ -280,54 +280,13 @@ export class SignupComponent implements OnInit {
         console.log(rreror);
       })
     })
-        
+
     //Property details submit
-    for(let i=0; i<data.properties.length; i++) {
-      this.crmService.getPropertyFromHouseNo(data.properties[i].pHFNo).subscribe((res: any) => {
-        console.log(res);
-        if(res.recordset.length === 0) {
+    this.crmService.deleteProperties(data.cprno).subscribe((res: any) => {
+      for(let i=0; i<data.properties.length; i++) {
+        console.log(data.properties)
         //PROPERTY INSERT
-        this.crmService.addNewProperty(data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
-          console.log(response);
-          //PROPERTY DOCUMENTS INSERT
-          for(let j=0; j<data.properties[i].pDocuments.length; j++) {
-            this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
-            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
-              console.log(res)
-            }, (err: any) => {
-              console.log(err)
-            })
-          }
-          //JOB INSERT
-          this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
-            console.log(res)
-          }, (err: any) => {
-            console.log(err)
-          })
-        }, rreror => {
-          console.log(rreror);
-        })
-        } else {
-        //PROPERTY UPDATE
-        this.crmService.updateProperty(data.properties[i].pHFNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
-          console.log(response);
-          //PROPERTY DOCUMENTS UPDATE
-          for(let j=0; j<data.properties[i].pDocuments.length; j++) {
-            this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
-            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
-              console.log(res)
-            }, (err: any) => {
-              console.log(err)
-            })
-          }
-        }, rreror => {
-          console.log(rreror);
-        })
-        }
-      }, err => {
-        console.log(err)
-        //PROPERTY INSERT              
-        this.crmService.addNewProperty(data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
+        this.crmService.addNewProperty(data.properties[i].pHFNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
           console.log(response);
           //PROPERTY DOCUMENTS INSERT
           for(let j=0; j<data.properties[i].pDocuments.length; j++) {
@@ -338,24 +297,38 @@ export class SignupComponent implements OnInit {
               console.log(err)
             })
           }
-          //JOB INSERT
-          this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo+'-'+data.properties[i].pParcelNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
-            console.log(res)
-          }, (err: any) => {
-            console.log(err)
-          })
         }, rreror => {
           console.log(rreror);
         })
-      })
-    }
+        //JOB INSERT
+        this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
+          console.log(res)
+        }, (err: any) => {
+          console.log(err)
+        })
+      }
+    })
 
     //User details submit
     //this.encrypt(data.password);
-    this.authenticationService.signup(data.name, " ", data.cprno, data.password, data.phone1, data.cprno).subscribe((res: any) => {
-      console.log(res)
+    this.authenticationService.checkUser(data.cprno).subscribe ((res: any) => {
+      if (res.recordset.length === 0) {
+        this.authenticationService.signup(data.name, " ", data.cprno, data.password, data.phone1, data.cprno).subscribe((res: any) => {
+          console.log(res)
+        }, (err: any) => {
+          console.log(err)
+        })
+      } else {
+        this.authenticationService.recoverPassword(data.cprno, data.password).subscribe((res: any) => {
+          //this.router.navigate(['authentication/signin']);
+        });
+      }
     }, (err: any) => {
-      console.log(err)
+      this.authenticationService.signup(data.name, " ", data.cprno, data.password, data.phone1, data.cprno).subscribe((res: any) => {
+        console.log(res)
+      }, (err: any) => {
+        console.log(err)
+      })
     })
 
     //Email submit
@@ -470,3 +443,78 @@ export class SignupComponent implements OnInit {
   }
 
 }
+
+
+/*
+
+for(let i=0; i<data.properties.length; i++) {
+      console.log(data.properties)
+      this.crmService.getPropertyFromHouseNo(data.properties[i].pParcelNo).subscribe((res: any) => {
+        console.log(res);
+        if(res.recordset.length === 0) {
+        //PROPERTY INSERT
+        this.crmService.addNewProperty(data.properties[i].pHFNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
+          console.log(response);
+          //PROPERTY DOCUMENTS INSERT
+          for(let j=0; j<data.properties[i].pDocuments.length; j++) {
+            this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
+            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
+              console.log(res)
+            }, (err: any) => {
+              console.log(err)
+            })
+          }
+        }, rreror => {
+          console.log(rreror);
+        })
+        //JOB INSERT
+        this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
+          console.log(res)
+        }, (err: any) => {
+          console.log(err)
+        })
+        } else {
+        //PROPERTY UPDATE
+        this.crmService.updateProperty(data.properties[i].pHFNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
+          console.log(response);
+          //PROPERTY DOCUMENTS UPDATE
+          for(let j=0; j<data.properties[i].pDocuments.length; j++) {
+            this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
+            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
+              console.log(res)
+            }, (err: any) => {
+              console.log(err)
+            })
+          }
+        }, rreror => {
+          console.log(rreror);
+        })
+        }
+      }, err => {
+        console.log(err)
+        //PROPERTY INSERT              
+        this.crmService.addNewProperty(data.properties[i].pHFNo,data.cprno,data.properties[i].pRooms,data.properties[i].pBathrooms,data.properties[i].pCarParkSlots,data.properties[i].pTotalArea, data.properties[i].pParcelNo, data.properties[i].pPlotNo,data.properties[i].pPlotArea,data.properties[i].pBuiltUpArea).subscribe((response: any) => {
+          console.log(response);
+          //PROPERTY DOCUMENTS INSERT
+          for(let j=0; j<data.properties[i].pDocuments.length; j++) {
+            this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
+            this.crmService.addNewDocument(data.cprno,data.properties[i].pHFNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
+              console.log(res)
+            }, (err: any) => {
+              console.log(err)
+            })
+          }
+        }, rreror => {
+          console.log(rreror);
+        })
+        //JOB INSERT
+        this.crmService.addNewJob(String(this.mCYear),data.properties[i].pHFNo,this.mCurDate,data.cprno,data.name).subscribe((res: any) => {
+          console.log(res)
+        }, (err: any) => {
+          console.log(err)
+        })
+      })
+    }
+
+
+*/

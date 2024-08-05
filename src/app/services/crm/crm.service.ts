@@ -147,6 +147,10 @@ export class CrmService {
     return this.http.get(this.url + '/property/house/' + houseNo)
   }
 
+  deleteProperties(cprno: string){
+    return this.http.get(this.url + '/property/delete/' + cprno)
+  }
+
   getMaxJobId() {
     return this.http.get(this.url + '/properties/maximum')
   }
