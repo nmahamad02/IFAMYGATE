@@ -104,7 +104,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <button mat-raised-button class="btn btn-danger btn-block" style="float: center;" (click)="openNomination()">
+                        <button mat-raised-button class="btn btn-danger btn-block" style="float: center;" (click)="openNomination()" title="Open Nomination">
                             <mat-icon>how_to_reg</mat-icon> File Your Nomination Here
                         </button> 
                     </mat-expansion-panel>
@@ -132,7 +132,7 @@
                                 <p style="text-align: justify;">لتسجيل اهتمامك بحضور اجتماع الهيئة العامة السنوي 2023-2024، يرجى النقر على الرابط أدناه واتباع الخطوات. ستخضع أهلية حضورك لاجتماع الجمعية العمومية السنوي لتدقيق مستنداتك مثل بطاقة الهوية الحكومية (البطاقة الشخصية، جواز السفر)، وسندات ملكية الممتلكات الخاصة بك، وإيصال دفع EWA. إن تسجيل نيتك لحضور الاجتماع السنوي العام سيسمح لك بالتصويت على اللوائح الداخلية وانتخابات مجلس إدارة جمعية مالكي المدن العائمة القادمة.</p>
                             </div>
                         </div>
-                        <button mat-raised-button class="btn btn-warning btn-lg" style="float: center; width: 100%;" (click)="openRegisteration()">
+                        <button mat-raised-button class="btn btn-warning btn-lg" style="float: center; width: 100%;" (click)="openRegisteration()" title="Open Registration">
                             <mat-icon>how_to_reg</mat-icon> Register your interest to attend the AGM here
                         </button> 
                     </mat-expansion-panel>
@@ -388,17 +388,17 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="col-12" *ngIf="registerLink">
-                                        <button mat-raised-button class="bg-success text-white btn btn-block" (click)="submitRegistration()">
+                                        <button mat-raised-button class="bg-success text-white btn btn-block" (click)="submitRegistration()" title="Submit Registration">
                                             Register for AGM
                                         </button>
                                     </div>
                                     <div class="col-12" *ngIf="resubmitLink">
-                                        <button mat-raised-button class="bg-danger text-white btn btn-block" [routerLink]="['/home/account']">
+                                        <button mat-raised-button class="bg-danger text-white btn btn-block" [routerLink]="['/home/account']" title="Submit Documents">
                                             Submit Documents
                                         </button>
                                     </div>
                                     <div class="col-12" *ngIf="closewitlink">
-                                        <button mat-raised-button class="bg-warning text-white btn btn-block" (click)="closeDialog()">
+                                        <button mat-raised-button class="bg-warning text-white btn btn-block" (click)="closeDialog()" title="Cancel Registration">
                                             Close
                                         </button>
                                     </div>
@@ -582,7 +582,7 @@
                                     <h6>Please note that you are only eligible to file your nomination once you have submitted all the requisite documents.</h6>
                                 </div>
                                 <div class="col-3">
-                                    <button mat-raised-button class="bg-success text-white btn btn-block" (click)="submitNomination()">
+                                    <button mat-raised-button class="bg-success text-white btn btn-block" (click)="submitNomination()" title="Submit Nomination">
                                         Submit  Nomination
                                     </button>
                                 </div>

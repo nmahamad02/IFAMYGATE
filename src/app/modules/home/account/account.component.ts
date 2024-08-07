@@ -14,8 +14,13 @@ import { AuthenticationService } from '../../authentication/authentication.servi
 export class AccountComponent implements OnInit {
 
   @ViewChild('propLookupDialog', { static: false }) propLookupDialog!: TemplateRef<any>;
+  @ViewChild('memberLookupDialog', { static: false }) memberLookupDialog!: TemplateRef<any>;
+  @ViewChild('propEditLookupDialog', { static: false }) propEditLookupDialog!: TemplateRef<any>;
 
   propertyForm: FormGroup;
+  memberForm: FormGroup;
+  editPropDetailForm: FormGroup;
+
   propArr: any[] = [];
   proxArr: any[] = [];
   membArr: any[] = [];
@@ -33,6 +38,11 @@ export class AccountComponent implements OnInit {
   uC = JSON.parse(localStorage.getItem('userid'));
 
   imageSrc: string = '';
+  newImageSrc: string = '';
+  errorMessage: string = '';
+  selectedFileToUpload = new File([""], "img");
+
+  propMes: string = '';
 
   constructor(private crmservice: CrmService, private router: Router, private snackBar: MatSnackBar, private route: ActivatedRoute, private uploadService: UploadService, private authenticationService: AuthenticationService, private dialog: MatDialog) { 
     this.propertyForm = new FormGroup({ 
@@ -47,6 +57,19 @@ export class AccountComponent implements OnInit {
       email: new FormControl('', [Validators.required]),
       properties: new FormArray([]),
       proxyProperties: new FormArray([]),
+    });
+
+    this.memberForm = new FormGroup({ 
+      cprno: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      add1: new FormControl('', []),
+      add2: new FormControl('', []),
+      add3: new FormControl('', []), 
+      phone1: new FormControl('', []),
+      phone2: new FormControl('', []),
+      mobile: new FormControl('', []),
+      email: new FormControl('', [Validators.required]),
+      image: new FormControl('', []),
     });
   }
 
@@ -140,15 +163,15 @@ export class AccountComponent implements OnInit {
             console.log(res);
             this.propArr=res.recordset;
             this.propertyForm.patchValue({
-              cprno: this.propArr[0].memberno,
-              name: this.propArr[0].name,
-              add1: this.propArr[0].landlord_add1,
-              add2: this.propArr[0].landlord_Add2,
-              add3: this.propArr[0].landlord_Add3, 
-              phone1: this.propArr[0].landlord_phone1,
-              phone2: this.propArr[0].landlord_phone1,
-              mobile: this.propArr[0].landlord_mobile,
-              email: this.propArr[0].landlord_email_id,
+              cprno: this.membArr[0].MemberNo,
+              name: this.membArr[0].NAME,
+              add1: this.membArr[0].ADD1,
+              add2: this.membArr[0].ADD2,
+              add3: this.membArr[0].ADD3, 
+              phone1: this.membArr[0].TELOFF,
+              phone2: this.membArr[0].TELRES,
+              mobile: this.membArr[0].TELOFF,
+              email: this.membArr[0].Email,
             })
             console.log(this.propArr[0].imagename);
             var imgVal: string = this.propArr[0].imagename;
@@ -234,6 +257,139 @@ export class AccountComponent implements OnInit {
   addNewDocuments(propIndex: number) {
     let dialogRef = this.dialog.open(this.propLookupDialog);
     console.log(this.properties)
+  }
+
+  editMemberData() {
+    let dialogRef = this.dialog.open(this.memberLookupDialog);
+    let data = this.propertyForm.value
+    this.memberForm.patchValue({
+      cprno: data.cprno,
+      name: data.name,
+      add1: data.add1,
+      add2: data.add2,
+      add3: data.add3,
+      phone1: data.phone1,
+      phone2: data.phone2,
+      mobile: data.mobile,
+      email: data.email
+    })
+  }
+
+  onImageChange(event: any) {
+    var filesList: FileList = event.target.files;
+    const reader = new FileReader();
+
+    if(event.target.files && event.target.files.length) {
+      const fileToUpload: any = filesList.item(0);
+      console.log(fileToUpload.name);
+      const imgNm: string = fileToUpload.name;
+      console.log(imgNm);
+      reader.readAsDataURL(fileToUpload);
+      reader.onload = () => {
+          this.newImageSrc = reader.result as string;
+          this.memberForm.patchValue({
+            //image: reader.result
+            image: imgNm
+          });
+      };
+      console.log(this.newImageSrc)
+      this.selectedFileToUpload = fileToUpload;
+    }
+  }
+
+  submitMemberDetails() {
+    const data = this.memberForm.value
+    console.log(data)
+
+    this.crmservice.updateMember(data.cprno,data.cprno,data.cprno,data.name,'O',data.add1,data.add2,data.add3,data.phone1,data.phone2,data.email,data.cprno,'Y',data.image,'self').subscribe((response: any) => {
+      console.log(response);
+      this.uploadImage();
+      let dialogRef = this.dialog.closeAll()
+      //Email submit
+      this.authenticationService.sendUserUpdateDetailsLogin(data.cprno, data.name, data.password, data.email, this.mCurDate).subscribe((res: any) => {
+        console.log('EMAIL SENT')
+      }, (err: any) => {
+        console.log(err)
+      })
+    }, rreror => {
+      console.log(rreror);
+    })
+  }
+
+  uploadImage() {
+    if (!this.selectedFileToUpload) {
+      alert('Please select a file first!'); // or any other message to the user to choose a file
+      return;
+    } else {
+      console.log('attempt to upload')
+      this.uploadService.uploadImage(this.selectedFileToUpload);
+    }
+  }
+
+  editPropDetails(value: any){
+    console.log(value)
+    let dialogRef = this.dialog.open(this.propEditLookupDialog);
+    if(value === 'add') {
+      this.propMes = 'Add'
+      this.editPropDetailForm = new FormGroup({ 
+        pHFNo: new FormControl('', [Validators.required]),
+        pParcelNo: new FormControl('', [Validators.required]),
+        pPlotNo: new FormControl('', [Validators.required]),
+        pPlotArea: new FormControl('', []),
+        pBuiltUpArea: new FormControl('', []),
+        TotalArea: new FormControl('', []), 
+        pZone: new FormControl('', []),
+        pVoteWeightage: new FormControl('', []),
+        pEligibity: new FormControl('', []), 
+        pRooms: new FormControl('', []),
+        pBathrooms: new FormControl('', []),
+        pCarParkSlots: new FormControl('', []), 
+      });
+    } else {
+      this.propMes = 'Update'
+      this.editPropDetailForm = new FormGroup({ 
+        pHFNo: new FormControl(this.propArr[value].house_flat_no, [Validators.required]),
+        pParcelNo: new FormControl(this.propArr[value].parcelno, [Validators.required]),
+        pPlotNo: new FormControl(this.propArr[value].plotno, [Validators.required]),
+        pPlotArea: new FormControl(this.propArr[value].plotarea, []),
+        pBuiltUpArea: new FormControl(this.propArr[value].BUILTUPAREA, []),
+        pTotalArea: new FormControl(this.propArr[value].total_area, []), 
+        pZone: new FormControl(this.propArr[value].zone, []),
+        pVoteWeightage: new FormControl(this.propArr[value].voting_power_factor, []),
+        pEligibity: new FormControl(this.propArr[value].eligiblevote, []), 
+        pRooms: new FormControl(this.propArr[value].NO_OF_ROOMS, []),
+        pBathrooms: new FormControl(this.propArr[value].NO_OF_BATHROOMS, []),
+        pCarParkSlots: new FormControl(this.propArr[value].NO_OF_CARPARK_SLOTS, []), 
+      });
+    }
+  }
+
+  submitPropertyDetails() {
+    const data = this.editPropDetailForm.value
+    const mData = this.propertyForm.value
+    console.log(data)
+    console.log(this.propMes)
+    if(this.propMes === 'Add') {
+      this.crmservice.addNewProperty(data.pHFNo,mData.cprno,data.pRooms,data.pBathrooms,data.pCarParkSlots,data.pTotalArea, data.pParcelNo, data.pPlotNo,data.pPlotArea,data.pBuiltUpArea).subscribe((response: any) => {
+        console.log(response);
+      }, rreror => {
+        console.log(rreror);
+      })
+      //JOB INSERT
+      this.crmservice.addNewJob(String(this.mCYear),data.pHFNo,this.mCurDate,mData.cprNo,mData.name).subscribe((res: any) => {
+        console.log(res)
+      }, (err: any) => {
+        console.log(err)
+      })
+      let dialogRef = this.dialog.closeAll()
+    } else {
+      this.crmservice.updateProperty(data.pHFNo,mData.cprno,data.pRooms,data.pBathrooms,data.pCarParkSlots,data.pTotalArea, data.pParcelNo, data.pPlotNo,data.pPlotArea,data.pBuiltUpArea).subscribe((response: any) => {
+        console.log(response);
+        let dialogRef = this.dialog.closeAll()
+      }, rreror => {
+        console.log(rreror);
+      })
+    }
   }
 
   onFileChange(event: any, propIndex: number) {

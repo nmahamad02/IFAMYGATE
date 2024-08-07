@@ -192,4 +192,19 @@ export class AuthenticationService {
     return this.http.post(this.url + '/changeImage', JSON.stringify(newUsr), { headers: headers })
   }
 
+  sendUserUpdateDetailsLogin(cprno: string, name: string,recipient: string, creatdt: string, time: string) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    const newUsr = {
+      cprno: cprno,
+      name: name,
+      recipient: recipient,
+      creatdt: creatdt,
+      date: creatdt,
+      time: time,
+    }
+
+    return this.http.post(this.url + '/email/uppdatedetails', JSON.stringify(newUsr), { headers: headers })
+  }
+
 }
