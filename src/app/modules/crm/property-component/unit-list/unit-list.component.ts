@@ -23,7 +23,7 @@ export class UnitListComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(private crmservice: CrmService, private router: Router) {
-    this.columns = [ "memberno", "name", "property", "plotarea", "builtuparea", "mobile", "email", "Actions"];
+    this.columns = [ "memberno", "name", "property", "Actions"];
   }
 
   ngOnInit(): void {

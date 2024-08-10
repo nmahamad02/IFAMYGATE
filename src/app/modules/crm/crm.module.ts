@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule} from '@angular/material/card'
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
@@ -58,6 +59,7 @@ export const crmRoutes = [
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatTableModule,
     MatButtonModule,
     MatCardModule,

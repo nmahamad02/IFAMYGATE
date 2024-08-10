@@ -215,7 +215,7 @@
                                     <div mat-dialog-content>
                                         <ng-container formArrayName="pNewDocuments">
                                             <div class="row">
-                                                <div class="col-4" *ngFor="let doc of newDocuments(i).controls; let j = index" [formGroupName]="j">
+                                                <div class="col-6" *ngFor="let doc of newDocuments(i).controls; let j = index" [formGroupName]="j">
                                                     <mat-card>
                                                         <mat-card-content>
                                                             <div class="col-12">
@@ -259,7 +259,7 @@
                                                         </mat-card-content>
                                                     </mat-card>
                                                 </div>
-                                                <div class="col-1">
+                                                <div class="col-4">
                                                     <mat-card>
                                                         <mat-card-content>
                                                             <h1 class="heading-title" (click)="addDocument(i)">&#43;</h1>

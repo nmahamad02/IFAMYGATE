@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/modules/authentication/authentication.service';
 import { CrmService } from 'src/app/services/crm/crm.service';
 import { UploadService } from 'src/app/services/upload/upload.service';
 
@@ -10,7 +12,15 @@ import { UploadService } from 'src/app/services/upload/upload.service';
   styleUrls: ['./units.component.scss']
 })
 export class UnitsComponent implements OnInit {
+  
+  @ViewChild('propLookupDialog', { static: false }) propLookupDialog!: TemplateRef<any>;
+  @ViewChild('memberLookupDialog', { static: false }) memberLookupDialog!: TemplateRef<any>;
+  @ViewChild('propEditLookupDialog', { static: false }) propEditLookupDialog!: TemplateRef<any>;
+
   propertyForm: FormGroup;
+  memberForm: FormGroup;
+  editPropDetailForm: FormGroup;
+
   propArr: any[] = [];
   proxArr: any[] = [];
   membArr: any[] = [];
@@ -26,8 +36,13 @@ export class UnitsComponent implements OnInit {
   mCYear = new Date().getFullYear();
 
   imageSrc: string = '';
+  newImageSrc: string = '';
+  errorMessage: string = '';
+  selectedFileToUpload = new File([""], "img");
 
-  constructor(private crmservice: CrmService, private router: Router, private route: ActivatedRoute, private uploadService: UploadService) { 
+  propMes: string = '';
+
+  constructor(private crmservice: CrmService, private router: Router, private snackBar: MatSnackBar, private route: ActivatedRoute, private uploadService: UploadService, private authenticationService: AuthenticationService, private dialog: MatDialog) { 
     this.propertyForm = new FormGroup({ 
       cprno: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
@@ -40,6 +55,19 @@ export class UnitsComponent implements OnInit {
       email: new FormControl('', [Validators.required]),
       properties: new FormArray([]),
       proxyProperties: new FormArray([]),
+    });
+
+    this.memberForm = new FormGroup({ 
+      cprno: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      add1: new FormControl('', []),
+      add2: new FormControl('', []),
+      add3: new FormControl('', []), 
+      phone1: new FormControl('', []),
+      phone2: new FormControl('', []),
+      mobile: new FormControl('', []),
+      email: new FormControl('', [Validators.required]),
+      image: new FormControl('', []),
     });
   }
 
@@ -58,23 +86,34 @@ export class UnitsComponent implements OnInit {
           this.crmservice.getLandlordWiseProperties(primaryMemberCPR).subscribe((res: any) => {
             console.log(res);
             this.proxArr=res.recordset;
+            this.propertyForm.patchValue({
+              cprno: this.membArr[0].MemberNo,
+              name: this.membArr[0].NAME,
+              add1: this.membArr[0].ADD1,
+              add2: this.membArr[0].ADD2,
+              add3: this.membArr[0].ADD3, 
+              phone1: this.membArr[0].TELOFF,
+              phone2: this.membArr[0].TELRES,
+              mobile: this.membArr[0].TELOFF,
+              email: this.membArr[0].Email,
+            })
             this.primaryMember = {
-              cprno: this.proxArr[0].memberno,
-              name: this.proxArr[0].name,
-              add1: this.proxArr[0].landlord_add1,
-              add2: this.proxArr[0].landlord_Add2,
-              add3: this.proxArr[0].landlord_Add3, 
-              phone1: this.proxArr[0].landlord_phone1,
-              phone2: this.proxArr[0].landlord_phone1,
-              mobile: this.proxArr[0].landlord_mobile,
-              email: this.proxArr[0].landlord_email_id,
+              cprno: this.membArr[0].MemberNo,
+              name: this.membArr[0].NAME,
+              add1: this.membArr[0].ADD1,
+              add2: this.membArr[0].ADD2,
+              add3: this.membArr[0].ADD3, 
+              phone1: this.membArr[0].TELOFF,
+              phone2: this.membArr[0].TELRES,
+              mobile: this.membArr[0].TELOFF,
+              email: this.membArr[0].Email,
             }
-            console.log(this.proxArr[0].imagename);
-            var imgVal: string = this.proxArr[0].imagename;
-            if ((this.proxArr[0].imagename === null) || (this.proxArr[0].imagename === "")) {
+            console.log(this.membArr[0].imagename);
+            var imgVal: string = this.membArr[0].imagename;
+            if ((this.membArr[0].imagename === null) || (this.membArr[0].imagename === "")) {
               this.imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/imgNaN.png";
-            } else if (this.proxArr[0].imagename != null) {
-              console.log(this.proxArr[0].imagename);
+            } else if (this.membArr[0].imagename != null) {
+              console.log(this.membArr[0].imagename);
               if (imgVal.includes("fakepath")) {
                 var imgName: string = imgVal.slice(12);
                 console.log(imgName);
@@ -98,6 +137,7 @@ export class UnitsComponent implements OnInit {
                 pBathrooms: new FormControl(this.proxArr[i].NO_OF_BATHROOMS, []),
                 pCarParkSlots: new FormControl(this.proxArr[i].NO_OF_CARPARK_SLOTS, []), 
                 pDocuments: new FormArray([]),
+                pNewDocuments: new FormArray([]),
               });
               this.crmservice.getAllDocuments(this.proxArr[0].memberno, this.proxArr[i].house_flat_no).subscribe((resp: any) => {
                 console.log(resp)
@@ -106,8 +146,7 @@ export class UnitsComponent implements OnInit {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
-                    pDocumentType: new FormControl(docArr[j].DOCUMENTTYPE, []),
-                    pDocumentUrl: new FormControl(docUrl, [])
+                    pDocumentUrl: new FormControl(docUrl, []),
                   });
                   this.proxyDocuments(i).push(document)
                 }
@@ -115,21 +154,21 @@ export class UnitsComponent implements OnInit {
               this.proxyProperties.push(prop);
             }
           })
-        } else if(this.membArr[i].MEMBTYPE === 'O') {
+        } else if((this.membArr[i].MEMBTYPE === 'O') || (this.membArr[i].MEMBTYPE === 'A')) {
           this.isOwner = true;
           this.crmservice.getLandlordWiseProperties(cprno).subscribe((res: any) => {
             console.log(res);
             this.propArr=res.recordset;
             this.propertyForm.patchValue({
-              cprno: this.propArr[0].memberno,
-              name: this.propArr[0].name,
-              add1: this.propArr[0].landlord_add1,
-              add2: this.propArr[0].landlord_Add2,
-              add3: this.propArr[0].landlord_Add3, 
-              phone1: this.propArr[0].landlord_phone1,
-              phone2: this.propArr[0].landlord_phone1,
-              mobile: this.propArr[0].landlord_mobile,
-              email: this.propArr[0].landlord_email_id,
+              cprno: this.membArr[0].MemberNo,
+              name: this.membArr[0].NAME,
+              add1: this.membArr[0].ADD1,
+              add2: this.membArr[0].ADD2,
+              add3: this.membArr[0].ADD3, 
+              phone1: this.membArr[0].TELOFF,
+              phone2: this.membArr[0].TELRES,
+              mobile: this.membArr[0].TELOFF,
+              email: this.membArr[0].Email,
             })
             console.log(this.propArr[0].imagename);
             var imgVal: string = this.propArr[0].imagename;
@@ -159,42 +198,57 @@ export class UnitsComponent implements OnInit {
                 pRooms: new FormControl(this.propArr[i].NO_OF_ROOMS, []),
                 pBathrooms: new FormControl(this.propArr[i].NO_OF_BATHROOMS, []),
                 pCarParkSlots: new FormControl(this.propArr[i].NO_OF_CARPARK_SLOTS, []), 
+                pCPRStatus: new FormControl('', []), 
+                pTitleDeedStatus: new FormControl('', []), 
+                pEWAReceiptStatus: new FormControl('', []), 
                 pDocuments: new FormArray([]),
+                pNewDocuments: new FormArray([]),
               });
               this.crmservice.getAllDocuments(this.propArr[0].memberno, this.propArr[i].house_flat_no).subscribe((resp: any) => {
                 console.log(resp)
                 const docArr = resp.recordset;
+                var pCPRStatus = "Not Submitted", pTitleDeedStatus = "Not Submitted", pEWAReceiptStatus = "Not Submitted";
                 for(let j=0; j<docArr.length; j++) {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
-                    pDocumentType: new FormControl(docArr[j].DOCUMENTTYPE, []),
                     pDocumentUrl: new FormControl(docUrl, [])
                   });
+                  if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                    pCPRStatus = 'In Process'
+                  } if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                    pTitleDeedStatus = 'In Process'
+                  } if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                    pEWAReceiptStatus = 'In Process'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                    pCPRStatus = 'Valid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                    pTitleDeedStatus = 'Valid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Valid') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                    pEWAReceiptStatus = 'Valid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'CPR')) {
+                    pCPRStatus = 'Invalid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'TITLE DEED')) {
+                    pTitleDeedStatus = 'Invalid'
+                  } if((docArr[j].DOCUMENTSTATUS === 'Invalid') && (docArr[j].DOCUMENTTYPE === 'RECEIPT')) {
+                    pEWAReceiptStatus = 'Invalid'
+                  }
                   this.documents(i).push(document)
                 }
+                this.properties.at(i).patchValue({
+                  pCPRStatus: pCPRStatus,
+                  pTitleDeedStatus: pTitleDeedStatus,
+                  pEWAReceiptStatus: pEWAReceiptStatus
+                })
               })
               this.properties.push(prop);
+              console.log(this.properties.at(i).value)
+              //break;
             }
           })
         }
       }
     })
-  }
-
-  submitForm() {
-    let data = this.propertyForm.value
-    console.log(data)
-    for(let i=0; i<data.properties.length; i++) {
-      for(let j=0; j<data.properties[i].pDocuments.length; j++) {
-        this.uploadService.uploadDoc(data.properties[i].pDocuments[j].pDocument)
-        this.crmservice.addNewDocument(data.cprno,data.properties[i].pHFNo,data.properties[i].pDocuments[j].pDocumentSource,data.properties[i].pDocuments[j].pDocumentType).subscribe((res: any) => {
-          console.log(res)
-        }, (err: any) => {
-          console.log(err)
-        })
-      }
-    }
   }
 
   newForm() {
@@ -255,47 +309,6 @@ export class UnitsComponent implements OnInit {
     }
   }
 
-  addDocument(propIndex:number) {
-    const document = new FormGroup({
-      pDocument: new FormControl('', []),
-      pDocumentSrc: new FormControl('', []),
-      pDocumentSource: new FormControl('', []),
-      pDocumentType: new FormControl('', []),      
-      pDocumentUrl: new FormControl('', [])
-    });
-    this.documents(propIndex).push(document)
-  }
-
-  deleteDocument(index: number, propIndex: number) {
-    this.documents(propIndex).removeAt(index)
-  }
-
-  onFileChange(event: any, propIndex: number) {
-    var filesList: FileList = event.target.files;
-    const reader = new FileReader();
-
-    if(event.target.files && event.target.files.length) {
-      const fileToUpload: any = filesList.item(0);
-      console.log(fileToUpload.name);
-      const fileNm: string = fileToUpload.name;
-      console.log(fileNm);
-      reader.readAsDataURL(fileToUpload);
-      reader.onload = () => {
-        const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + fileNm
-          const document = new FormGroup({
-            pDocument: new FormControl(fileToUpload, []),
-            pDocumentSrc: new FormControl(reader.result as String, []),
-            pDocumentSource: new FormControl(fileNm, []),
-            pDocumentType: new FormControl('', []),      
-            pDocumentUrl: new FormControl(docUrl, [])
-          });
-          this.documents(propIndex).push(document)
-      };
-      this.clearExtra(propIndex)
-      //this.selectedFileToUpload = fileToUpload;
-    }
-  }
-
   validateDoc(document: any,status: string){
     console.log(document)
     let data = this.propertyForm.value
@@ -304,15 +317,210 @@ export class UnitsComponent implements OnInit {
     alert(`Document successfully marked ${status}`)
   }
 
+
+  addNewDocuments(propIndex: number) {
+    let dialogRef = this.dialog.open(this.propLookupDialog);
+    console.log(this.properties)
+  }
+
+  editMemberData() {
+    let dialogRef = this.dialog.open(this.memberLookupDialog);
+    let data = this.propertyForm.value
+    this.memberForm.patchValue({
+      cprno: data.cprno,
+      name: data.name,
+      add1: data.add1,
+      add2: data.add2,
+      add3: data.add3,
+      phone1: data.phone1,
+      phone2: data.phone2,
+      mobile: data.mobile,
+      email: data.email
+    })
+  }
+
+  onImageChange(event: any) {
+    var filesList: FileList = event.target.files;
+    const reader = new FileReader();
+
+    if(event.target.files && event.target.files.length) {
+      const fileToUpload: any = filesList.item(0);
+      console.log(fileToUpload.name);
+      const imgNm: string = fileToUpload.name;
+      console.log(imgNm);
+      reader.readAsDataURL(fileToUpload);
+      reader.onload = () => {
+          this.newImageSrc = reader.result as string;
+          this.memberForm.patchValue({
+            //image: reader.result
+            image: imgNm
+          });
+      };
+      console.log(this.newImageSrc)
+      this.selectedFileToUpload = fileToUpload;
+    }
+  }
+
+  submitMemberDetails() {
+    const data = this.memberForm.value
+    console.log(data)
+
+    this.crmservice.updateMember(data.cprno,data.cprno,data.cprno,data.name,'O',data.add1,data.add2,data.add3,data.phone1,data.phone2,data.email,data.cprno,'Y',data.image,'self').subscribe((response: any) => {
+      console.log(response);
+      this.uploadImage();
+      let dialogRef = this.dialog.closeAll()
+    }, rreror => {
+      console.log(rreror);
+    })
+  }
+
+  uploadImage() {
+    if (!this.selectedFileToUpload) {
+      alert('Please select a file first!'); // or any other message to the user to choose a file
+      return;
+    } else {
+      console.log('attempt to upload')
+      this.uploadService.uploadImage(this.selectedFileToUpload);
+    }
+  }
+
+  editPropDetails(value: any){
+    console.log(value)
+    let dialogRef = this.dialog.open(this.propEditLookupDialog);
+    if(value === 'add') {
+      this.propMes = 'Add'
+      this.editPropDetailForm = new FormGroup({ 
+        pHFNo: new FormControl('', [Validators.required]),
+        pParcelNo: new FormControl('', [Validators.required]),
+        pPlotNo: new FormControl('', [Validators.required]),
+        pPlotArea: new FormControl('', []),
+        pBuiltUpArea: new FormControl('', []),
+        TotalArea: new FormControl('', []), 
+        pZone: new FormControl('', []),
+        pVoteWeightage: new FormControl('', []),
+        pEligibity: new FormControl('', []), 
+        pRooms: new FormControl('', []),
+        pBathrooms: new FormControl('', []),
+        pCarParkSlots: new FormControl('', []), 
+      });
+    } else {
+      this.propMes = 'Update'
+      this.editPropDetailForm = new FormGroup({ 
+        pHFNo: new FormControl(this.propArr[value].house_flat_no, [Validators.required]),
+        pParcelNo: new FormControl(this.propArr[value].parcelno, [Validators.required]),
+        pPlotNo: new FormControl(this.propArr[value].plotno, [Validators.required]),
+        pPlotArea: new FormControl(this.propArr[value].plotarea, []),
+        pBuiltUpArea: new FormControl(this.propArr[value].BUILTUPAREA, []),
+        pTotalArea: new FormControl(this.propArr[value].total_area, []), 
+        pZone: new FormControl(this.propArr[value].zone, []),
+        pVoteWeightage: new FormControl(this.propArr[value].voting_power_factor, []),
+        pEligibity: new FormControl(this.propArr[value].eligiblevote, []), 
+        pRooms: new FormControl(this.propArr[value].NO_OF_ROOMS, []),
+        pBathrooms: new FormControl(this.propArr[value].NO_OF_BATHROOMS, []),
+        pCarParkSlots: new FormControl(this.propArr[value].NO_OF_CARPARK_SLOTS, []), 
+      });
+    }
+  }
+
+  submitPropertyDetails() {
+    const data = this.editPropDetailForm.value
+    const mData = this.propertyForm.value
+    console.log(data)
+    console.log(this.propMes)
+    if(this.propMes === 'Add') {
+      this.crmservice.addNewProperty(data.pHFNo,mData.cprno,data.pRooms,data.pBathrooms,data.pCarParkSlots,data.pTotalArea, data.pParcelNo, data.pPlotNo,data.pPlotArea,data.pBuiltUpArea).subscribe((response: any) => {
+        console.log(response);
+      }, rreror => {
+        console.log(rreror);
+      })
+      //JOB INSERT
+      this.crmservice.addNewJob(String(this.mCYear),data.pHFNo,this.mCurDate,mData.cprNo,mData.name).subscribe((res: any) => {
+        console.log(res)
+      }, (err: any) => {
+        console.log(err)
+      })
+      let dialogRef = this.dialog.closeAll()
+    } else {
+      this.crmservice.updateProperty(data.pHFNo,mData.cprno,data.pRooms,data.pBathrooms,data.pCarParkSlots,data.pTotalArea, data.pParcelNo, data.pPlotNo,data.pPlotArea,data.pBuiltUpArea).subscribe((response: any) => {
+        console.log(response);
+        let dialogRef = this.dialog.closeAll()
+      }, rreror => {
+        console.log(rreror);
+      })
+    }
+  }
+
+  onFileChange(event: any, propIndex: number) {
+    var filesList: FileList = event.target.files;
+    const reader = new FileReader();
+
+    if(event.target.files && event.target.files.length) {
+      const fileToUpload: any = filesList.item(0);
+      console.log(fileToUpload);
+      console.log(fileToUpload.type)
+      if(fileToUpload.type === 'application/pdf') {
+        const fileNm: string = fileToUpload.name;
+        console.log(fileNm);
+        reader.readAsDataURL(fileToUpload);
+        reader.onload = () => {
+          const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + fileNm
+            const document = new FormGroup({
+              pDocument: new FormControl(fileToUpload, []),
+              pDocumentSrc: new FormControl(reader.result as String, []),
+              pDocumentSource: new FormControl(fileNm, []),
+              pDocumentType: new FormControl('', []),      
+              pDocumentUrl: new FormControl(docUrl, [])
+            });
+            this.newDocuments(propIndex).push(document)
+        };
+        this.clearExtra(propIndex)
+        //this.selectedFileToUpload = fileToUpload;
+      } else {
+        this.snackBar.open("Only PDF Files Supported!", "OK");
+        //this.clearExtra(propIndex)
+      }
+    }
+  }
+
   clearExtra(propIndex: number) {
-    for(let i=0; i<this.documents(propIndex).length; i++){
-      if(this.documents(propIndex).at(i).value.pDocument === ""){
+    for(let i=0; i<this.newDocuments(propIndex).length; i++){
+      if(this.newDocuments(propIndex).at(i).value.pDocument === ""){
         console.log('empty')
         this.deleteDocument(i,propIndex);
       } else {
-        console.log(this.documents(propIndex).at(i).value.pDocument)
+        console.log(this.newDocuments(propIndex).at(i).value.pDocument)
       }
     }
+  }
+
+  addDocument(propIndex:number) {
+    const document = new FormGroup({
+      pDocument: new FormControl('', []),
+      pDocumentSrc: new FormControl('', []),
+      pDocumentSource: new FormControl('', []),
+      pDocumentType: new FormControl('', []),      
+      pDocumentUrl: new FormControl('', [])
+    });
+    this.newDocuments(propIndex).push(document)
+  }
+
+  deleteDocument(index: number, propIndex: number) {
+    this.newDocuments(propIndex).removeAt(index)
+  }
+
+  submitNewDocuments(propIndex: number) {
+    const data = this.propertyForm.value
+    console.log(this.properties.at(propIndex))
+    for(let j=0; j<this.newDocuments(propIndex).length; j++) {
+      console.log(this.newDocuments(propIndex))
+      this.uploadService.uploadDoc(this.newDocuments(propIndex).at(j).value.pDocument)
+      this.crmservice.addNewDocument(data.cprno,this.properties.at(propIndex).value.pHFNo,this.newDocuments(propIndex).at(j).value.pDocumentSource,this.newDocuments(propIndex).at(j).value.pDocumentType).subscribe((res: any) => {
+        console.log(res)
+      }, (err: any) => {
+        console.log(err)
+      })
+    }
+    this.getDetails(data.cprno)
   }
 
   formatDate(date: any) {
@@ -339,6 +547,10 @@ export class UnitsComponent implements OnInit {
     return this.properties.at(propIndex).get("pDocuments") as FormArray
   }
 
+  newDocuments(propIndex: number): FormArray {
+    return this.properties.at(propIndex).get("pNewDocuments") as FormArray
+  }
+
   get proxyProperties(): FormArray {
     return this.propertyForm.get('proxyProperties') as FormArray
   }
@@ -350,5 +562,6 @@ export class UnitsComponent implements OnInit {
   goToLink(url: string) {
     window.open(url, "_blank");
   }
+
 
 }
