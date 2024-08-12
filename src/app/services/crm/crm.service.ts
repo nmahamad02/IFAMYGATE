@@ -205,6 +205,10 @@ export class CrmService {
     return this.http.get(this.url + '/document/' + memberno + '/' + houseno)
   }  
   
+  getDocumentsTest(memberno: string) {
+    return this.http.get(this.url + '/document/getdocumentTested/' + memberno)
+  }  
+
   checkCprDoc(membno: string) {
     return this.http.get(this.url + '/document/check/cpr/' + membno)
   }  

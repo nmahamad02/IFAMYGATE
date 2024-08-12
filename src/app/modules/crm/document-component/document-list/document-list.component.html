@@ -1,0 +1,69 @@
+<div class="container-fluid">
+    <div class="row no-gutters">
+        <div class="visualization-heading col-12">
+            <div class="heading-info">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="heading-title">Document List</h2>
+                    </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                    <mat-table [dataSource]="memberListDataSource" class="mat-table" matSort matSortDisableClear [multiTemplateDataRows]="true">
+                        <ng-container matColumnDef="actions">
+                            <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                            <mat-cell mat-cell *matCellDef="let row">
+                                <button md-fab-button color="primary" class="btn-w-sm ml-2" (click)="row.isExpanded = !row.isExpanded">+</button>
+                            </mat-cell>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="memberno">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> CPR Number </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{ row.MemberNo }} </mat-cell>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="NAME">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{ row.TITLE }} {{ row.NAME }} {{ row.SURNAME }}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="buttons">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+                            <mat-cell *matCellDef="let row">            
+                                <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white" (click)="gotoDocumentDetails('/crm/document/details', row.CPRNo)">View</button>
+                            </mat-cell>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="expandedDetail">
+                            <mat-cell class="nested-detail-row-cell-narrow" *matCellDef="let row;">
+                                <div class="detail-row-container"><!--</div> [@detailExpand]="row.isExpanded ? 'expanded' : 'collapsed'">-->
+                                    <div class="detail-cell-container">
+                                        <div class="detail-cell-content">
+                                            <b>Documents :</b>
+                                        </div>
+                                        <div class="detail-cell-content">
+                                            <br>
+                                            <table class="table">
+                                                <tr *ngFor="let doc of row.documents">
+                                                    <th>{{ doc.DOCUMENTTYPE }}</th>
+                                                    <td>{{ doc.DOCUMENTNAME }}</td>
+                                                    <td>{{ doc.HOUSE_FLAT_NO }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-cell>
+                        </ng-container>
+                
+                        <mat-header-row *matHeaderRowDef="columnMemberDefs;sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: columnMemberDefs;" class="student-element-row" [class.student-expanded-row]="row.isExpanded"></mat-row>
+                        <mat-row class="student-detail-row" *matRowDef="let row; columns: ['expandedDetail'];"> </mat-row>
+                    </mat-table>
+                    <mat-paginator #paginator [pageSize]="50" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

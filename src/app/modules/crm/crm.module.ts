@@ -23,6 +23,8 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from "@angular/material/sort";
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { DocumentListComponent } from './document-component/document-list/document-list.component';
+import { DocumentComponent } from './document-component/document/document.component';
 
 
 export const crmRoutes = [
@@ -42,6 +44,14 @@ export const crmRoutes = [
     path: 'owner/details/:id',
     component: MembersComponent
   },
+  {
+    path: 'document-list',
+    component: DocumentListComponent
+  },
+  {
+    path: 'document/details/:id',
+    component: DocumentComponent
+  },
 ];
 
 @NgModule({
@@ -49,7 +59,9 @@ export const crmRoutes = [
     MembersComponent, 
     MemberListComponent,
     UnitsComponent,
-    UnitListComponent
+    UnitListComponent,
+    DocumentListComponent,
+    DocumentComponent
   ],
   imports: [
     MatIconModule,
