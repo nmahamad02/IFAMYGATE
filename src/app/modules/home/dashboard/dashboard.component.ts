@@ -642,7 +642,7 @@ export class DashboardComponent implements OnInit {
           console.log(err)
         })
         this.uploadService.uploadDoc(this.selectedFileToUploadPp)
-        this.crmService.addNewDocument(data.cprno,'Nomination Form',data.appDoc,'NOMINAION').subscribe((res: any) => {
+        this.crmService.addNewDocument(data.cprno,'Nomination Form',data.appDoc,'NOMINATION').subscribe((res: any) => {
           console.log(res)
         }, (err: any) => {
           console.log(err)

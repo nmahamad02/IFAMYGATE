@@ -9,6 +9,14 @@
                 </div>
                 <hr>
                 <div class="col-12">
+                    <b>Search</b>
+                    <mat-form-field>
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput type="text" style="color: black;" placeholder="Please Enter Your Seach Keyword to filter" (keyup)="quickMemberSearch()" [(ngModel)]="searchValue">
+                    </mat-form-field>
+                </div>
+                <hr>
+                <div class="col-12">
                     <mat-table [dataSource]="memberListDataSource" class="mat-table" matSort matSortDisableClear [multiTemplateDataRows]="true">
                         <ng-container matColumnDef="actions">
                             <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
@@ -30,26 +38,56 @@
                         <ng-container matColumnDef="buttons">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
                             <mat-cell *matCellDef="let row">            
-                                <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white" (click)="gotoDocumentDetails('/crm/document/details', row.CPRNo)">View</button>
+                                <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white" (click)="gotoDocumentDetails('/crm/document/details', row.CPRNo)">Send Reminder</button>
                             </mat-cell>
                         </ng-container>
                 
                         <ng-container matColumnDef="expandedDetail">
                             <mat-cell class="nested-detail-row-cell-narrow" *matCellDef="let row;">
-                                <div class="detail-row-container"><!--</div> [@detailExpand]="row.isExpanded ? 'expanded' : 'collapsed'">-->
+                                <div class="detail-row-container" [@detailExpand]="row.isExpanded ? 'expanded' : 'collapsed'">
                                     <div class="detail-cell-container">
-                                        <div class="detail-cell-content">
-                                            <b>Documents :</b>
-                                        </div>
-                                        <div class="detail-cell-content">
-                                            <br>
-                                            <table class="table">
-                                                <tr *ngFor="let doc of row.documents">
-                                                    <th>{{ doc.DOCUMENTTYPE }}</th>
-                                                    <td>{{ doc.DOCUMENTNAME }}</td>
-                                                    <td>{{ doc.HOUSE_FLAT_NO }}</td>
-                                                </tr>
-                                            </table>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="detail-cell-content">
+                                                    <br>
+                                                    <b>Submitted Documents :</b>
+                                                    <br>
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Document Type</th>
+                                                            <th>Document Name</th>
+                                                            <th>Document Status</th>
+                                                        </tr>
+                                                        <tr *ngFor="let doc of row.documents">
+                                                            <td>{{ doc.docdesc }}</td>
+                                                            <td>{{ doc.documentname }}</td>
+                                                            <td>{{ doc.documentstatus }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-2"></div>
+                                            <div class="col-4">
+                                                <div class="detail-cell-content">
+                                                    <br>
+                                                    <b>Documents to be submitted:</b>
+                                                    <br>
+                                                    <div *ngIf="row.unknownDocuments.length === 0">
+                                                        All necessary documents submitted.
+                                                    </div>
+                                                    <div *ngIf="row.unknownDocuments.length != 0">
+                                                        <table class="table">
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Document Type</th>
+                                                            </tr>
+                                                            <tr *ngFor="let doc of row.unknownDocuments; let i = index">
+                                                                <td>{{ i+1 }}</td>
+                                                                <td>{{ doc.docdesc }}</td>
+                                                            </tr>
+                                                        </table>                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

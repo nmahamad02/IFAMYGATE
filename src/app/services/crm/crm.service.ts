@@ -207,6 +207,10 @@ export class CrmService {
   
   getDocumentsTest(memberno: string) {
     return this.http.get(this.url + '/document/getdocumentTested/' + memberno)
+  }    
+  
+  getUnkownDocuments(memberno: string) {
+    return this.http.get(this.url + '/document/getUnkownDoc/' + memberno)
   }  
 
   checkCprDoc(membno: string) {

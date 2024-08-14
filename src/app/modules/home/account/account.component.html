@@ -96,165 +96,104 @@
                     </div>
                 </div>
                 <ng-container formArrayName="properties" *ngIf="isOwner">
-                    <div class="row" *ngFor="let prop of properties.controls; let i = index;" [formGroupName]="i">
-                        <div class="col-9">
-                            <mat-card>
-                                <mat-card-content>
-                                    <mat-tab-group>
-                                        <mat-tab label="Property Details">
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Unit Number</mat-label>
-                                                        <input type="text" formControlName="pHFNo" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Title Deed</mat-label>
-                                                        <input type="text" formControlName="pParcelNo" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Plot Number</mat-label>
-                                                        <input type="text" formControlName="pPlotNo" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
+                    <div class="col-12" *ngFor="let prop of properties.controls; let i = index;" [formGroupName]="i">
+                        <mat-card>
+                            <mat-card-content>
+                                <mat-tab-group>
+                                    <mat-tab label="Property Details">
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Unit Number</mat-label>
+                                                    <input type="text" formControlName="pHFNo" matInput readonly>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Plot Area</mat-label>
-                                                        <input type="text" formControlName="pPlotArea" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Built Up Area</mat-label>
-                                                        <input type="text" formControlName="pBuiltUpArea" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Total Area</mat-label>
-                                                        <input type="text" formControlName="pTotalArea" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Title Deed</mat-label>
+                                                    <input type="text" formControlName="pParcelNo" matInput readonly>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Rooms</mat-label>
-                                                        <input type="text" formControlName="pRooms" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Bathrooms</mat-label>
-                                                        <input type="text" formControlName="pBathrooms" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="col-4">
-                                                    <mat-form-field class="full-width"> 
-                                                        <mat-label>Car Park Slots</mat-label>
-                                                        <input type="text" formControlName="pCarParkSlots" matInput readonly>
-                                                    </mat-form-field>
-                                                </div>
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Plot Number</mat-label>
+                                                    <input type="text" formControlName="pPlotNo" matInput readonly>
+                                                </mat-form-field>
                                             </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-10"></div>
-                                                <div class="col-2">
-                                                    <button mat-raised-button class="bg-primary text-white btn btn-block" (click)="editPropDetails(i)" style="float: right;" title="Edit Property Details">
-                                                        <mat-icon>edit</mat-icon>
-                                                    </button> 
-                                                </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Plot Area</mat-label>
+                                                    <input type="text" formControlName="pPlotArea" matInput readonly>
+                                                </mat-form-field>
                                             </div>
-                                        </mat-tab>
-                                        <mat-tab label="Associated Documents">
-                                            <br>
-                                            <ng-container formArrayName="pDocuments">
-                                                <div class="row">
-                                                    <div class="col-4" *ngFor="let doc of documents(i).controls; let j = index" [formGroupName]="j">
-                                                        <mat-card>
-                                                            <mat-card-content>
-                                                                <div class="row">
-                                                                    <div class="col-9">
-                                                                        <mat-form-field class="full-width"> 
-                                                                            <mat-label>Name</mat-label>
-                                                                            <input type="text" formControlName="pDocumentSource" matInput>
-                                                                        </mat-form-field>                                                       
-                                                                    </div>
-                                                                    <div class="col-3">
-                                                                        <button class="btn-success btn text-white btn-block" title="View document" (click)="goToLink(documents(i).at(j).value.pDocumentUrl)">
-                                                                            <mat-icon>arrow_right</mat-icon> 
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                     <pdf-viewer [src]="documents(i).at(j).value.pDocumentUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
-                                                                </div>
-                                                            </mat-card-content>
-                                                        </mat-card>
-                                                    </div>
-                                                </div>
-                                            </ng-container>
-                                        </mat-tab>
-                                    </mat-tab-group>                        
-                                </mat-card-content>
-                            </mat-card>
-                            <div class="col-12">
-                                <ng-template #propLookupDialog 
-                                style="width: 60%;">
-                                    <h3 matDialogTitle>
-                                        <b>Submit New Documents</b>
-                                    </h3>
-                                    <hr>
-                                    <div mat-dialog-content>
-                                        <ng-container formArrayName="pNewDocuments">
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Built Up Area</mat-label>
+                                                    <input type="text" formControlName="pBuiltUpArea" matInput readonly>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Total Area</mat-label>
+                                                    <input type="text" formControlName="pTotalArea" matInput readonly>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Rooms</mat-label>
+                                                    <input type="text" formControlName="pRooms" matInput readonly>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Bathrooms</mat-label>
+                                                    <input type="text" formControlName="pBathrooms" matInput readonly>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-4">
+                                                <mat-form-field class="full-width"> 
+                                                    <mat-label>Car Park Slots</mat-label>
+                                                    <input type="text" formControlName="pCarParkSlots" matInput readonly>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-10"></div>
+                                            <div class="col-2">
+                                                <button mat-raised-button class="bg-primary text-white btn btn-block" (click)="editPropDetails(i)" style="float: right;" title="Edit Property Details">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button> 
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Associated Documents">
+                                        <br>
+                                        <ng-container formArrayName="pDocuments">
                                             <div class="row">
-                                                <div class="col-6" *ngFor="let doc of newDocuments(i).controls; let j = index" [formGroupName]="j">
+                                                <div class="col-4" *ngFor="let doc of documents(i).controls; let j = index" [formGroupName]="j">
                                                     <mat-card>
                                                         <mat-card-content>
-                                                            <div class="col-12">
-                                                                <mat-form-field class="full-width"> 
-                                                                    <mat-label>Name</mat-label>
-                                                                    <input type="text" formControlName="pDocumentSource" accept="application/pdf" matInput>
-                                                                </mat-form-field>                                                       
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <mat-form-field class="full-width"> 
-                                                                    <mat-select formControlName="pDocumentType">
-                                                                        <mat-option> ----- </mat-option>
-                                                                        <mat-option value="CPR">CPR</mat-option>
-                                                                        <mat-option value="TITLE DEED">Title Deed</mat-option>
-                                                                        <mat-option value="PASSPORT">Passport</mat-option>
-                                                                        <mat-option value="GCC">Certificate of Good Conduct</mat-option>
-                                                                        <mat-option value="CC">Clearance Certificate</mat-option>
-                                                                        <mat-option value="SC">Sales Contract</mat-option>
-                                                                        <mat-option value="NOC">NOC from Bank</mat-option>
-                                                                        <mat-option value="CR">CR Copy</mat-option>
-                                                                        <mat-option value="ECR">Extract of CR</mat-option>
-                                                                        <mat-option value="AULTR">Authorisation Letter</mat-option>
-                                                                        <mat-option value="RECEIPT">EWA Payment Receipt</mat-option>
-                                                                        <mat-option value="MOM">Minutes of Meeting</mat-option>
-                                                                    </mat-select>
-                                                                </mat-form-field>                                                       
-                                                            </div>
-                                                            <div class="col-12">
-                                                                 <pdf-viewer [src]="newDocuments(i).at(j).value.pDocumentUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
-                                                            </div>
                                                             <div class="row">
-                                                                <div class="col-6">
-                                                                    <input id="pDocumentSource" type="file" class="form-control" (change)="onFileChange($event,i)">
+                                                                <div class="col-9">
+                                                                    <mat-form-field class="full-width"> 
+                                                                        <mat-label>Name</mat-label>
+                                                                        <input type="text" formControlName="pDocumentSource" matInput>
+                                                                    </mat-form-field>                                                       
                                                                 </div>
                                                                 <div class="col-3">
-                                                                    <button class="btn-danger btn text-white btn-block" title="Cancel this document" (click)="deleteDocument(j,i)">
-                                                                        <mat-icon>delete</mat-icon> 
+                                                                    <button class="btn-success btn text-white btn-block" title="View document" (click)="goToLink(documents(i).at(j).value.pDocumentUrl)">
+                                                                        <mat-icon>arrow_right</mat-icon> 
                                                                     </button>
                                                                 </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <pdf-viewer [src]="documents(i).at(j).value.pDocumentUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                                             </div>
                                                         </mat-card-content>
                                                     </mat-card>
@@ -262,62 +201,133 @@
                                                 <div class="col-4">
                                                     <mat-card>
                                                         <mat-card-content>
-                                                            <h1 class="heading-title" (click)="addDocument(i)">&#43;</h1>
+                                                            <h1 class="heading-title" (click)="addNewDocuments(i)" title="Add Documents">&#43;</h1>
                                                         </mat-card-content>
                                                     </mat-card>
                                                 </div>
                                             </div>
                                         </ng-container>
-                                    </div>
-                                    <mat-dialog-actions align="end">
+                                    </mat-tab>
+                                    <mat-tab label="Document Status">
                                         <div class="row">
                                             <div class="col-6">
-                                                <button mat-button 
-                                        matDialogClose="close">Close</button>
+                                                <br>
+                                                <b>Submitted Documents :</b>
+                                                <br>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Document Type</th>
+                                                        <th>Document Name</th>
+                                                        <th>Document Status</th>
+                                                    </tr>
+                                                    <tr *ngFor="let doc of subDocArr">
+                                                        <td>{{ doc.docdesc }}</td>
+                                                        <td>{{ doc.documentname }}</td>
+                                                        <td>{{ doc.documentstatus }}</td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                             <div class="col-6">
-                                                <button mat-raised-button class="bg-success text-white btn btn-block" (click)="submitNewDocuments(i)" style="float: right;" title="Submit Documents">
-                                                    <mat-icon>note_add</mat-icon>
-                                                </button>
+                                                <br>
+                                                <b>Documents to be submitted:</b>
+                                                <br>
+                                                <div *ngIf="unkDocArr.length === 0">
+                                                    All necessary documents submitted.
+                                                </div>
+                                                <div *ngIf="unkDocArr.length != 0">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Document Type</th>
+                                                        </tr>
+                                                        <tr *ngFor="let doc of unkDocArr; let i = index">
+                                                            <td>{{ i+1 }}</td>
+                                                            <td>{{ doc.docdesc }}</td>
+                                                        </tr>
+                                                    </table>                                                    
+                                                </div>
                                             </div>
                                         </div>
-                                    </mat-dialog-actions>
-                                </ng-template>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <mat-card>
-                                <mat-card-content>
-                                    <div class="row">
-                                        <div class="col">                                    
-                                            <p>Document<br>Status</p>
+                                    </mat-tab>
+                                </mat-tab-group>                        
+                            </mat-card-content>
+                        </mat-card>
+                        <div class="col-12">
+                            <ng-template #propLookupDialog style="width: 60%;">
+                                <h3 matDialogTitle>
+                                    <b>Submit New Documents</b>
+                                </h3>
+                                <hr>
+                                <div mat-dialog-content>
+                                    <ng-container formArrayName="pNewDocuments">
+                                        <div class="row">
+                                            <div class="col-6" *ngFor="let doc of newDocuments(i).controls; let j = index" [formGroupName]="j">
+                                                <mat-card>
+                                                    <mat-card-content>
+                                                        <div class="col-12">
+                                                            <mat-form-field class="full-width"> 
+                                                                <mat-label>Name</mat-label>
+                                                                <input type="text" formControlName="pDocumentSource" accept="application/pdf" matInput>
+                                                            </mat-form-field>                                                       
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <mat-form-field class="full-width"> 
+                                                                <mat-select formControlName="pDocumentType">
+                                                                    <mat-option> ----- </mat-option>
+                                                                    <mat-option value="CPR">CPR</mat-option>
+                                                                    <mat-option value="TITLE DEED">Title Deed</mat-option>
+                                                                    <mat-option value="PASSPORT">Passport</mat-option>
+                                                                    <mat-option value="GCC">Certificate of Good Conduct</mat-option>
+                                                                    <mat-option value="CC">Clearance Certificate</mat-option>
+                                                                    <mat-option value="SC">Sales Contract</mat-option>
+                                                                    <mat-option value="NOC">NOC from Bank</mat-option>
+                                                                    <mat-option value="CR">CR Copy</mat-option>
+                                                                    <mat-option value="ECR">Extract of CR</mat-option>
+                                                                    <mat-option value="AULTR">Authorisation Letter</mat-option>
+                                                                    <mat-option value="RECEIPT">EWA Payment Receipt</mat-option>
+                                                                    <mat-option value="MOM">Minutes of Meeting</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>                                                       
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <pdf-viewer [src]="newDocuments(i).at(j).value.pDocumentUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <input id="pDocumentSource" type="file" class="form-control" (change)="onFileChange($event,i)">
+                                                            </div>
+                                                            <div class="col-3">
+                                                                <button class="btn-danger btn text-white btn-block" title="Cancel this document" (click)="deleteDocument(j,i)">
+                                                                    <mat-icon>delete</mat-icon> 
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </mat-card-content>
+                                                </mat-card>
+                                            </div>
+                                            <div class="col-4">
+                                                <mat-card>
+                                                    <mat-card-content>
+                                                        <h1 class="heading-title" (click)="addDocument(i)">&#43;</h1>
+                                                    </mat-card-content>
+                                                </mat-card>
+                                            </div>
                                         </div>
-                                        <div class="col-1">
-                                            <button mat-raised-button class="bg-primary text-white btn btn-xs" style="float: right;" (click)="addNewDocuments(i)" title="Add Documents">
-                                                <mat-icon>add</mat-icon>
+                                    </ng-container>
+                                </div>
+                                <mat-dialog-actions align="end">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button mat-button matDialogClose="close">Close</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button mat-raised-button class="bg-success text-white btn btn-block" (click)="submitNewDocuments(i)" style="float: right;" title="Submit Documents">
+                                                <mat-icon>note_add</mat-icon>
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <mat-form-field class="full-width"> 
-                                            <mat-label>Government ID</mat-label>
-                                            <input type="text" formControlName="pCPRStatus" matInput readonly disabled [ngStyle]="{'color': (properties.at(i).value.pCPRStatus === 'Invalid') ? 'darkred' :(properties.at(i).value.pCPRStatus === 'Not Submitted') ? 'darkred' : (properties.at(i).value.pCPRStatus === 'In Process') ? 'goldenrod' : (properties.at(i).value.pCPRStatus === 'Valid') ? 'green' : '', 'background-color': (properties.at(i).value.pCPRStatus === 'Invalid') ? 'tomato' : (properties.at(i).value.pCPRStatus === 'Not Submitted') ? 'tomato' : (properties.at(i).value.pCPRStatus === 'In Process') ? 'yellow' : (properties.at(i).value.pCPRStatus === 'Valid') ? 'lightgreen' : ''}">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-12">
-                                        <mat-form-field class="full-width"> 
-                                            <mat-label>Title Deed</mat-label>
-                                            <input type="text" formControlName="pTitleDeedStatus" matInput readonly disabled [ngStyle]="{'color': (properties.at(i).value.pTitleDeedStatus === 'Invalid') ? 'darkred' :(properties.at(i).value.pTitleDeedStatus === 'Not Submitted') ? 'darkred' : (properties.at(i).value.pTitleDeedStatus === 'In Process') ? 'goldenrod' : (properties.at(i).value.pTitleDeedStatus === 'Valid') ? 'green' : '', 'background-color': (properties.at(i).value.pTitleDeedStatus === 'Invalid') ? 'tomato' : (properties.at(i).value.pTitleDeedStatus === 'Not Submitted') ? 'tomato' : (properties.at(i).value.pTitleDeedStatus === 'In Process') ? 'yellow' : (properties.at(i).value.pTitleDeedStatus === 'Valid') ? 'lightgreen' : ''}">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-12">
-                                        <mat-form-field class="full-width"> 
-                                            <mat-label>EWA Payment</mat-label>
-                                            <input type="text" formControlName="pEWAReceiptStatus" matInput readonly disabled [ngStyle]="{'color': (properties.at(i).value.pEWAReceiptStatus === 'Invalid') ? 'darkred' :(properties.at(i).value.pEWAReceiptStatus === 'Not Submitted') ? 'darkred' : (properties.at(i).value.pEWAReceiptStatus === 'In Process') ? 'goldenrod' : (properties.at(i).value.pEWAReceiptStatus === 'Valid') ? 'green' : '', 'background-color': (properties.at(i).value.pEWAReceiptStatus === 'Invalid') ? 'tomato' : (properties.at(i).value.pEWAReceiptStatus === 'Not Submitted') ? 'tomato' : (properties.at(i).value.pEWAReceiptStatus === 'In Process') ? 'yellow' : (properties.at(i).value.pEWAReceiptStatus === 'Valid') ? 'lightgreen' : ''}">
-                                        </mat-form-field>
-                                    </div>
-                                </mat-card-content>
-                            </mat-card>
+                                </mat-dialog-actions>
+                            </ng-template>
                         </div>
                     </div>
                     <br>

@@ -25,6 +25,9 @@ export class AccountComponent implements OnInit {
   proxArr: any[] = [];
   membArr: any[] = [];
 
+  subDocArr: any[] = [];
+  unkDocArr: any[] = [];
+
   primaryMember: any;
 
   isOwner: Boolean = false;
@@ -251,6 +254,14 @@ export class AccountComponent implements OnInit {
           })
         }
       }
+      this.crmservice.getDocumentsTest(this.uC).subscribe((res: any) => {
+        const docArr = res.recordset;
+        this.subDocArr = docArr;
+      })
+      this.crmservice.getUnkownDocuments(this.uC).subscribe((res: any) => {
+        const docArr = res.recordset;
+        this.unkDocArr = docArr;
+      })
     })
   }
 

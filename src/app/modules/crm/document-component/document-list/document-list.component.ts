@@ -42,6 +42,10 @@ export class DocumentListComponent implements OnInit {
           const docArr = res.recordset;
           this.memberList[i].documents = docArr;
         })
+        this.crmservice.getUnkownDocuments(this.memberList[i].MemberNo).subscribe((res: any) => {
+          const docArr = res.recordset;
+          this.memberList[i].unknownDocuments = docArr;
+        })
       }
       this.memberListDataSource = new MatTableDataSource(this.memberList);
       this.memberListDataSource.sort = this.sort;
@@ -49,6 +53,10 @@ export class DocumentListComponent implements OnInit {
       console.log(this.memberList);
       this.toggleTableRows();
     })
+  }
+
+  quickMemberSearch() {
+    this.memberListDataSource.filter = this.searchValue.trim().toLowerCase();
   }
 
   toggleTableRows() {
