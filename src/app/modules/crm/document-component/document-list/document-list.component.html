@@ -47,7 +47,12 @@
                                 <div class="detail-row-container" [@detailExpand]="row.isExpanded ? 'expanded' : 'collapsed'">
                                     <div class="detail-cell-container">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-2">
+                                                <div class="form-group">
+                                                    <img [src]="row.imageSrc" *ngIf="row.imageSrc" style="width:100%">
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
                                                 <div class="detail-cell-content">
                                                     <br>
                                                     <b>Submitted Documents :</b>
@@ -66,7 +71,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="col-2"></div>
+                                            <div class="col-1"></div>
                                             <div class="col-4">
                                                 <div class="detail-cell-content">
                                                     <br>

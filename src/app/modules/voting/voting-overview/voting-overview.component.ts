@@ -18,9 +18,18 @@ export class VotingOverviewComponent implements OnInit {
   mCYear = new Date().getFullYear();
 
   uC = JSON.parse(localStorage.getItem('userid'));
+  uClass = JSON.parse(localStorage.getItem('userclass'));
+  showCRM = false;
+  showVoting = false;
+
 
   constructor(private votingService: VotingService, private router: Router, private crmservice: CrmService, private dataSharingService: DataSharingService) { 
     this.getData() 
+    if (this.uClass === 1) {
+      this.showCRM = true;
+    } else {
+      this.showVoting = true;
+    }
   }
 
   ngOnInit() {
@@ -43,6 +52,34 @@ export class VotingOverviewComponent implements OnInit {
         this.votingType.push(record)
       })
     }
+    this.votingService.getNominationList().subscribe((res: any)=> {
+      this.memberList = res.recordset;
+      console.log(res.recordset)
+      for(let i=0; i<this.memberList.length; i++) {
+        var imgVal: string = this.memberList[i].imagename;
+        console.log(imgVal)
+        if ((this.memberList[i].imagename === null) || (this.memberList[i].imagename === "")) {
+          this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/imgNaN.png";
+        } else if (this.memberList[i].imagename != null) {
+          console.log(this.memberList[i].imagename);
+          if (imgVal.includes("fakepath")) {
+            var imgName: string = imgVal.slice(12);
+            console.log(imgName);
+            this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/" + imgName;
+          } else {
+            this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/" + imgVal;
+          }
+        }
+        this.crmservice.getLandlordWiseProperties(this.memberList[i].memberno).subscribe((resp: any) => {
+          var prop = []
+          for(let j=0;j<resp.recordset.length;j++) {
+            prop.push(resp.recordset[j].house_flat_no)
+          }
+          this.memberList[i].properties = prop
+        })
+      }
+    })
+    console.log(this.memberList)
     /*this.crmservice.getMemberFromCPR(this.uC).subscribe((res: any) => {
       console.log(res)
       for(let i=0; i<res.recordset.length;i++){

@@ -5,8 +5,60 @@
                 <h2 class="heading-title">Overview</h2>
             </div>
             <hr>
+            <div *ngIf="showCRM">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 style="text-align: justify;">
+                            <u>Floating City Main Owners Association</u>
+                        </h3>
+                    </div>
+                    <div class="col-6">
+                        <h3 dir="rtl" lang="ar" style="float: right;text-align: right;text-align: justify;">
+                            <u>جمعية الملاك الرئيسية للمدينة العائمة</u>
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <h5>Members nominated for Board Election 2024</h5>
 
-
+                    </div>
+                    <div class="col-6">
+                        <h5 dir="rtl" lang="ar" style="float: right;text-align: right;">الأعضاء المرشحون لانتخابات مجلس الإدارة 2024</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" *ngFor="let row of memberList; let i = index">
+                        <mat-card>
+                            <mat-card-content>
+                                <p>{{ i+1 }} | {{ row.name }}</p>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img [src]="row.imageSrc" *ngIf="row.imageSrc" style="width:100%;border-radius: 10%;">
+                                    </div>
+                                    <div class="col-10">
+                                        <p>CPR Number: {{ row.memberno }}</p>
+                                        <p>Mobile Number: {{ row.mobile }}</p>
+                                        <p>Villa/Plot Number: {{ row.properties }}</p>
+                                        <p>Email ID: {{ row.email }}</p>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showVoting">
+                <div class="col-12">
+                    <h1 style="text-align: center;">
+                        <i class="fa fa-cogs"></i>
+                    </h1>
+                    <h3 style="text-align: center;">
+                        This page is currently being integrated with the voting module
+                    </h3>
+                </div>
+            </div>
         </div>
     </div>    
 </div>      

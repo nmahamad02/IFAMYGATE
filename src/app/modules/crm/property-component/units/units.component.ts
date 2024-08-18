@@ -146,6 +146,8 @@ export class UnitsComponent implements OnInit {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
+                    pDocumentStatus: new FormControl(docArr[j].DOCUMENTSTATUS, []),
+                    pDocumentType: new FormControl(docArr[j].DOCUMENTTYPE, []),
                     pDocumentUrl: new FormControl(docUrl, []),
                   });
                   this.proxyDocuments(i).push(document)
@@ -212,6 +214,8 @@ export class UnitsComponent implements OnInit {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
+                    pDocumentStatus: new FormControl(docArr[j].DOCUMENTSTATUS, []),
+                    pDocumentType: new FormControl(docArr[j].DOCUMENTTYPE, []),
                     pDocumentUrl: new FormControl(docUrl, [])
                   });
                   if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'CPR')) {
@@ -468,7 +472,8 @@ export class UnitsComponent implements OnInit {
               pDocument: new FormControl(fileToUpload, []),
               pDocumentSrc: new FormControl(reader.result as String, []),
               pDocumentSource: new FormControl(fileNm, []),
-              pDocumentType: new FormControl('', []),      
+              pDocumentType: new FormControl('', []),  
+              pDocumentStatus: new FormControl('', []),          
               pDocumentUrl: new FormControl(docUrl, [])
             });
             this.newDocuments(propIndex).push(document)
@@ -499,6 +504,7 @@ export class UnitsComponent implements OnInit {
       pDocumentSrc: new FormControl('', []),
       pDocumentSource: new FormControl('', []),
       pDocumentType: new FormControl('', []),      
+      pDocumentStatus: new FormControl('', []),      
       pDocumentUrl: new FormControl('', [])
     });
     this.newDocuments(propIndex).push(document)

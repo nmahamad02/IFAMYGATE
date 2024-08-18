@@ -46,6 +46,20 @@ export class DocumentListComponent implements OnInit {
           const docArr = res.recordset;
           this.memberList[i].unknownDocuments = docArr;
         })
+        var imgVal: string = this.memberList[i].IMAGENAME;
+        console.log(imgVal)
+        if ((this.memberList[i].IMAGENAME === null) || (this.memberList[i].IMAGENAME === "")) {
+          this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/imgNaN.png";
+        } else if (this.memberList[i].IMAGENAME != null) {
+          console.log(this.memberList[i].IMAGENAME);
+          if (imgVal.includes("fakepath")) {
+            var imgName: string = imgVal.slice(12);
+            console.log(imgName);
+            this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/" + imgName;
+          } else {
+            this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/" + imgVal;
+          }
+        }
       }
       this.memberListDataSource = new MatTableDataSource(this.memberList);
       this.memberListDataSource.sort = this.sort;

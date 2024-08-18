@@ -596,7 +596,7 @@ export class DashboardComponent implements OnInit {
           this.authenticationService.changeImage(data.imgDoc, this.uC).subscribe((res:any) => {
             console.log(res)
           })
-          this.votingService.getNominationList('AGM2024-2').subscribe((resp: any) => {
+          this.votingService.getBoardNominationList('AGM2024-2').subscribe((resp: any) => {
             console.log(resp.recordset)
             var blitem: number
             if(resp.recordset.length === 0) {
@@ -651,7 +651,7 @@ export class DashboardComponent implements OnInit {
         this.authenticationService.changeImage(data.imgDoc, this.uC).subscribe((res:any) => {
           console.log(res)
         })
-        this.votingService.getNominationList('AGM2024-2').subscribe((resp: any) => {
+        this.votingService.getBoardNominationList('AGM2024-2').subscribe((resp: any) => {
           console.log(resp.recordset)
           var blitem: number
           if(resp.recordset.length === 0) {

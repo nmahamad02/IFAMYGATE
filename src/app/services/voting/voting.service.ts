@@ -130,8 +130,12 @@ export class VotingService {
     return this.http.get(this.url + '/member/nomination/' + agmcode + '/' + cprno)
   }
   
-  getNominationList(agmcode: string) {
-    return this.http.get(this.url + '/member/nomination/list/' + agmcode)
+  getNominationList() {
+    return this.http.get(this.url + '/member/get/nomination/list')
+  } 
+
+  getBoardNominationList(agmcode: string) {
+    return this.http.get(this.url + '/member/get/board/nomination/list/' + agmcode)
   } 
 
   insertMemberNomination(year: string, category: string, blno: string, blitem: string, bleng: string, blear: string, agmtitle: string, agmcode: string) {
