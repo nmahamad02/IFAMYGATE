@@ -5,29 +5,156 @@
                 <h2 class="heading-title">Downloads</h2>
                 <hr>
             </div>
-            <div class="row">
-                <div class="col-4">
-                    <mat-card>
-                        <mat-card-content>
-                            <mat-card-header>HOA Nomination (AR)</mat-card-header>
-                            <pdf-viewer [src]="arUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
-                            <button class="btn btn-primary" (click)="downloadAr()">
-                                <i class="fa fa-download"></i>
-                            </button>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div class="col-4">
-                    <mat-card>
-                        <mat-card-content>
-                            <mat-card-header>HOA Nomination (EN)</mat-card-header>
-                            <pdf-viewer [src]="enUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
-                            <button class="btn btn-primary" (click)="downloadEn()">
-                                <i class="fa fa-download"></i>
-                            </button>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
+            <div class="col-12">
+                <mat-tab-group>
+                    <mat-tab label="2023-2024">        
+                        <div class="row">
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Voting Paper 2024-25</mat-card-header>
+                                        <pdf-viewer [src]="votingPaper24" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(votingPaper24)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Meeting Agenda (AR)</mat-card-header>
+                                        <pdf-viewer [src]="agendaAr23" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(agendaAr23)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Meeting Agenda (EN)</mat-card-header>
+                                        <pdf-viewer [src]="agendaEn23" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(agendaEn23)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>AGM Minutes of Meeting 2023</mat-card-header>
+                                        <pdf-viewer [src]="mom23" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(mom23)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Budget 2024-25</mat-card-header>
+                                        <pdf-viewer [src]="budget2425" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(budget2425)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Audit Report</mat-card-header>
+                                        <pdf-viewer [src]="auditReport23" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(auditReport23)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Insurance</mat-card-header>
+                                        <pdf-viewer [src]="insurance" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(insurance)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Announcement (AR)</mat-card-header>
+                                        <pdf-viewer [src]="annArUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(annArUrl)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Announcement (EN)</mat-card-header>
+                                        <pdf-viewer [src]="annEnUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(annEnUrl)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Proxy Form (AR)</mat-card-header>
+                                        <pdf-viewer [src]="proxArUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(proxArUrl)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Proxy Form (EN)</mat-card-header>
+                                        <pdf-viewer [src]="proxEnUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(proxEnUrl)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>HOA Nomination (AR)</mat-card-header>
+                                        <pdf-viewer [src]="arUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(arUrl)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                               <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>HOA Nomination (EN)</mat-card-header>
+                                        <pdf-viewer [src]="enUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(enUrl)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
             </div>
         </div>
     </div>    

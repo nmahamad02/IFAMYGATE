@@ -7,6 +7,7 @@ import { EmailsComponent } from './emails/emails.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule} from '@angular/material/card'
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 export const notificationRoutes = [
@@ -31,6 +32,7 @@ export const notificationRoutes = [
     MatExpansionModule,
     MatCardModule,
     PdfViewerModule,
+    MatTabsModule,
     RouterModule.forChild(notificationRoutes)
   ]
 })

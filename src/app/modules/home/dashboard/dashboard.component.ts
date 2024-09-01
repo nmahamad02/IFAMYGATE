@@ -69,6 +69,11 @@ export class DashboardComponent implements OnInit {
 
   uC = JSON.parse(localStorage.getItem('userid'));
 
+  arUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/%D8%B1%D8%B3%D8%A7%D9%84%D8%A9+%D8%A7%D9%84%D9%89+%D8%AC%D9%85%D9%8A%D8%B9+%D8%A7%D9%84%D9%85%D9%84%D8%A7%D9%83+%D9%81%D9%8A+%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%86%D8%A9+%D8%A7%D9%84%D8%B9%D8%A7%D9%8A%D9%94%D9%85%D8%A9+01+09+2024.pdf"
+  enUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Message+to+All+Floating+City+Homeowners+01+09+2024.pdf"
+  imgArUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/flex+two.jpg"
+  imgEnUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/flex+one.jpg"
+
   ngOnInit() {
     this.getDetails(this.uC);
   }
@@ -764,5 +769,23 @@ export class DashboardComponent implements OnInit {
     window.open(url, "_blank");
   }
 
+
+  downloadAr() {
+    const a: any = document.createElement('a');
+    a.href = this.arUrl;
+    a.download = 'Message-AR-Form.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);    
+  }
+  
+  downloadEn() {
+    const a: any = document.createElement('a');
+    a.href = this.enUrl;
+    a.download = 'Message-EN-Form.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);    
+  }
 
 }
