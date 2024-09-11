@@ -21,7 +21,9 @@ export class DownloadsComponent implements OnInit {
   agendaEn23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Agenda+of+meeting-EN.pdf"
   agendaAr23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Agenda+of+meeting-AR.pdf"  
   votingPaper24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Voting+Paper+2024-2025+-+EN_AR.pdf"
-  
+  workReport24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Work+completion+report+Amwaj+Island-+PCT+505+-+R0+(1).pdf"
+  TRAudit24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Amwaj+Floating+City+-+TR+Audit+Report-240620.pdf"
+
   constructor() { }
 
   ngOnInit() {

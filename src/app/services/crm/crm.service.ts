@@ -225,6 +225,10 @@ export class CrmService {
     return this.http.get(this.url + '/document/check/proxy/' + membno)
   }
 
+  pendingDocList() {
+    return this.http.get(this.url + '/pending/list/document')
+  }
+
   addNewDocument(memberno: string, houseno: string, documentname: string, documenttype: string) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 

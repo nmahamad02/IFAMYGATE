@@ -12,10 +12,14 @@ import { CrmService } from 'src/app/services/crm/crm.service';
 })
 export class DocumentListComponent implements OnInit {
   memberList: any[] = [];
-  searchValue: any;
+  docList: any[] = [];
+  membSearchValue: any;
+  docSearchValue: any;
   columnMemberDefs: any;
+  columnDocDefs: any;
   isTableExpanded = false;
   memberListDataSource = new MatTableDataSource(this.memberList);
+  docListDataSource = new MatTableDataSource(this.docList);
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -23,6 +27,7 @@ export class DocumentListComponent implements OnInit {
 
   constructor(private crmservice: CrmService, private router: Router) {
     this.columnMemberDefs = ['actions', "memberno", "NAME", "buttons"];
+    this.columnDocDefs = ['memberno', "NAME", "HOUSE", "DOCUMENTNAME", "TYPE", "STATUS", "view", "validate", "invalidate"];
   }
 
   ngOnInit(): void {
@@ -30,12 +35,13 @@ export class DocumentListComponent implements OnInit {
     //Get Members Details
     this.getAllPrimaryMembers();
 
+    this.getAllPendingDocs();
+
     this.toggleTableRows();
   }
 
   getAllPrimaryMembers() {
     this.crmservice.getAllMembers().subscribe((res: any) => {
-      console.log(this.memberList);
       this.memberList = res.recordset;
       for(let i=0;i<this.memberList.length;i++){
         this.crmservice.getDocumentsTest(this.memberList[i].MemberNo).subscribe((res: any) => {
@@ -47,11 +53,9 @@ export class DocumentListComponent implements OnInit {
           this.memberList[i].unknownDocuments = docArr;
         })
         var imgVal: string = this.memberList[i].IMAGENAME;
-        console.log(imgVal)
         if ((this.memberList[i].IMAGENAME === null) || (this.memberList[i].IMAGENAME === "")) {
           this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/imgNaN.png";
         } else if (this.memberList[i].IMAGENAME != null) {
-          console.log(this.memberList[i].IMAGENAME);
           if (imgVal.includes("fakepath")) {
             var imgName: string = imgVal.slice(12);
             console.log(imgName);
@@ -64,13 +68,26 @@ export class DocumentListComponent implements OnInit {
       this.memberListDataSource = new MatTableDataSource(this.memberList);
       this.memberListDataSource.sort = this.sort;
       this.memberListDataSource.paginator = this.paginator;
-      console.log(this.memberList);
       this.toggleTableRows();
     })
   }
 
+  getAllPendingDocs() {
+    this.crmservice.pendingDocList().subscribe((res: any) => {
+      this.docList = res.recordset
+      console.log(this.docList);
+      this.docListDataSource = new MatTableDataSource(this.docList);
+      this.docListDataSource.sort = this.sort;
+      this.docListDataSource.paginator = this.paginator;
+    })
+  }
+
   quickMemberSearch() {
-    this.memberListDataSource.filter = this.searchValue.trim().toLowerCase();
+    this.memberListDataSource.filter = this.membSearchValue.trim().toLowerCase();
+  }
+
+  quickDocSearch() {
+    this.docListDataSource.filter = this.docSearchValue.trim().toLowerCase();
   }
 
   toggleTableRows() {

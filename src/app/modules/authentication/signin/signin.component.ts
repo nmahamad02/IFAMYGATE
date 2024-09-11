@@ -56,7 +56,7 @@ export class SigninComponent implements OnInit {
             this.authenticationService.signin(res.recordset[0].USERCODE, res.recordset[0].FIRSTNAME, res.recordset[0].LASTNAME, res.recordset[0].USERCLASS).subscribe((res: any) => {
               this.router.navigate(['home/dashboard']);
               //Email submit
-              this.authenticationService.sendUserLoginEmail(resp.recordset[0].MemberNo, resp.recordset[0].NAME, resp.recordset[0].email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
+              this.authenticationService.sendUserLoginEmail(resp.recordset[0].MemberNo, resp.recordset[0].NAME, resp.recordset[0].Email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
                 console.log('EMAIL SENT')
               }, (err: any) => {
                 console.log(err)

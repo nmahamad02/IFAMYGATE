@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-6">
                                 <button mat-raised-button class="bg-secondary text-white btn btn-block" (click)="editPropDetails('add')" style="float: right;" title="Add Property">
-                                    <mat-icon>add</mat-icon>
+                                    <mat-icon>home</mat-icon>
                                 </button> 
                             </div>
                         </div>
@@ -201,7 +201,9 @@
                                                 <div class="col-4">
                                                     <mat-card>
                                                         <mat-card-content>
-                                                            <h1 class="heading-title" (click)="addNewDocuments(i)" title="Add Documents">&#43;</h1>
+                                                            <h1 class="heading-title" (click)="addNewDocuments(i)" title="Add Documents">
+                                                                &#43;
+                                                            </h1>
                                                         </mat-card-content>
                                                     </mat-card>
                                                 </div>
@@ -308,7 +310,9 @@
                                             <div class="col-4">
                                                 <mat-card>
                                                     <mat-card-content>
-                                                        <h1 class="heading-title" (click)="addDocument(i)">&#43;</h1>
+                                                        <h1 class="heading-title" (click)="addDocument(i)" title="Upload Documents">
+                                                            <mat-icon>upload_file</mat-icon>
+                                                        </h1>
                                                     </mat-card-content>
                                                 </mat-card>
                                             </div>

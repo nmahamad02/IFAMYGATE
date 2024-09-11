@@ -25,54 +25,52 @@ export class AttendanceComponent implements OnInit {
   }
 
   getData() {
-    for(let i=this.mCYear; i>=2023; i--) {
-      this.votingService.getAGMRecord(i.toString()).subscribe((res: any) => {
-        console.log(res)
-        for(let j=0; j<res.recordset.length; j++) {
-          let record = []
-          this.votingService.getRegistrationDetail(res.recordset[j].AGMCODE).subscribe((resp: any) => {
-            console.log(resp)
-            for(let k=0; k<resp.recordset.length; k++) {
-              if(resp.recordset[k].membtype === 'O') {
-                let A = {
-                  agmcode: resp.recordset[k].agmcode,
-                  cprno: resp.recordset[k].Memberno,
-                  name: resp.recordset[k].name,
-                  agmname: resp.recordset[k].agmname,
-                  agmdate: resp.recordset[k].agmdate,
-                  registered: resp.recordset[k].CREATEDDATE,  
-                  status: resp.recordset[k].votingStatus,
-                  position: resp.recordset[k].position,
-                  proxy: 'N',
-                  titledeed: 'Y',
-                  cprdoc: 'Y',
-                  balance: '0'
-                }
-                record.push(A)
-              } else {
-                let B = {
-                  agmcode: resp.recordset[k].agmcode,
-                  cprno: resp.recordset[k].Memberno,
-                  name: resp.recordset[k].name,
-                  agmname: resp.recordset[k].agmname,
-                  agmdate: resp.recordset[k].agmdate,
-                  registered: resp.recordset[k].CREATEDDATE,  
-                  status: resp.recordset[k].votingStatus,
-                  position: resp.recordset[k].position,
-                  proxy: resp.recordset[k].proxy_OF,
-                  titledeed: 'Y',
-                  cprdoc: 'Y',
-                  balance: '0'
-                }
-                record.push(B)
+    this.votingService.getAGMRecord().subscribe((res: any) => {
+      console.log(res)
+      for(let j=0; j<res.recordset.length; j++) {
+        let record = []
+        this.votingService.getRegistrationDetail(res.recordset[j].AGMCODE).subscribe((resp: any) => {
+          console.log(resp)
+          for(let k=0; k<resp.recordset.length; k++) {
+            if(resp.recordset[k].membtype === 'O') {
+              let A = {
+                agmcode: resp.recordset[k].agmcode,
+                cprno: resp.recordset[k].Memberno,
+                name: resp.recordset[k].name,
+                agmname: resp.recordset[k].agmname,
+                agmdate: resp.recordset[k].agmdate,
+                registered: resp.recordset[k].CREATEDDATE,  
+                status: resp.recordset[k].votingStatus,
+                position: resp.recordset[k].position,
+                proxy: 'N',
+                titledeed: 'Y',
+                cprdoc: 'Y',
+                balance: '0'
               }
+              record.push(A)
+            } else {
+              let B = {
+                agmcode: resp.recordset[k].agmcode,
+                cprno: resp.recordset[k].Memberno,
+                name: resp.recordset[k].name,
+                agmname: resp.recordset[k].agmname,
+                agmdate: resp.recordset[k].agmdate,
+                registered: resp.recordset[k].CREATEDDATE,  
+                status: resp.recordset[k].votingStatus,
+                position: resp.recordset[k].position,
+                proxy: resp.recordset[k].proxy_OF,
+                titledeed: 'Y',
+                cprdoc: 'Y',
+                balance: '0'
+              }
+              record.push(B)
             }
-          })
-          //break;
-          this.membList.push(record)
-        }
-      })
-    }
+          }
+        })
+        //break;
+        this.membList.push(record)
+      }
+    })
   }
 
   deregister(cprno: string, agmcode: string) {

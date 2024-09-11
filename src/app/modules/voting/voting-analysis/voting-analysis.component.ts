@@ -148,11 +148,11 @@ export class VotingAnalysisComponent implements OnInit {
         })
       }
       this.mVoterElectorate = res.rowsAffected[0];
-      this.votingservice.checkVotingNumber().subscribe((res: any) => {
+      /*this.votingservice.checkVotingNumber().subscribe((res: any) => {
         this.mVotedMembers = res.recordset[0].VOTERS
         this.mNotVotedMembers = this.mVoterElectorate - this.mVotedMembers
         this.pieChartData = [this.mVotedMembers, this.mNotVotedMembers]
-      })
+      })*/
     }, (err: any) => {
       console.log(err)
     })

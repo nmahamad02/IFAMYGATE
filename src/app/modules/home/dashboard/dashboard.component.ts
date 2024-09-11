@@ -145,12 +145,12 @@ export class DashboardComponent implements OnInit {
               this.mRegPropCount = res.rowsAffected[0]
               this.mUnRegPropCount = this.mPropCount - this.mRegPropCount;
               this.pieChart2Data = [this.mRegPropCount, this.mUnRegPropCount]
-              this.votingService.checkVotingNumber().subscribe((res: any) => {
+              /*this.votingService.checkVotingNumber().subscribe((res: any) => {
                 this.mVoterElectorate = this.mRegMemCount
                 this.mVotedMembers = res.recordset[0].VOTERS
                 this.mNotVotedMembers = this.mVoterElectorate - this.mVotedMembers
                 this.pieChart3Data = [this.mVotedMembers, this.mNotVotedMembers]
-              })
+              })*/
             }, (err: any) => {
             console.log(err)
           })
@@ -428,7 +428,7 @@ export class DashboardComponent implements OnInit {
   submitRegistration() {
     const data = this.propertyForm.value
     console.log(data)
-    this.votingService.getAGMRecord(this.mCYear.toString()).subscribe((res: any) => {
+    this.votingService.getAGMYearwiseRecord(this.mCYear.toString()).subscribe((res: any) => {
       console.log(res)
       for(let i=0; i<res.recordset.length; i++) {
         this.votingService.checkMemberRegistration(res.recordset[i].AGMCODE, this.uC).subscribe((resp: any) => {

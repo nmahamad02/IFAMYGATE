@@ -78,6 +78,28 @@
                             <div class="col-3">
                                 <mat-card>
                                     <mat-card-content>
+                                        <mat-card-header>TR Audit Report</mat-card-header>
+                                        <pdf-viewer [src]="TRAudit24" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(TRAudit24)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Work Completion Report</mat-card-header>
+                                        <pdf-viewer [src]="workReport24" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(workReport24)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
                                         <mat-card-header>Insurance</mat-card-header>
                                         <pdf-viewer [src]="insurance" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                         <button class="btn btn-primary" (click)="download(insurance)">

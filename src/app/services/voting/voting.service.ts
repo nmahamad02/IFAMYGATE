@@ -41,8 +41,8 @@ export class VotingService {
     return this.http.get(this.url + '/voting/calculated/results/' + category)
   }  
   
-  checkVotingNumber() {
-    return this.http.get(this.url + '/voting/number')
+  checkVotingNumber(code: string) {
+    return this.http.get(this.url + '/voting/number/' + code)
   }    
   
   checkVotingProxy() {
@@ -88,8 +88,12 @@ export class VotingService {
       return this.http.post(this.url + '/vote/update', JSON.stringify(newTran), { headers: headers })
     }
 
-    getAGMRecord(year: string) {
-      return this.http.get(this.url + '/AGMmaster/' + year)
+    getAGMRecord() {
+      return this.http.get(this.url + '/AGMmaster')
+    } 
+
+    getAGMYearwiseRecord(year) {
+      return this.http.get(this.url + '/AGMmaster/Year/' + year)
     } 
 
     getRegistrationDetail(agmcode: string) {
