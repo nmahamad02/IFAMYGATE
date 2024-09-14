@@ -93,7 +93,8 @@
                                                                         <td>{{ i+1 }}</td>
                                                                         <td>{{ doc.docdesc }}</td>
                                                                     </tr>
-                                                                </table>                                                    </div>
+                                                                </table>                                                    
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -105,7 +106,7 @@
                                 <mat-row *matRowDef="let row; columns: columnMemberDefs;" class="student-element-row" [class.student-expanded-row]="row.isExpanded"></mat-row>
                                 <mat-row class="student-detail-row" *matRowDef="let row; columns: ['expandedDetail'];"> </mat-row>
                             </mat-table>
-                            <mat-paginator #paginator [pageSize]="50" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+                            <mat-paginator #paginator [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
                             </mat-paginator>
                         </div>
                     </mat-tab>
@@ -120,69 +121,71 @@
                         </div>
                         <hr>
                         <div class="col-12">
-                            <mat-table [dataSource]="docListDataSource" class="mat-table" matSort matSortDisableClear [multiTemplateDataRows]="true">
-                        
+                            <mat-table #table1 [dataSource]="docListDataSource" matTableExporter class="mat-table" matSort matSortDisableClear [multiTemplateDataRows]="true">
                                 <ng-container matColumnDef="memberno">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> CPR Number </mat-header-cell>
-                                    <mat-cell *matCellDef="let row"> {{ row.MEMBERNO }} </mat-cell>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> CPR NO </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{ row.REC_ID }} </mat-cell>
                                 </ng-container>
-                        
+    
                                 <ng-container matColumnDef="NAME">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">{{ row.NAME }}</mat-cell>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> NAME </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" > {{ row.NAME }} </mat-cell>
                                 </ng-container>
-
+    
                                 <ng-container matColumnDef="HOUSE">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> House </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">{{ row.HOUSE_FLAT_NO }}</mat-cell>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> HOUSE </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" > {{ row.HOUSE_FLAT_NO }} </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="DOCUMENTNAME">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Document Name </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">{{ row.DOCUMENTNAME }}</mat-cell>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> DOCUMENT NAME </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" > {{ row.DOCUMENTNAME }}</mat-cell>
                                 </ng-container>
-        
+                                
                                 <ng-container matColumnDef="TYPE">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Document Type </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">{{ row.DOCUMENTTYPE }}</mat-cell>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> TYPE </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" > {{ row.DOCUMENTTYPE }}</mat-cell>
                                 </ng-container>
-
+                  
                                 <ng-container matColumnDef="STATUS">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">{{ row.DOCUMENTSTATUS }}</mat-cell>
-                                </ng-container>
-        
-                                <ng-container matColumnDef="view">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> View </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">            
-                                        <button md-raised-button color="primary" class="btn-w-md ml-2 mat-button text-white" (click)="gotoDocumentDetails('/crm/document/details', row.CPRNo)">
-                                            <mat-icon>right_arrow</mat-icon> 
-                                        </button>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> {{ row.DOCUMENTSTATUS }} </mat-cell>
+                                </ng-container>                            
+    
+                                <ng-container matColumnDef="actions">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header> ACTIONS </mat-header-cell>
+                                    <mat-cell *matCellDef="let row"> 
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <button class="btn-primary btn btn-sm" title="View Document" (click)="goToLink(row.DOCUMENTNAME)">
+                                                    <mat-icon>arrow_right</mat-icon> 
+                                                </button>
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn-success btn btn-sm" title="Approve Document" (click)="validateDoc(row,'Valid')">
+                                                    <mat-icon>check</mat-icon> 
+                                                </button>     
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn-danger btn btn-sm" title="Discard Document" (click)="validateDoc(row,'Invalid')">
+                                                    <mat-icon>close</mat-icon> 
+                                                </button> 
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn-warning btn btn-sm" title="Discard Document">
+                                                    <mat-icon>
+                                                        notifications_active
+                                                    </mat-icon> 
+                                                </button> 
+                                            </div>
+                                        </div>
                                     </mat-cell>
                                 </ng-container>
-
-                                <ng-container matColumnDef="validate">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Validate </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">            
-                                        <button md-raised-button color="success" class="btn-w-md ml-2 mat-button text-white" (click)="gotoDocumentDetails('/crm/document/details', row.CPRNo)">
-                                            <mat-icon>tick</mat-icon> 
-                                        </button>
-                                    </mat-cell>
-                                </ng-container>
-
-                                <ng-container matColumnDef="invalidate">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header> Invalidate </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">            
-                                        <button md-raised-button color="danger" class="btn-w-md ml-2 mat-button text-white" (click)="gotoDocumentDetails('/crm/document/details', row.CPRNo)">
-                                            <mat-icon>cross</mat-icon> 
-                                        </button>
-                                    </mat-cell>
-                                </ng-container>
-                    
-                                <mat-header-row *matHeaderRowDef="columnDocDefs;sticky: true"></mat-header-row>
+                      
+                                <mat-header-row *matHeaderRowDef="columnDocDefs"></mat-header-row>
+                                <mat-row matRipple *matRowDef="let row; columns: columnDocDefs;"></mat-row>
                             </mat-table>
-                            <mat-paginator #paginator [pageSize]="50" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
-                            </mat-paginator>
+                            <mat-paginator #paginator [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
                         </div>
                     </mat-tab>
                 </mat-tab-group>
