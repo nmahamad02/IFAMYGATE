@@ -123,7 +123,7 @@ export class DocumentListComponent implements OnInit {
   }
 
   requestRegistration(document: any) {
-    this.authenticationService.sendUserLoginEmail(document.REC_ID, document.NAME, document.Email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
+    this.authenticationService.sendUserRequestRegisteration(document.REC_ID, document.NAME, document.Email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
       console.log('EMAIL SENT')
     }, (err: any) => {
       console.log(err)

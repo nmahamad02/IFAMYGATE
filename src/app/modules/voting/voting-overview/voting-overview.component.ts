@@ -15,6 +15,7 @@ import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsToolt
 })
 export class VotingOverviewComponent implements OnInit {
   votingList: any[] = []
+  memberList: any[] = []
 
   utc = new Date();
   mCurDate = this.formatDate(this.utc);
@@ -23,7 +24,7 @@ export class VotingOverviewComponent implements OnInit {
   uC = JSON.parse(localStorage.getItem('userid'));
 
   public pieChartLabels: Label[] = ['Members who voted', 'Members who did not vote'];
-  public pieChartData: ChartDataSets[]  = []
+  public pieChartData: any  = []
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartOptions: any = { legend: { display: true, labels: { fontColor: 'black' } } }
@@ -40,6 +41,7 @@ export class VotingOverviewComponent implements OnInit {
     this.votingService.getAGMRecord().subscribe((res: any) => {
       this.votingList = res.recordset
       for(let i=0; i<res.recordset.length; i++) {
+        this.votingList[i].chartDataReady = false
         var mRegMemb: number, mVotedMemb: number, mNotVoted: number;
         this.votingService.getRegistrationDetail(res.recordset[i].AGMCODE).subscribe((resp: any) => {
           console.log(resp.recordset.length)
@@ -51,13 +53,43 @@ export class VotingOverviewComponent implements OnInit {
             mNotVoted = this.votingList[i].REGISTEREDMEMBERS - mVotedMemb
             this.votingList[i].VOTEDMEMBERS = mVotedMemb
             this.votingList[i].NOTVOTEDMEMBERS = mNotVoted
-            var arr = [mVotedMemb, mNotVoted];
-            //this.pieChartData.push(arr)
-            console.log(this.pieChartData)
+            const data: SingleDataSet = [this.votingList[i].VOTEDMEMBERS,this.votingList[i].NOTVOTEDMEMBERS]
+            this.pieChartData.push(data)
+            this.votingList[i].chartDataReady = true
           })
         })    
       }
     })
+    monkeyPatchChartJsTooltip();
+    monkeyPatchChartJsLegend();
+    this.votingService.getNominationList().subscribe((res: any)=> {
+      this.memberList = res.recordset;
+      console.log(res.recordset)
+      for(let i=0; i<this.memberList.length; i++) {
+        var imgVal: string = this.memberList[i].imagename;
+        console.log(imgVal)
+        if ((this.memberList[i].imagename === null) || (this.memberList[i].imagename === "")) {
+          this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/imgNaN.png";
+        } else if (this.memberList[i].imagename != null) {
+          console.log(this.memberList[i].imagename);
+          if (imgVal.includes("fakepath")) {
+            var imgName: string = imgVal.slice(12);
+            console.log(imgName);
+            this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/" + imgName;
+          } else {
+            this.memberList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/" + imgVal;
+          }
+        }
+        this.crmservice.getLandlordWiseProperties(this.memberList[i].memberno).subscribe((resp: any) => {
+          var prop = []
+          for(let j=0;j<resp.recordset.length;j++) {
+            prop.push(resp.recordset[j].house_flat_no)
+          }
+          this.memberList[i].properties = prop
+        })
+      }
+    })
+    console.log(this.memberList)
   }
 
   public gotoVotingDetails(url, category, year, membno, membname, membtype) {

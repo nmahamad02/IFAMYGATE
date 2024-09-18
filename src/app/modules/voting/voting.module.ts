@@ -56,7 +56,8 @@ export const votingRoutes = [
 ];
 
 @NgModule({
-  declarations: [VotingOverviewComponent, VotingResultsComponent, VotingDetailsComponent, AttendanceComponent, VotingResultsDetailsComponent, VotingAnalysisComponent],
+  declarations: [VotingOverviewComponent, VotingResultsComponent, VotingDetailsComponent, AttendanceComponent, VotingResultsDetailsComponent, VotingAnalysisComponent
+  ],
   imports: [
     CommonModule,
     ChartsModule,

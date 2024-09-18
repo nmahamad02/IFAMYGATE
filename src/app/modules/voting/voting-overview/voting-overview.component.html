@@ -12,20 +12,46 @@
                             <mat-panel-title> 
                                 <h6>{{ m.AGMDATE | date: 'longDate' }}</h6> 
                             </mat-panel-title>
-                            <mat-panel-description>{{ m.AGMNAME }}</mat-panel-description>
+                            <mat-panel-description>{{ m.AGMNAME }} | ({{m.AGMSTATUS}})</mat-panel-description>
                         </mat-expansion-panel-header>
+                        <div class="col-12" *ngIf="m.AGMLOCATION=='ELECTION'">
+                            <h6>Nomination List</h6>  
+                            <hr>
+                            <div class="row">
+
+                                <div class="col-3" *ngFor="let row of memberList; let i = index">
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <p>{{ i+1 }} | {{ row.name }}</p>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <img [src]="row.imageSrc" *ngIf="row.imageSrc" style="width:100%;border-radius: 10%;float: centre;">
+                                                </div>
+                                                <div class="col-12">
+                                                    <p>CPR Number: {{ row.memberno }}</p>
+                                                    <!--<p>Mobile Number: {{ row.mobile }}</p>-->
+                                                    <!--<p>Villa/Plot Number: {{ row.properties }}</p>-->
+                                                    <p>Email ID: {{ row.email }}</p>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-6">                                
                                 <h6>Analytics</h6>  
                                 <hr>
-                                <div class="chart-wrapper" >
-                                    <canvas baseChart #baseChart [data]="pieChartData[i]" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins"></canvas>
+                                <div class="chart-wrapper" *ngIf="m.chartDataReady">
+                                    <canvas baseChart #baseChart [data]="pieChartData[i]" [labels]="pieChartLabels" [colors]="pieChartColors" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend"></canvas>
                                 </div>
                                 <div class="col-12">
                                     <table class="table table-striped table-hover">
                                         <tbody>
                                             <tr>
-                                                <th>Member Turnout</th>
+                                                <th>Member Registered</th>
                                                 <td>{{ m.REGISTEREDMEMBERS }}</td>
                                             </tr>
                                             <tr>
