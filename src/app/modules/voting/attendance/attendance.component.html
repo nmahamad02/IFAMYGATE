@@ -31,13 +31,14 @@
                                             <th></th>
                                             <th>Name</th>
                                             <th>CPR</th>
+                                            <th>Property</th>
                                             <th>Status</th>
                                             <th>Registered Date</th>
-                                            <th>Title Deed</th>
+                                            <!--<th>Title Deed</th>
                                             <th>CPR Copy</th>
-                                            <th>Balance Due</th>
+                                            <th>Balance Due</th>-->
                                             <th>Eligibility</th>
-                                            <th></th>
+                                            <!--<th></th>-->
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -46,17 +47,18 @@
                                             <td>{{ i+1 }}</td>
                                             <td>{{ n.cprno }}</td>
                                             <td>{{ n.name }}<p *ngIf="n.proxy !=='N'">Proxy of: {{ n.proxy }}</p></td>
+                                            <td>{{ n.properties }}</td>
                                             <td>{{ n.status }}</td>
-                                            <td>{{ n.registered | date:'longDate' }}</td>
-                                            <td>{{ n.titledeed }}</td>
+                                            <td>{{ n.registered | date:'mediumDate' }}</td>
+                                            <!--<td>{{ n.titledeed }}</td>
                                             <td>{{ n.cprdoc }}</td>
-                                            <td>BHD {{ n.balance }}</td>
+                                            <td>BHD {{ n.balance }}</td>-->
                                             <td>{{ n.position }}</td>
-                                            <td>
+                                            <!--<td>
                                                 <button class="btn-primary"  (click)="gotoPropertyDetails('/crm/property/details', n.cprno)">
                                                 View
                                                 </button>
-                                            </td>
+                                            </td>-->
                                             <td>
                                                 <button class="btn-danger" (click)="deregister(n.cprno,n.agmcode)">
                                                 X

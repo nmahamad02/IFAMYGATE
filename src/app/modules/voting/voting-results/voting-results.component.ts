@@ -22,11 +22,12 @@ export class VotingResultsComponent implements OnInit {
   getData() {
     this.votingService.getAllVoteTypes().subscribe((res: any) => {
       this.votingType = res.recordset
+      console.log(res)
     })
   }
 
-  public gotoVotingDetails(url, category, year) {
-    var myurl = `${url}/${category}/${year}`;
+  public gotoVotingDetails(url, code,category, year) {
+    var myurl = `${url}/${code}/${category}/${year}`;
     this.router.navigateByUrl(myurl).then(e => {
     });
   }

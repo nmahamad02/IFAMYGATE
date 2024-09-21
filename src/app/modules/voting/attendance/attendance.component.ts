@@ -32,39 +32,48 @@ export class AttendanceComponent implements OnInit {
         this.votingService.getRegistrationDetail(res.recordset[j].AGMCODE).subscribe((resp: any) => {
           console.log(resp)
           for(let k=0; k<resp.recordset.length; k++) {
-            if(resp.recordset[k].membtype === 'O') {
-              let A = {
-                agmcode: resp.recordset[k].agmcode,
-                cprno: resp.recordset[k].Memberno,
-                name: resp.recordset[k].name,
-                agmname: resp.recordset[k].agmname,
-                agmdate: resp.recordset[k].agmdate,
-                registered: resp.recordset[k].CREATEDDATE,  
-                status: resp.recordset[k].votingStatus,
-                position: resp.recordset[k].position,
-                proxy: 'N',
-                titledeed: 'Y',
-                cprdoc: 'Y',
-                balance: '0'
+            this.crmService.getLandlordWiseProperties(resp.recordset[k].Memberno).subscribe((respo: any) => {
+              var properties = ''
+              console.log(respo)
+              for(let l=0; l<respo.recordset.length;l++) {
+                properties = properties + '  ' + respo.recordset[l].house_flat_no
               }
-              record.push(A)
-            } else {
-              let B = {
-                agmcode: resp.recordset[k].agmcode,
-                cprno: resp.recordset[k].Memberno,
-                name: resp.recordset[k].name,
-                agmname: resp.recordset[k].agmname,
-                agmdate: resp.recordset[k].agmdate,
-                registered: resp.recordset[k].CREATEDDATE,  
-                status: resp.recordset[k].votingStatus,
-                position: resp.recordset[k].position,
-                proxy: resp.recordset[k].proxy_OF,
-                titledeed: 'Y',
-                cprdoc: 'Y',
-                balance: '0'
+              if(resp.recordset[k].membtype === 'O') {
+                let A = {
+                  agmcode: resp.recordset[k].agmcode,
+                  cprno: resp.recordset[k].Memberno,
+                  name: resp.recordset[k].name,
+                  agmname: resp.recordset[k].agmname,
+                  agmdate: resp.recordset[k].agmdate,
+                  registered: resp.recordset[k].CREATEDDATE,  
+                  status: resp.recordset[k].votingStatus,
+                  position: resp.recordset[k].position,
+                  properties: properties,
+                  proxy: 'N',
+                  titledeed: 'Y',
+                  cprdoc: 'Y',
+                  balance: '0'
+                }
+                record.push(A)
+              } else {
+                let B = {
+                  agmcode: resp.recordset[k].agmcode,
+                  cprno: resp.recordset[k].Memberno,
+                  name: resp.recordset[k].name,
+                  agmname: resp.recordset[k].agmname,
+                  agmdate: resp.recordset[k].agmdate,
+                  registered: resp.recordset[k].CREATEDDATE,  
+                  status: resp.recordset[k].votingStatus,
+                  position: resp.recordset[k].position,
+                  proxy: resp.recordset[k].proxy_OF,
+                  properties: 'Proxy',
+                  titledeed: 'Y',
+                  cprdoc: 'Y',
+                  balance: '0'
+                }
+                record.push(B)
               }
-              record.push(B)
-            }
+            })
           }
         })
         //break;

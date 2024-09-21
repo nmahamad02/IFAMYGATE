@@ -6,7 +6,7 @@
                     <h2 class="heading-title">AGM Results - {{ mCat }} {{ mYear }}</h2>
                 </div>
                 <div class="col-2">
-                    <button mat-raised-button class="bg-warning text-white btn btn-block" [routerLink]="['/voting/results']" style="float: right;">
+                    <button mat-raised-button class="bg-warning text-white btn btn-block" [routerLink]="['/voting/overview']" style="float: right;">
                         <mat-icon>arrow_back</mat-icon>
                     </button>
                 </div>
@@ -44,12 +44,12 @@
                             <td>
                                 {{ (ques.voTedYES/(ques.voTedYES+ques.votedNO))*100 | number : '1.2-2'}}%
                                 <br>
-                                ({{ ques.voTedYES | number : '1.2-2'}})
+                                <!--({{ ques.voTedYES | number : '1.2-2'}})-->
                             </td>
                             <td>
                                 {{ (ques.votedNO/(ques.voTedYES+ques.votedNO))*100 | number : '1.2-2'}}%
                                 <br>
-                                ({{ ques.votedNO | number : '1.2-2'}})
+                                <!--({{ ques.votedNO | number : '1.2-2'}})-->
                             </td>
                             <td>
                                 <canvas baseChart #baseChart [data]="pieChartData[i]" [labels]="pieChartLabels" [colors]="pieChartColors" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend"></canvas>

@@ -10,6 +10,7 @@ import { VotingService } from 'src/app/services/voting/voting.service';
   styleUrls: ['./voting-details.component.scss']
 })
 export class VotingDetailsComponent implements OnInit {
+  mAgmCode = this.route.snapshot.params.agmcode
   mCat = this.route.snapshot.params.category
   mYear = this.route.snapshot.params.year
   mMode = ""
@@ -21,6 +22,7 @@ export class VotingDetailsComponent implements OnInit {
   uC = JSON.parse(localStorage.getItem('userid'));
 
   constructor(private route: ActivatedRoute, private VotingService: VotingService,  private router: Router, private datasharingservice: DataSharingService) { 
+   console.log(this.mAgmCode)
     this.VotingForm = new FormGroup({ 
       votes: new FormArray([]),
     });
@@ -92,7 +94,7 @@ export class VotingDetailsComponent implements OnInit {
     console.log(data)
     if(this.mMode === "I") {
       for(let i=0; i<data.votes.length; i++) {
-       this.VotingService.submitVote(this.mYear,this.mMembData.membno,this.mCat,data.votes[i].vSlNo,this.voteQuestions[i].BLITEM,data.votes[i].vEngDesc,data.votes[i].vAraDesc,data.votes[i].vDecision,this.uC,this.mMembData.membtype).subscribe((res: any) => {
+       this.VotingService.submitVote(this.mYear,this.mMembData.membno,this.mCat,data.votes[i].vSlNo,this.voteQuestions[i].BLITEM,data.votes[i].vEngDesc,data.votes[i].vAraDesc,data.votes[i].vDecision,this.uC,this.mMembData.membtype,this.mAgmCode).subscribe((res: any) => {
           console.log(res)
           this.gotoVotingOverview();
         }, (err: any) => {
@@ -101,7 +103,7 @@ export class VotingDetailsComponent implements OnInit {
       }
     } else if (this.mMode === "U") {
       for(let i=0; i<data.votes.length; i++) {
-        this.VotingService.updateVote(this.mYear,this.mMembData.membno,this.mCat,data.votes[i].vSlNo,data.votes[i].vDecision).subscribe((res: any) => {
+        this.VotingService.updateVote(this.mYear,this.mMembData.membno,this.mCat,data.votes[i].vSlNo,data.votes[i].vDecision,this.mAgmCode).subscribe((res: any) => {
           console.log(res)
           this.gotoVotingOverview();
         }, (err: any) => {
@@ -109,6 +111,7 @@ export class VotingDetailsComponent implements OnInit {
         })
       }
     }
+    alert(`Thank you for casting your vote!`)
   }
 
   get f(){

@@ -14,32 +14,6 @@
                             </mat-panel-title>
                             <mat-panel-description>{{ m.AGMNAME }} | ({{m.AGMSTATUS}})</mat-panel-description>
                         </mat-expansion-panel-header>
-                        <div class="col-12" *ngIf="m.AGMLOCATION=='ELECTION'">
-                            <h6>Nomination List</h6>  
-                            <hr>
-                            <div class="row">
-
-                                <div class="col-3" *ngFor="let row of memberList; let i = index">
-                                    <mat-card>
-                                        <mat-card-content>
-                                            <p>{{ i+1 }} | {{ row.name }}</p>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <img [src]="row.imageSrc" *ngIf="row.imageSrc" style="width:100%;border-radius: 10%;float: centre;">
-                                                </div>
-                                                <div class="col-12">
-                                                    <p>CPR Number: {{ row.memberno }}</p>
-                                                    <!--<p>Mobile Number: {{ row.mobile }}</p>-->
-                                                    <!--<p>Villa/Plot Number: {{ row.properties }}</p>-->
-                                                    <p>Email ID: {{ row.email }}</p>
-                                                </div>
-                                            </div>
-                                        </mat-card-content>
-                                    </mat-card>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-6">                                
                                 <h6>Analytics</h6>  
@@ -68,11 +42,51 @@
                             </div>
                             <div class="col-6">
                                 <h6>Categories</h6>     
-                                <hr>                           
+                                <hr> 
+                                <div class="row">
+                                    <div class="col-12" *ngFor="let cat of m.categories; let i = index" (click)="gotoVotingDetails(m.AGMCODE,m.AGMSTATUS,cat.BLCATEGORY,m.AGMYEAR)">
+                                        <mat-card>
+                                            <mat-card-content>
+                                                <h5>
+                                                    {{ i+1 }} | {{ cat.BLCATEGORY }}
+                                                </h5>
+                                                <h6 style="color: red;" *ngIf="m.AGMSTATUS=='Upcoming'">Click on the card to cast your vote.</h6>
+                                                <h6 style="color: red;" *ngIf="m.AGMSTATUS=='Closed'">Click on the card to view results for this vote.</h6>
+                                            </mat-card-content>
+                                        </mat-card>
+                                        <br>
+                                    </div>
+                                </div>                          
+                            </div>
+                        </div>
+                        <div class="col-12" *ngIf="m.AGMLOCATION=='ELECTION'">
+                            <h6>Candidate List</h6>  
+                            <hr>
+                            <div class="row">
+                                <div class="col-3" *ngFor="let row of memberList; let i = index">
+                                    <mat-card>
+                                        <mat-card-content>
+                                            <p>{{ i+1 }} | {{ row.name }}</p>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <img [src]="row.imageSrc" *ngIf="row.imageSrc" style="width:100%;border-radius: 10%;float: centre;">
+                                                </div>
+                                                <div class="col-12">
+                                                    <p>CPR Number: {{ row.memberno }}</p>
+                                                    <!--<p>Mobile Number: {{ row.mobile }}</p>-->
+                                                    <!--<p>Villa/Plot Number: {{ row.properties }}</p>-->
+                                                    <p>Email ID: {{ row.email }}</p>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </mat-card>
+                                    <br>
+                                </div>
                             </div>
                         </div>
                     </mat-expansion-panel>
                 </mat-accordion>
+                <br>
             </div>
         </div>
     </div>    

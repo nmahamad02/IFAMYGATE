@@ -6,7 +6,7 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-lg-4 col-sm-12" *ngFor="let vT of votingType; let i = index" (click)="gotoVotingDetails('/voting/results/details',vT.BLCATEGORY,vT.YEAR)">
+                <div class="col-lg-4 col-sm-12" *ngFor="let vT of votingType; let i = index" (click)="gotoVotingDetails('/voting/results/details',vT.AGMCODE, vT.BLCATEGORY,vT.YEAR)">
                     <mat-card>
                         <mat-card-content>
                             <h4>

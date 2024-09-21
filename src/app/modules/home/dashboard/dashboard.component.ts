@@ -254,6 +254,7 @@ export class DashboardComponent implements OnInit {
         this.mesTxtColour = '#2f5c2f';
         this.mexBorColour = '1px solid #2f5c2f';
         this.registerLink = true;
+        break;
       } else if ((propData.properties[i].pCPRStatus === 'In Process') || (propData.properties[i].pTitleDeedStatus === 'In Process')) {
         this.messageString = 'Kindly wait for your documents to be verified to register for the AGM';
         this.mesBgdColour = '#fae891';
@@ -267,18 +268,21 @@ export class DashboardComponent implements OnInit {
         this.mesTxtColour = '#fc0303';
         this.mexBorColour = '1px solid #fc0303';
         this.resubmitLink = true;
+        break;
       } else if ((propData.properties[i].pCPRStatus === 'Invalid') || (propData.properties[i].pCPRStatus === 'Invalid')) {
         this.messageString = 'Your documents are invalid, kindly resubmit all necessary documents to be able to register';
         this.mesBgdColour = '#fa9191';
         this.mesTxtColour = '#fc0303';
         this.mexBorColour = '1px solid #fc0303';
         this.resubmitLink = true;
+        break;
       } else {
         this.messageString = 'Kindly submit all necessary documents to be able to register for the AGM';
         this.mesBgdColour = '#fa9191';
         this.mesTxtColour = '#fc0303';
         this.mexBorColour = '1px solid #fc0303';
         this.resubmitLink = true;
+        break;
       }
     }
   }

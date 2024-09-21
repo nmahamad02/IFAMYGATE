@@ -42,7 +42,7 @@ export const votingRoutes = [
     component: VotingOverviewComponent
   },  
   {
-    path: 'details/:category/:year',
+    path: 'details/:agmcode/:category/:year',
     component: VotingDetailsComponent
   },
   {
@@ -50,7 +50,7 @@ export const votingRoutes = [
     component: VotingResultsComponent
   },
   {
-    path: 'results/details/:category/:year',
+    path: 'results/details/:agmcode/:category/:year',
     component: VotingResultsDetailsComponent 
   },
 ];

@@ -11,6 +11,10 @@ export class VotingService {
 
   getAllVoteTypes() {
     return this.http.get(this.url + '/voting/types')
+  }    
+  
+  getVoteCategories(agmcode: string) {
+    return this.http.get(this.url + '/voting/categories/' + agmcode)
   }  
   
   getActiveVoteTypes() {
@@ -57,7 +61,7 @@ export class VotingService {
     return this.http.get(this.url + '/voting/member/count/' + membno + '/' + category + '/' + year)
   }  
 
-  submitVote(year: string, memberno: string, category: string, no: string, item: string, engDesc: string, araDesc: string, voted: string, votedby: string, membertype: string) {
+  submitVote(year: string, memberno: string, category: string, no: string, item: string, engDesc: string, araDesc: string, voted: string, votedby: string, membertype: string,agmcode: string) {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
   
       const newTran = {
@@ -70,12 +74,13 @@ export class VotingService {
         araDesc: araDesc,
         voted: voted,
         votedby: votedby,
-        membertype: membertype
+        membertype: membertype,
+        agmcode: agmcode
       }
       return this.http.post(this.url + '/vote/submit', JSON.stringify(newTran), { headers: headers })
     }
 
-  updateVote(year: string, memberno: string, category: string, no: string, voted: string) {
+  updateVote(year: string, memberno: string, category: string, no: string, voted: string,agmcode: string) {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
   
       const newTran = {
@@ -83,7 +88,8 @@ export class VotingService {
         memberno: memberno, 
         category: category,
         no: no,
-        voted: voted
+        voted: voted,
+        agmcode: agmcode
       }
       return this.http.post(this.url + '/vote/update', JSON.stringify(newTran), { headers: headers })
     }

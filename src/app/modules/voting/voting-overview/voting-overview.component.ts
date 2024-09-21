@@ -58,6 +58,10 @@ export class VotingOverviewComponent implements OnInit {
             this.votingList[i].chartDataReady = true
           })
         })    
+        this.votingService.getVoteCategories(res.recordset[i].AGMCODE).subscribe((resp: any) => {
+          this.votingList[i].categories = resp.recordset
+          console.log(this.votingList[i].categories)
+        })
       }
     })
     monkeyPatchChartJsTooltip();
@@ -92,16 +96,45 @@ export class VotingOverviewComponent implements OnInit {
     console.log(this.memberList)
   }
 
-  public gotoVotingDetails(url, category, year, membno, membname, membtype) {
-    var myurl = `${url}/${category}/${year}`;
-    this.router.navigateByUrl(myurl).then(e => {
-    });
-    const membData = {
-      membno: membno,
-      membname: membname,
-      membtype: membtype
+  public gotoVotingDetails(agmcode, status, category, year) {
+    if(status === 'Closed') {
+      var myurl = `/voting/results/details/${agmcode}/${category}/${year}`;
+      this.router.navigateByUrl(myurl).then(e => {
+      });
+    } else if(status === 'Open') {
+      this.votingService.checkMemberRegistration(agmcode,this.uC).subscribe((res:any) => {
+        console.log(res)
+        if(res.recordset.length === 0) {
+          alert('You are not registered to vote! Kindly register yourself from the home page.')
+        } else {
+          if(res.recordset[0].MEMBTYPE ==='O') {
+            const membData = {
+              membno: res.recordset[0].MemberNo,
+              membname: res.recordset[0].NAME,
+              membtype: res.recordset[0].MEMBTYPE,
+            }
+            this.dataSharingService.setData(membData)
+            var myurl = `/voting/details/${agmcode}/${category}/${year}`;
+            this.router.navigateByUrl(myurl).then(e => {});
+          } else if(res.recordset[0].MEMBTYPE ==='P') {
+            this.votingService.checkMemberRegistration(agmcode,res.recordset[0].PRIMARYMEMBER).subscribe((resp:any) => {
+              const membData = {
+                membno: resp.recordset[0].MemberNo,
+                membname: resp.recordset[0].NAME,
+                membtype: res.recordset[0].MEMBTYPE,
+              }
+              this.dataSharingService.setData(membData)
+              var myurl = `/voting/details/${agmcode}/${category}/${year}`;
+              this.router.navigateByUrl(myurl).then(e => {});
+            })
+          }
+        }
+      }, (err: any) => {
+        alert('You are not registered to vote! Kindly register yourself from the home page.')
+      })
+    } else {
+      alert('The voting portal will soon be opened to allow you to cast your vote. We appreciate your patience.')
     }
-    this.dataSharingService.setData(membData)
   }
 
 
