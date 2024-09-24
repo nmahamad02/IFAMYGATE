@@ -1,6 +1,13 @@
 <div class="row no-gutters signup-page container-fluid">
     <div class="col-12 form-section">
-        <h1 class="page-title">Portal Registeration</h1>
+        <div class="row">
+            <div class="col-10">        
+                <h1 class="page-title">Portal Registration</h1>
+            </div>
+            <div class="col-2">
+                <h6 (click)="openInfo()">Need Help? &#x24D8;</h6>                
+            </div>
+        </div>
         <span class="page-subtitle">
             Welcome to the Floating City Amwaj Owners Association Portal! Please follow the steps and enter all your details and information about the properties that you own in Floating City Amwaj. If you have already registered yourself to gain access to the portal, <a class="link-text" [routerLink]="['/authentication/signin']">click here to return to Sign in.</a>
         </span>
@@ -10,8 +17,8 @@
                 <mat-card-content>
                     <form class="form-container" [formGroup]="detailForm">
                         <div class="col-12" *ngIf="showMemberDetails">
-                            <h6>&#9312; Let's start by entering your details.</h6>
-                            <h6>The following pages will allow you to add, review and edit property details. If you would like to skip that step for now, please press the skip button below.</h6>
+                            <h6>&#9312; Let's start by entering your details. Do keep in mind that these are your personal details and nobody apart from you are authorised to change these details, and any access to your records will be notified to you by email. Kindly ensure that you enter your Goverment ID number (CPR), mobile number and valid email address since these are important in collecting your records and keeping you updated.</h6>
+                            <!--<h6>The following pages will allow you to add, review and edit property details. If you would like to skip that step for now, please press the skip button below.</h6>--->
                             <hr>
                             <div class="row">
                                 <div class="col-9">
@@ -103,10 +110,10 @@
                         <div class="col-12" *ngIf="showPropertyDetails">
                             <div class="row">
                                 <div class="col-10">
-                                    <h6>&#9313; Then let's enter the details of your properties at Floating City Amwaj</h6>
+                                    <h6>&#9313; Now, this page will allow you to add, review and edit property details. Please make sure to enter all the details of your properties at Floating City Amwaj. This will be important in setting the voting entitlement of your properties as we tally the votes at elections and AGMs.</h6>
                                 </div>
                                 <div class="col-2">
-                                    <button class="btn btn-success" style="float: right;" (click)="addProperty()">&#43;</button>
+                                    <button class="btn btn-success" style="float: right;" (click)="addProperty()">&#43; Add Property</button>
                                 </div>
                             </div>
                             <hr>
@@ -184,7 +191,7 @@
                                                     <div class="col-9">
                                                     </div>
                                                     <div class="col">
-                                                        <button class="btn btn-danger" (click)="deleteProperty(i)">&#10005;</button>
+                                                        <button class="btn btn-danger" (click)="deleteProperty(i)">&#10005; Remove Property</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,15 +202,15 @@
                             </ng-container>
                         </div>
                         <div class="col-12" *ngIf="showPropertyDocuments">
-                            <h6>&#9314; You will need to upload your documents such as your CPR, the title deed of your property, and EWA receipt.</h6>
-                            <h6>(PLEASE NOTE: Acceptable file types are: PDF. Please ensure that the document is legible before you upload it. Images cannot be uploaded here.)</h6>
+                            <h6>&#9314; Here, you will need to upload your documents such as your CPR, the title deed of your property, and EWA receipt. Please make sure you set the type of document that you are uploading, so that it will be easier to record all the documents that you have sent to us. These documents will be verified by the Property Management Company, and its status will be changed from <i>"In Process"</i> to <i>"Valid"</i> or <i>"Invalid"</i> as per the decision of the team at the processing of the document.</h6>
+                            <h6>(PLEASE NOTE: Acceptable file types are: PDF. Please ensure that the document is legible before uploading it. Images cannot be uploaded here.)</h6>
                             <hr>
                             <ng-container formArrayName="properties">
                                 <mat-card *ngFor="let prop of properties.controls; let i = index;" [formGroupName]="i" >
                                     <mat-card-content>
                                         <div class="row">
                                             <div class="col-6">
-                                                <h6>Entering Details for Property Number: </h6>
+                                                <h6>Entering Documents for Property Number: </h6>
                                             </div>
                                             <div class="col-6">
                                                 <mat-form-field class="full-width"> 
@@ -219,12 +226,13 @@
                                                         <mat-card-content>
                                                             <div class="col-12">
                                                                 <mat-form-field class="full-width"> 
-                                                                    <mat-label>Name</mat-label>
+                                                                    <mat-label>Document Name</mat-label>
                                                                     <input type="text" formControlName="pDocumentSource" accept="application/pdf" matInput>
                                                                 </mat-form-field>                                                       
                                                             </div>
                                                             <div class="col-12">
                                                                 <mat-form-field class="full-width"> 
+                                                                    <mat-label>Document Type</mat-label>
                                                                     <mat-select formControlName="pDocumentType">
                                                                         <mat-option> ----- </mat-option>
                                                                         <mat-option value="CPR">CPR</mat-option>
@@ -246,27 +254,35 @@
                                                                  <pdf-viewer [src]="documents(i).at(j).value.pDocumentUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-6">
+                                                                <div class="col-9">
                                                                     <input id="pDocumentSource" type="file" class="form-control" (change)="onFileChange($event,i)">
                                                                 </div>
                                                                 <div class="col-3">
                                                                     <button class="btn-danger btn text-white btn-block" title="Cancel this document" (click)="deleteDocument(j,i)">
-                                                                        <mat-icon>delete</mat-icon> 
+                                                                        <mat-icon>delete</mat-icon>
                                                                     </button>
                                                                 </div>
-                                                                <div class="col-3">
+                                                               <!--- <div class="col-3">
                                                                     <button class="btn-success btn text-white btn-block" title="View document" (click)="goToLink(documents(i).at(j).value.pDocumentUrl)">
-                                                                        <mat-icon>arrow_right</mat-icon> 
+                                                                        <mat-icon>arrow_right</mat-icon> View Document
                                                                     </button>
-                                                                </div>
+                                                                </div> -->
                                                             </div>
                                                         </mat-card-content>
                                                     </mat-card>
+                                                    <br>
                                                 </div>
-                                                <div class="col-1">
-                                                    <mat-card>
+                                                <div class="col-3">
+                                                    <mat-card style="background-color: gold;" (click)="addDocument(i)">
                                                         <mat-card-content>
-                                                            <h1 class="heading-title" (click)="addDocument(i)">&#43;</h1>
+                                                            <div class="row">
+                                                                <div class="col-3">
+                                                                    <h1 class="heading-title">&#43;</h1>
+                                                                </div>
+                                                                <div class="col-9">
+                                                                    <h5 class="heading-title">Upload Document</h5>
+                                                                </div>
+                                                            </div>
                                                         </mat-card-content>
                                                     </mat-card>
                                                 </div>
@@ -312,9 +328,9 @@
                         </div>
                     </form>
                     <hr>
-                    <button class="btn btn-secondary" (click)="changePage(3)" *ngIf="showMemberDetails">Skip Property Details</button>
+                    <button class="btn btn-secondary" (click)="checkData(3)" *ngIf="showMemberDetails">Skip Property Details</button>
                     <button class="btn btn-light" (click)="changePage(-1)" *ngIf="!showMemberDetails">Previous</button>
-                    <button class="btn btn-primary" style="float: right;" (click)="changePage(1)" *ngIf="!showLoginDetails">Next</button>
+                    <button class="btn btn-primary" style="float: right;" (click)="checkData(1)" *ngIf="!showLoginDetails">Next</button>
                     <button class="btn btn-success" style="float: right;" (click)="submitForm()" *ngIf="showLoginDetails">Submit</button>
                     <br>
                 </mat-card-content>
@@ -323,3 +339,32 @@
     </div>
 </div>
 
+
+<div class="col-12">
+    <ng-template #infoLookupDialog >
+        <h3 matDialogTitle>
+            <div class="row">
+                <div class="col-9">
+                    <b>How to sign up onto the Floating City Web Portal?</b>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-danger btn-block" (click)="closeInfo()">&#10005; Close Guide</button>
+                </div>
+            </div>
+        </h3>
+        <hr>
+        <mat-dialog-content> 
+            <ul>
+                <!--<img src="./../../../../assets/steps/signup-0.png" style="width: 100%;">-->
+                <li><u>Step 1:</u><br>Please enter all of your details. If your details are available in our system from past AGMs, upon entering your government ID number (Passport or CPR), your details will automatically be populated below. Use this time to verify or update your details as you see fit.</li><br>
+                <img src="./../../../../assets/steps/signup-1.png" style="width: 100%;"><br>
+                <li><u>Step 2:</u><br>Press "Next" to take you to the properties page, which will allow you to add, review and edit property details.</li><br>
+                <img src="./../../../../assets/steps/signup-2.png" style="width: 100%;"><br>
+                <li><u>Step 3:</u><br>As you click next, make sure to enter your documents pertaining to each individual property. These include the title deed of your property, and if applicable, the receipt of EWA payment as proof of electricity and water connectivity. Please make sure that you upload only PDF documents here, images and outher documents types will not be supported. These will be later verified by the administrator and will determine your access to the features in the portal.</li><br>
+                <img src="./../../../../assets/steps/signup-3.png" style="width: 100%;"><br>
+                <li><u>Step 4:</u><br>Finally, kindly enter your password and click on the submit button. A registration mail will soon follow and you will gain accesss to the Portal.</li><br>
+                <img src="./../../../../assets/steps/signup-4.png" style="width: 100%;"><br>
+            </ul>
+        </mat-dialog-content>
+    </ng-template>
+</div>

@@ -16,6 +16,7 @@ export class AccountComponent implements OnInit {
   @ViewChild('propLookupDialog', { static: false }) propLookupDialog!: TemplateRef<any>;
   @ViewChild('memberLookupDialog', { static: false }) memberLookupDialog!: TemplateRef<any>;
   @ViewChild('propEditLookupDialog', { static: false }) propEditLookupDialog!: TemplateRef<any>;
+  @ViewChild('infoLookupDialog', { static: false }) infoLookupDialog!: TemplateRef<any>;
 
   propertyForm: FormGroup;
   memberForm: FormGroup;
@@ -36,6 +37,7 @@ export class AccountComponent implements OnInit {
 
   utc = new Date();
   mCurDate = this.formatDate(this.utc);
+  mCurTime = this.formatTime(this.utc);
   mCYear = new Date().getFullYear();
 
   uC = JSON.parse(localStorage.getItem('userid'));
@@ -152,6 +154,7 @@ export class AccountComponent implements OnInit {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
+                    pDocumentType: new FormControl(docArr[j].DOCUMENTTYPE, []),
                     pDocumentUrl: new FormControl(docUrl, []),
                   });
                   this.proxyDocuments(i).push(document)
@@ -218,6 +221,7 @@ export class AccountComponent implements OnInit {
                   const docUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/documents/" + docArr[j].DOCUMENTNAME
                   const document = new FormGroup({
                     pDocumentSource: new FormControl(docArr[j].DOCUMENTNAME, []),
+                    pDocumentType: new FormControl(docArr[j].DOCUMENTTYPE, []),
                     pDocumentUrl: new FormControl(docUrl, [])
                   });
                   if((docArr[j].DOCUMENTSTATUS === null) && (docArr[j].DOCUMENTTYPE === 'CPR')) {
@@ -317,11 +321,13 @@ export class AccountComponent implements OnInit {
       this.uploadImage();
       let dialogRef = this.dialog.closeAll()
       //Email submit
-      this.authenticationService.sendUserUpdateDetailsLogin(data.cprno, data.name, data.password, data.email, this.mCurDate).subscribe((res: any) => {
+      this.authenticationService.sendUserUpdateDetailsLogin(this.uC, data.name, data.email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
         console.log('EMAIL SENT')
       }, (err: any) => {
         console.log(err)
       })
+      alert('Your details have been successfully updated!')
+      this.getDetails(this.uC);
     }, rreror => {
       console.log(rreror);
     })
@@ -392,15 +398,32 @@ export class AccountComponent implements OnInit {
       }, (err: any) => {
         console.log(err)
       })
+      //Email submit
+      this.authenticationService.sendUserUpdateDetailsLogin(this.uC, mData.name, mData.email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
+        console.log('EMAIL SENT')
+        location.reload()
+      }, (err: any) => {
+        console.log(err)
+      })
+      alert('Your property details have been successfully inserted!')
       let dialogRef = this.dialog.closeAll()
     } else {
       this.crmservice.updateProperty(data.pHFNo,mData.cprno,data.pRooms,data.pBathrooms,data.pCarParkSlots,data.pTotalArea, data.pParcelNo, data.pPlotNo,data.pPlotArea,data.pBuiltUpArea).subscribe((response: any) => {
         console.log(response);
         let dialogRef = this.dialog.closeAll()
+        //Email submit
+      this.authenticationService.sendUserUpdateDetailsLogin(this.uC, mData.name, mData.email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
+        console.log('EMAIL SENT')
+        location.reload()
+      }, (err: any) => {
+        console.log(err)
+      })
+      alert('Your property details have been successfully updated!')
       }, rreror => {
         console.log(rreror);
       })
     }
+
   }
 
   onFileChange(event: any, propIndex: number) {
@@ -466,19 +489,25 @@ export class AccountComponent implements OnInit {
     console.log(this.properties.at(propIndex))
     for(let j=0; j<this.newDocuments(propIndex).length; j++) {
       console.log(this.newDocuments(propIndex))
-      this.uploadService.uploadDoc(this.newDocuments(propIndex).at(j).value.pDocument)
-      this.crmservice.addNewDocument(data.cprno,this.properties.at(propIndex).value.pHFNo,this.newDocuments(propIndex).at(j).value.pDocumentSource,this.newDocuments(propIndex).at(j).value.pDocumentType).subscribe((res: any) => {
-        console.log(res)
-      }, (err: any) => {
-        console.log(err)
-      })
+      if(this.newDocuments(propIndex).at(j).value.pDocumentType === '') {
+        alert('Please enter the type for the document you have uploaded for this property.')
+        break;
+      } else {
+        this.uploadService.uploadDoc(this.newDocuments(propIndex).at(j).value.pDocument)
+        this.crmservice.addNewDocument(data.cprno,this.properties.at(propIndex).value.pHFNo,this.newDocuments(propIndex).at(j).value.pDocumentSource,this.newDocuments(propIndex).at(j).value.pDocumentType).subscribe((res: any) => {
+          console.log(res)
+        }, (err: any) => {
+          console.log(err)
+        })
+        this.authenticationService.userUploadDocument(data.cprno, data.name, data.email, this.mCurDate).subscribe((res: any) => {
+          console.log('EMAIL SENT')
+          location.reload()
+        }, (err: any) => {
+          console.log(err)
+        })
+        this.getDetails(data.cprno)
+      } 
     }
-    this.authenticationService.userUploadDocument(data.cprno, data.name, data.email, this.mCurDate).subscribe((res: any) => {
-      console.log('EMAIL SENT')
-    }, (err: any) => {
-      console.log(err)
-    })
-    this.getDetails(data.cprno)
   }
 
   formatDate(date: any) {
@@ -491,6 +520,21 @@ export class AccountComponent implements OnInit {
       month = '0' + month;
     }
     return [day, month, year].join('-');
+  }
+
+  formatTime(date: any) {
+    var d = new Date(date), hour = '' + d.getHours(), minute = '' + d.getMinutes(), second = '' + d.getSeconds();
+
+    if (hour.length < 2) {
+      hour = '0' + hour;
+    } 
+    if (minute.length < 2) {
+      minute = '0' + minute;
+    }
+    if (second.length < 2) {
+      second = '0' + second;
+    }
+    return [hour, minute, second].join(':');
   }
 
   get f(){
@@ -521,5 +565,12 @@ export class AccountComponent implements OnInit {
     window.open(url, "_blank");
   }
 
+  openInfo() {
+    let dialogRef = this.dialog.open(this.infoLookupDialog);
+  }
+
+  closeInfo() {
+    let dialogRef = this.dialog.closeAll()
+  }
 
 }

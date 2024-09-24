@@ -9,6 +9,7 @@ import { SignupComponent } from './signup/signup.component';
 import { MatCardModule } from '@angular/material/card'
 import { MatDividerModule } from '@angular/material/divider'
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export const authenticationRoutes = [
   {
@@ -41,6 +42,7 @@ export const authenticationRoutes = [
     SharedModule,
     FormsModule,
     MatCardModule,
+    MatDialogModule,
     MatDividerModule,
     PdfViewerModule,
     ReactiveFormsModule,

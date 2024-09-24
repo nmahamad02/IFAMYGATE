@@ -1,11 +1,12 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CrmService } from 'src/app/services/crm/crm.service';
 import { UploadService } from 'src/app/services/upload/upload.service';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-signup',
@@ -13,6 +14,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+
+  @ViewChild('infoLookupDialog', { static: false }) infoLookupDialog!: TemplateRef<any>;
+
   showMemberDetails = true
   showPropertyDetails = false
   showPropertyDocuments = false
@@ -32,7 +36,7 @@ export class SignupComponent implements OnInit {
   mCurDate = this.formatDate(this.utc);
   mCYear = new Date().getFullYear();
 
-  constructor(private crmService: CrmService, private snackBar: MatSnackBar,  private uploadService: UploadService, private authenticationService: AuthenticationService, private router: Router) { 
+  constructor(private crmService: CrmService, private snackBar: MatSnackBar,  private uploadService: UploadService, private authenticationService: AuthenticationService, private router: Router,private dialog: MatDialog) { 
     this.detailForm = new FormGroup({ 
       cprno: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
@@ -52,6 +56,15 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+
+  openInfo() {
+    let dialogRef = this.dialog.open(this.infoLookupDialog);
+  }
+
+  closeInfo() {
+    let dialogRef = this.dialog.closeAll()
   }
 
   onImageChange(event: any) {
@@ -116,6 +129,45 @@ export class SignupComponent implements OnInit {
       } else {
         console.log(this.documents(propIndex).at(i).value.pDocument)
       }
+    }
+  }
+
+  checkData(no: number){
+    let data = this.detailForm.value
+    console.log(data)
+    if(this.pageNumber === 0){
+      if(data.cprno === '') {
+        alert('Please enter your CPR Number. It is necessary to identify you and your properties.')
+      } else if (data.email === '') {
+        alert('Please enter your email address. It is necessary to keep you updated.')
+      } else if ((data.cprno != '')&&(data.email != '')){
+        this.changePage(no)
+      }
+    } else if(this.pageNumber === 1) {
+      for(let i=0; i<data.properties.length;i++){
+        if(data.properties[i].pHFNo === '') {
+          alert('Please enter your house number.')
+          break;
+        } else if(data.properties[i].pParcelNo === '') {
+          alert('Please enter your title deed number.')
+          break;
+        } else {
+          this.changePage(no)
+        }
+      }
+    } else if(this.pageNumber === 2) {
+      for(let i=0; i<data.properties.length;i++){
+        for(let j=0; j<data.properties[i].pDocuments.length;i++){
+          if(data.properties[i].pDocuments[j].pDocumentType === '') {
+            alert('Please enter the type for the document you have uploaded for this property.')
+            break; 
+          } else {
+            this.changePage(no)
+          }
+        }
+      }
+    } else if(this.pageNumber === 3) {
+      this.changePage(no)
     }
   }
 
@@ -443,7 +495,6 @@ export class SignupComponent implements OnInit {
   }
 
 }
-
 
 /*
 

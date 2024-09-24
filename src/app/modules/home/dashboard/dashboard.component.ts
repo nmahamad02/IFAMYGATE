@@ -18,6 +18,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild("baseChart", {static: false}) chart: BaseChartDirective;
   @ViewChild('AGMLookupDialog', { static: false }) AGMLookupDialog!: TemplateRef<any>;
   @ViewChild('BoardLookupDialog', { static: false }) BoardLookupDialog!: TemplateRef<any>;
+  @ViewChild('infoLookupDialog', { static: false }) infoLookupDialog!: TemplateRef<any>;
+
 
   propertyForm: FormGroup;
   propArr: any[] = [];
@@ -790,6 +792,16 @@ export class DashboardComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);    
+  }
+
+
+
+  openInfo() {
+    let dialogRef = this.dialog.open(this.infoLookupDialog);
+  }
+
+  closeInfo() {
+    let dialogRef = this.dialog.closeAll()
   }
 
 }

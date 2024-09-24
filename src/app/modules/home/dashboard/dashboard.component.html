@@ -2,7 +2,14 @@
     <div class="row no-gutters">
         <div class="visualization-heading col-12">
             <div class="heading-info">
-                <h2 class="heading-title">Dashboard</h2>
+                <div class="row">
+                    <div class="col-10">        
+                        <h1 class="page-title">Dashboard</h1>
+                    </div>
+                    <div class="col-2">
+                        <h6 (click)="openInfo()">Need Help? &#x24D8;</h6>                
+                    </div>
+                </div>            
             </div>
             <hr>
             <div class="col-12">
@@ -641,112 +648,43 @@
     </div>    
 </div>
 
-
-
-<!--
-                    <div class="col-4">
-                    <div class="col-12">
-                        <div class="chart-wrapper" >
-                            <h6>Properties</h6>
-                            <canvas baseChart #baseChart [data]="pieChart2Data" [labels]="pieChart2Labels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <table class="table table-striped table-hover" style="font-size: small;">
-                            <tbody>
-                                <tr>
-                                    <th>Total Number of Properties</th>
-                                    <td>{{ mPropCount }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Registered Properties</th>
-                                    <td>{{ mRegPropCount }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Unregistered Properties</th>
-                                    <td>{{ mUnRegPropCount }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
--->
-
-
-
-<!--
+<div class="col-12">
+    <ng-template #infoLookupDialog >
+        <h3 matDialogTitle>
             <div class="row">
-                <div class="col-6">
-                    <mat-card>
-                        <mat-card-header>
-                            <mat-card-subtitle>
-                                Voters
-                            </mat-card-subtitle>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <div class="col-12">
-                                <div class="chart-wrapper" >
-                                    <canvas baseChart #baseChart [data]="pieChart3Data" [labels]="pieChart3Labels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend"></canvas>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <table class="table table-striped table-hover" style="font-size: small;">
-                                    <tbody>
-                                        <tr>
-                                            <th>Total Number of Registered Members</th>
-                                            <td>{{ mVoterElectorate }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Members who have voted</th>
-                                            <td>{{ mVotedMembers }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Members who have yet to vote</th>
-                                            <td>{{ mNotVotedMembers }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
+                <div class="col-9">
+                    <b>How to register for AGMs and Board Elections?</b>
                 </div>
-                <div class="col-6">
-                    <mat-card>
-                        <mat-card-header>
-                            <mat-card-subtitle>
-                                Members
-                            </mat-card-subtitle>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <div class="col-12">
-                                <div class="chart-wrapper" >
-                                    <canvas baseChart #baseChart [data]="pieChart1Data" [labels]="pieChart1Labels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend"></canvas>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <table class="table table-striped table-hover" style="font-size: small;">
-                                    <tbody>
-                                        <tr>
-                                            <th>Registered Members</th>
-                                            <td>{{ mRegMemCount }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Unregistered Members</th>
-                                            <td>{{ mUnRegMemCount }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Proxy Members</th>
-                                            <td>{{ mProxMemCount }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Total Number of Members</th>
-                                            <td>{{ mMemCount }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
+                <div class="col-3">
+                    <button class="btn btn-danger btn-block" (click)="closeInfo()">&#10005; Close Guide</button>
                 </div>
             </div>
-        -->
+        </h3>
+        <hr>
+        <mat-dialog-content> 
+            <mat-tab-group>
+                <mat-tab label="AGM Registration">
+                    <br>
+                    <ul>
+                        <li><u>Step 1:</u><br>If you wish to register yourself for the upcoming AGM, kindly go through the requisites mentioned in the gold expansion, and click on the button below to file your registration.</li><br>
+                        <img src="./../../../../assets/steps/agm-1.png" style="width: 100%;"><br>
+                        <li><u>Step 2:</u><br>Please confirm the validity of the below mentioned details. If there are any discrepancies, kindly notify us via email: info@floatingcityamwaj.com.</li><br>
+                        <img src="./../../../../assets/steps/agm-2.png" style="width: 100%;"><br>
+                        <li><u>Step 3:</u><br>The eligibility of your candidacy will be subject to scrutiny of these documents such as your Government ID (CPR, Passport, etc.), your property Title Deeds, and the EWA Payment Receipt. If the documents have not yet been approved by the Admin, they will be shown in yellow as "In Process". If the documents have been verified,they will be in either green or red depending on whether the Admin has confirmed or denied your documents.</li><br>
+                        <li><u>Step 4:</u><br>If all your documents are valid, you are eligible to attend the AGM, click on submit to file your registration and a confirmation email will be sent acknowledging receipt of your registration.</li><br>
+                    </ul>
+                </mat-tab>
+                <mat-tab label="Board Election Nomination">
+                    <br>
+                    <ul>
+                        <li><u>Step 1:</u><br>If you wish to nominate yourself for the upcoming board election, kindly go through the requisites mentioned in the red expansion, and click on the button below to file your candidacy.</li><br>
+                        <img src="./../../../../assets/steps/election-1.png" style="width: 100%;"><br>
+                        <li><u>Step 2:</u><br>Please confirm the validity of the below mentioned details. If there are any discrepancies, kindly notify us via email: info@floatingcityamwaj.com. Kindly upload the respective documents in support of your nomination: Copy of your passport, copy of your CPR and a certificate of Good conduct.</li><br>
+                        <img src="./../../../../assets/steps/election-2.png" style="width: 100%;">
+                        <li><u>Step 3:</u><br>The eligibility of your candidacy will be subject to scrutiny of these documents such as your Government ID (CPR, Passport, etc.), your property Title Deeds, and the EWA Payment Receipt. Also do not forget to upload a recent passport sized photgraph of yourself for the ballot paper at the election. Click on submit to file your nomination and a confirmation email will be sent acknowledging receipt of your candidacy. </li><br>
+                    </ul>
+                </mat-tab>                
+            </mat-tab-group>
+        </mat-dialog-content>
+    </ng-template>
+</div>
