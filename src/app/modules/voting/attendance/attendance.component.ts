@@ -16,7 +16,8 @@ export class AttendanceComponent implements OnInit {
   mCurDate = this.formatDate(this.utc);
   mCYear = new Date().getFullYear();
 
-  membList: any[] = []
+  membList: any[] = [];
+  propList: any[] = [];
 
   constructor(private crmService: CrmService, private router: Router, private votingService: VotingService) { }
 
@@ -28,7 +29,8 @@ export class AttendanceComponent implements OnInit {
     this.votingService.getAGMRecord().subscribe((res: any) => {
       console.log(res)
       for(let j=0; j<res.recordset.length; j++) {
-        let record = []
+        let recordMemb = []
+        let recordProp = []
         this.votingService.getRegistrationDetail(res.recordset[j].AGMCODE).subscribe((resp: any) => {
           console.log(resp)
           for(let k=0; k<resp.recordset.length; k++) {
@@ -54,7 +56,7 @@ export class AttendanceComponent implements OnInit {
                   cprdoc: 'Y',
                   balance: '0'
                 }
-                record.push(A)
+                recordMemb.push(A)
               } else {
                 let B = {
                   agmcode: resp.recordset[k].agmcode,
@@ -71,13 +73,33 @@ export class AttendanceComponent implements OnInit {
                   cprdoc: 'Y',
                   balance: '0'
                 }
-                record.push(B)
+                recordMemb.push(B)
               }
             })
           }
+          this.votingService.getEntitlementList(res.recordset[j].AGMCODE).subscribe((respo: any) => {
+            console.log(respo)
+            for(let l=0; l<respo.recordset.length; l++) {
+              let A = {
+                agmcode: resp.recordset[j].agmcode,
+                cprno: respo.recordset[l].MemberNo,
+                name: respo.recordset[l].NAME,
+                agmname: resp.recordset[j].agmname,
+                agmdate: resp.recordset[j].agmdate,
+                house: respo.recordset[l].HOUSE_FLAT_NO,  
+                titledeed: respo.recordset[l].PARCELNO,  
+                plotno: respo.recordset[l].PLOTNO,
+                plotarea: respo.recordset[l].PLOTAREA,
+                builtuparea: respo.recordset[l].BUILTUPAREA,
+                proptype: respo.recordset[l].PROPERTYTYPE,
+              }
+              recordProp.push(A)
+            }
+          })
         })
         //break;
-        this.membList.push(record)
+        this.membList.push(recordMemb)
+        this.propList.push(recordProp)
       }
     })
   }

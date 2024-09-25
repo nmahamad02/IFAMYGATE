@@ -105,6 +105,10 @@ export class VotingService {
     getRegistrationDetail(agmcode: string) {
       return this.http.get(this.url + '/getRegistrationDetail/' + agmcode)
     } 
+
+    getEntitlementList(agmcode: string) {
+      return this.http.get(this.url + '/getEntitlementList/' + agmcode)
+    } 
     
     checkMemberRegistration(agmcode: string, cprno: string) {
       return this.http.get(this.url + '/member/registration/' + agmcode + '/' + cprno)

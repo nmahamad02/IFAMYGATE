@@ -15,64 +15,115 @@
             </div>
             <hr>
             <div class="col-12">
-                <mat-accordion>
-                    <mat-expansion-panel hideToggle *ngFor="let m of membList; let i = index">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title> 
-                                <h6>{{ m[0].agmdate | date: 'longDate' }}</h6> 
-                            </mat-panel-title>
-                            <mat-panel-description> {{ m[0].agmname }}</mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <div class="row">
-                            <div class="col-12">
-                                <table #table1 class="table table-striped table-hover table-sm table-bordered" >
-                                    <thead>
-                                        <tr style="background-color: darkblue; color: white;">
-                                            <th></th>
-                                            <th>Name</th>
-                                            <th>CPR</th>
-                                            <th>Property</th>
-                                            <th>Status</th>
-                                            <th>Registered Date</th>
-                                            <!--<th>Title Deed</th>
-                                            <th>CPR Copy</th>
-                                            <th>Balance Due</th>-->
-                                            <th>Eligibility</th>
-                                            <th>Email</th>
-                                            <!--<th></th>-->
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let n of membList[i]; let i = index">
-                                            <td>{{ i+1 }}</td>
-                                            <td>{{ n.cprno }}</td>
-                                            <td>{{ n.name }}<p *ngIf="n.proxy !=='N'">Proxy of: {{ n.proxy }}</p></td>
-                                            <td>{{ n.properties }}</td>
-                                            <td>{{ n.status }}</td>
-                                            <td>{{ n.registered | date:'mediumDate' }}</td>
-                                            <!--<td>{{ n.titledeed }}</td>
-                                            <td>{{ n.cprdoc }}</td>
-                                            <td>BHD {{ n.balance }}</td>-->
-                                            <td>{{ n.position }}</td>
-                                            <td>{{ n.email }}</td>
-                                            <!--<td>
-                                                <button class="btn-primary"  (click)="gotoPropertyDetails('/crm/property/details', n.cprno)">
-                                                View
-                                                </button>
-                                            </td>-->
-                                            <td>
-                                                <button class="btn-danger" (click)="deregister(n.cprno,n.agmcode)">
-                                                X
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </mat-expansion-panel>
-                </mat-accordion>
+                <mat-tab-group>
+                    <mat-tab label="Registered Voters">
+                        <br>
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle *ngFor="let m of membList; let i = index">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> 
+                                        <h6>{{ m[0].agmdate | date: 'longDate' }}</h6> 
+                                    </mat-panel-title>
+                                    <mat-panel-description> {{ m[0].agmname }}</mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table #table1 class="table table-striped table-hover table-sm table-bordered" >
+                                            <thead>
+                                                <tr style="background-color: darkblue; color: white;">
+                                                    <th></th>
+                                                    <th>Name</th>
+                                                    <th>CPR</th>
+                                                    <th>Property</th>
+                                                    <th>Status</th>
+                                                    <th>Registered Date</th>
+                                                    <!--<th>Title Deed</th>
+                                                    <th>CPR Copy</th>
+                                                    <th>Balance Due</th>-->
+                                                    <th>Eligibility</th>
+                                                    <th>Email</th>
+                                                    <!--<th></th>-->
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let n of membList[i]; let i = index">
+                                                    <td>{{ i+1 }}</td>
+                                                    <td>{{ n.cprno }}</td>
+                                                    <td>{{ n.name }}<p *ngIf="n.proxy !=='N'">Proxy of: {{ n.proxy }}</p></td>
+                                                    <td>{{ n.properties }}</td>
+                                                    <td>{{ n.status }}</td>
+                                                    <td>{{ n.registered | date:'mediumDate' }}</td>
+                                                    <!--<td>{{ n.titledeed }}</td>
+                                                    <td>{{ n.cprdoc }}</td>
+                                                    <td>BHD {{ n.balance }}</td>-->
+                                                    <td>{{ n.position }}</td>
+                                                    <td>{{ n.email }}</td>
+                                                    <!--<td>
+                                                        <button class="btn-primary"  (click)="gotoPropertyDetails('/crm/property/details', n.cprno)">
+                                                        View
+                                                        </button>
+                                                    </td>-->
+                                                    <td>
+                                                        <button class="btn-danger" (click)="deregister(n.cprno,n.agmcode)">
+                                                        X
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </mat-tab>
+                    <mat-tab label="Entitlement List - Registered Properties">
+                        <br>
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle *ngFor="let m of membList; let i = index">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> 
+                                        <h6>{{ m[0].agmdate | date: 'longDate' }}</h6> 
+                                    </mat-panel-title>
+                                    <mat-panel-description> {{ m[0].agmname }}</mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table #table1 class="table table-striped table-hover table-sm table-bordered" >
+                                            <thead>
+                                                <tr style="background-color: darkblue; color: white;">
+                                                    <th></th>
+                                                    <th>Name</th>
+                                                    <th>CPR</th>
+                                                    <th>House Number</th>
+                                                    <th>Plot Number</th>
+                                                    <th>Title Deed</th>
+                                                    <th>Plot Area</th>
+                                                    <th>Built Up Area</th>
+                                                    <th>Property Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let n of propList[i]; let i = index">
+                                                    <td>{{ i+1 }}</td>
+                                                    <td>{{ n.cprno }}</td>
+                                                    <td>{{ n.name }}</td>
+                                                    <td>{{ n.house }}</td>
+                                                    <td>{{ n.plotno }}</td>
+                                                    <td>{{ n.titledeed }}</td>
+                                                    <td>{{ n.plotarea }}</td>
+                                                    <td>{{ n.builtuparea }}</td>
+                                                    <td>{{ n.proptype }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </mat-tab>
+                    </mat-tab-group>
+ 
             </div>
             <!--<table #table1 class="table table-striped table-hover table-sm table-bordered" >
                 <thead>
