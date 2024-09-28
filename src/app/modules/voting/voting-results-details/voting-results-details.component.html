@@ -3,7 +3,7 @@
         <div class="visualization-heading col-12">
             <div class="heading-info row">
                 <div class="col-10">
-                    <h2 class="heading-title">AGM Results - {{ mCat }} {{ mYear }}</h2>
+                    <h2 class="heading-title">{{ mCat }} Results - {{ mYear }}</h2>
                 </div>
                 <div class="col-2">
                     <button mat-raised-button class="bg-warning text-white btn btn-block" [routerLink]="['/voting/overview']" style="float: right;">
@@ -12,7 +12,7 @@
                 </div>
             </div>
             <hr>
-            <div class="col-12">
+            <div class="col-12" *ngIf="agmBool">
                 <table class="table table-borderless table-hover table-responsive-xxl">
                     <thead>
                         <tr class="table-reflow" style="background-color: rgb(2, 46, 82); color: white;">
@@ -57,6 +57,9 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="col-12" *ngIf="electionBool">
+
             </div>
         </div>
     </div>    

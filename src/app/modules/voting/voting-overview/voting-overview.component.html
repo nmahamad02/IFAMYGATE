@@ -2,7 +2,14 @@
     <div class="row no-gutters">
         <div class="visualization-heading col-12">
             <div class="heading-info">
-                <h2 class="heading-title">Overview</h2>
+                <div class="row">
+                    <div class="col-10">        
+                        <h1 class="page-title">Overview</h1>
+                    </div>
+                    <div class="col-2">
+                        <h6 (click)="openInfo()">Need Help? &#x24D8;</h6>                
+                    </div>
+                </div>            
             </div>
             <hr>
             <div class="col-12">
@@ -50,7 +57,8 @@
                                                 <h5>
                                                     {{ i+1 }} | {{ cat.BLCATEGORY }}
                                                 </h5>
-                                                <h6 style="color: red;" *ngIf="m.AGMSTATUS=='Upcoming'">Click on the card to cast your vote.</h6>
+                                                <h6 style="color: red;" *ngIf="m.AGMSTATUS=='Upcoming'">Voting will soon be opened to allow you to cast your vote.</h6>
+                                                <h6 style="color: red;" *ngIf="m.AGMSTATUS=='Open'">Click on the card to cast your vote.</h6>
                                                 <h6 style="color: red;" *ngIf="m.AGMSTATUS=='Closed'">Click on the card to view results for this vote.</h6>
                                             </mat-card-content>
                                         </mat-card>
@@ -92,7 +100,35 @@
     </div>    
 </div>      
 
+<div class="col-12">
+    <ng-template #infoLookupDialog >
+        <h3 matDialogTitle>
+            <div class="row">
+                <div class="col-9">
+                    <b>How to vote in Elections and AGMs?</b>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-danger btn-block" (click)="closeInfo()">&#10005; Close Guide</button>
+                </div>
+            </div>
+        </h3>
+        <hr>
+        <mat-dialog-content> 
+            <ul>
+                <li><u>Step 1:</u><br>To vote in the AGMs and the Board election, click on the Voting Overview tab. This will take you to a page that will show a list of all the votes that are currently open to vote in.Click on the tab to expand details of the vote.</li><br>
+                <img src="https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/voting-0.png" style="width: 100%;"><br>
+                <li><u>Step 2:</u><br>Select the category you wish to vote in. Here you will find a list of your properties. As per RERA regulations, if you have more than one property under your name, every voter must cast their vote for every property they own. Kindly make sure you vote for each property individually. If your property has not fully paid its dues as of March 2024, the vote will be considered invalid. 
+                </li><br>
+                <img src="https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/voting-1.png" style="width: 100%;"><br>
+                <li><u>Step 3:</u><br>If you have already voted for that property, it will appear green. If you are yet to vote, the button will appear blue. Click to cast your vote. Kindly read through the following set of questions and make sure to cast your vote accordingly.
+                </li><br>
+                <li><u>Step 4:</u><br>For the Board election, you can select a minimum of 1 candidate to a maximum of 9 from the nominee list below. For the Bylaw and General type voting, make sure to vote on all points. Press submit to confirm your votes. Please double check your selection since you are not allowed to change your vote after submission. Your votes will be recorded and tallied as soon as the allotted time has elapsed, and the results will be certified and published and be viewed back in the voting page. 
 
+                </li><br>
+            </ul>
+        </mat-dialog-content>
+    </ng-template>
+</div>
 
 
 

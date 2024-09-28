@@ -113,6 +113,10 @@ export class VotingService {
     checkMemberRegistration(agmcode: string, cprno: string) {
       return this.http.get(this.url + '/member/registration/' + agmcode + '/' + cprno)
     } 
+
+    checkmembervotedata(agmcode: string, cprno: string) {
+      return this.http.get(this.url + '/vote/checkdata/' + agmcode + '/' + cprno)
+    }
   
     insertMemberRegistration(agmtitle: string, cprno: string, name: string, membtype: string, email: string, createDate: string, isprimary: string, primarymember: string) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

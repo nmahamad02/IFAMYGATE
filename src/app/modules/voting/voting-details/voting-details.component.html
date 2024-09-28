@@ -12,45 +12,89 @@
                 </div>
             </div>
             <hr>
-            <div class="row container-fluid">
-                <h6>You are now voting on behalf of {{ mMembData.membname }}, CPR: {{ mMembData.membno }}</h6>
-                <h6>Please read through the following set of questions and make sure to cast your vote accordingly. Your votes will be recorded and tallied as soon as the alloted time has elapsed, and the results can be viewed in the Results page.</h6>
+            <div class="container-fluid" *ngIf="agmBool">
+                <h6>Please read through the following set of questions and make sure to cast your vote accordingly. Your votes will be recorded and tallied as soon as the alloted time has elapsed, and the results can be viewed in the Results page. Please double check your selection since you are not allowed to change your vote after submission.</h6>
+                <br>
+                <form class="form-container" [formGroup]="VotingForm" >
+                    <table class="table table-borderless table-hover table-responsive-xxl" formArrayName="votes">
+                        <thead>
+                            <tr class="table-reflow" style="background-color: rgb(2, 46, 82); color: white;">
+                                <th style="width: 10%;">
+                                    SL NO
+                                </th>
+                                <th style="width: 70%;">
+                                    DESCRIPTION
+                                </th>
+                                <th style="width: 20%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let vote of votes.controls; let i = index;" [formGroupName]="i">
+                                <td>
+                                    {{ this.voteQuestions[i].BLNO }}
+                                </td>
+                                <td>
+                                    {{ this.voteQuestions[i].BLEDESCRIPTION }}
+                                    <hr>
+                                    {{ this.voteQuestions[i].BLADESCRIPTION }}
+                                </td>
+                                <td>
+                                    <mat-radio-group formControlName="vDecision">
+                                        <mat-radio-button value="Y">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <mat-radio-button value="N">No</mat-radio-button>
+                                    </mat-radio-group>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <button class="btn btn-success" type="button" (click)="SubmitForm()"> <mat-icon>how_to_vote</mat-icon>&nbsp;&nbsp;&nbsp;Submit Votes!</button><br>
             </div>
-            <br>
-            <form class="form-container" [formGroup]="VotingForm">
-                <table class="table table-borderless table-hover table-responsive-xxl" formArrayName="votes">
-                    <thead>
-                        <tr class="table-reflow" style="background-color: rgb(2, 46, 82); color: white;">
-                            <th style="width: 15%;">
-                                SL NO
-                            </th>
-                            <th style="width: 60%;">
-                                DESCRIPTION
-                            </th>
-                            <th style="width: 25%;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let vote of votes.controls; let i = index;" [formGroupName]="i">
-                            <td>
-                                {{ this.voteQuestions[i].BLNO }}
-                            </td>
-                            <td>
-                                {{ this.voteQuestions[i].BLEDESCRIPTION }}
-                                <hr>
-                                {{ this.voteQuestions[i].BLADESCRIPTION }}
-                            </td>
-                            <td>
-                                <mat-radio-group formControlName="vDecision">
-                                    <mat-radio-button value="Y">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <mat-radio-button value="N">No</mat-radio-button>
-                                </mat-radio-group>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <button class="btn btn-success" type="button" (click)="SubmitForm()"> <mat-icon>how_to_vote</mat-icon>&nbsp;&nbsp;&nbsp;Submit Votes!</button><br>
+            <div class="container-fluid" *ngIf="electionBool">
+                <h6>Please read through the following set of questions and make sure to cast your vote accordingly. You can select a minimum of 1 candidate to a maximum of 9 from the nominee list below. Your votes will be recorded and tallied as soon as the alloted time has elapsed, and the results can be viewed in the Results page. Please double check your selection since you are not allowed to change your vote after submission.</h6>
+                <br>
+                <form class="form-container" [formGroup]="VotingForm" >
+                    <table class="table table-borderless table-hover table-responsive-xxl" formArrayName="votes">
+                        <thead>
+                            <tr class="table-reflow" style="background-color: rgb(2, 46, 82); color: white;">
+                                <th style="width: 10%;">
+                                    SL NO
+                                </th>
+                                <th style="width: 70%;">
+                                    DESCRIPTION
+                                </th>
+                                <th style="width: 20%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let vote of votes.controls; let i = index;" [formGroupName]="i">
+                                <td>
+                                    {{ this.voteQuestions[i].BLNO }}
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <img [src]="this.voteQuestions[i].imageSrc" *ngIf="this.voteQuestions[i].imageSrc" style="width:75%;border-radius: 35%;">
+                                        </div>
+                                        <div class="col">
+                                            {{ this.voteQuestions[i].BLEDESCRIPTION }}
+                                            <hr>
+                                             CPR: {{ this.voteQuestions[i].BLITEM }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <mat-radio-group formControlName="vDecision">
+                                        <mat-radio-button value="Y">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <mat-radio-button value="N">No</mat-radio-button>
+                                    </mat-radio-group>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <button class="btn btn-success" type="button" (click)="SubmitForm()"> <mat-icon>how_to_vote</mat-icon>&nbsp;&nbsp;&nbsp;Submit Votes!</button><br>
+            </div>
             <br>
         </div>
     </div>    

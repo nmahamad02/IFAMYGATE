@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrmService } from 'src/app/services/crm/crm.service';
 import { DataSharingService } from 'src/app/services/data-sharing/data-sharing.service';
@@ -7,6 +7,7 @@ import { VotingService } from 'src/app/services/voting/voting.service';
 import { ChartConfiguration, ChartDataSets } from 'chart.js';
 import { ChartType, ChartOptions } from 'chart.js';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, BaseChartDirective } from 'ng2-charts';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-voting-overview',
@@ -14,6 +15,9 @@ import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsToolt
   styleUrls: ['./voting-overview.component.scss']
 })
 export class VotingOverviewComponent implements OnInit {
+
+  @ViewChild('infoLookupDialog', { static: false }) infoLookupDialog!: TemplateRef<any>;
+
   votingList: any[] = []
   memberList: any[] = []
 
@@ -30,7 +34,7 @@ export class VotingOverviewComponent implements OnInit {
   public pieChartOptions: any = { legend: { display: true, labels: { fontColor: 'black' } } }
   public pieChartPlugins = [];
 
-  constructor(private votingService: VotingService, private router: Router, private crmservice: CrmService, private dataSharingService: DataSharingService) { 
+  constructor(private votingService: VotingService, private router: Router, private crmservice: CrmService, private dataSharingService: DataSharingService,private dialog: MatDialog,) { 
     this.getData() 
   }
 
@@ -106,6 +110,8 @@ export class VotingOverviewComponent implements OnInit {
         console.log(res)
         if(res.recordset.length === 0) {
           alert('You are not registered to vote! Kindly register yourself from the home page.')
+        } else if (res.recordset[0].POSITION === 'N') {
+          alert('You are not eligible to vote! Kindly email us at info@floatingcityamwaj.com (with a CC to denis@dp.bh) for further clarification.')
         } else {
           if(res.recordset[0].MEMBTYPE ==='O') {
             const membData = {
@@ -114,8 +120,8 @@ export class VotingOverviewComponent implements OnInit {
               membtype: res.recordset[0].MEMBTYPE,
             }
             this.dataSharingService.setData(membData)
-            var myurl = `/voting/details/${agmcode}/${category}/${year}`;
-            this.router.navigateByUrl(myurl).then(e => {});
+            var myurl = `/voting/confirmation/${agmcode}/${category}/${year}`;
+            this.router.navigateByUrl(myurl).then(e => {});  
           } else if(res.recordset[0].MEMBTYPE ==='P') {
             this.votingService.checkMemberRegistration(agmcode,res.recordset[0].PRIMARYMEMBER).subscribe((resp:any) => {
               const membData = {
@@ -124,7 +130,7 @@ export class VotingOverviewComponent implements OnInit {
                 membtype: res.recordset[0].MEMBTYPE,
               }
               this.dataSharingService.setData(membData)
-              var myurl = `/voting/details/${agmcode}/${category}/${year}`;
+              var myurl = `/voting/confirmation/${agmcode}/${category}/${year}`;
               this.router.navigateByUrl(myurl).then(e => {});
             })
           }
@@ -148,6 +154,14 @@ export class VotingOverviewComponent implements OnInit {
       month = '0' + month;
     }
     return [day, month, year].join('-');
+  }
+
+  openInfo() {
+    let dialogRef = this.dialog.open(this.infoLookupDialog);
+  }
+
+  closeInfo() {
+    let dialogRef = this.dialog.closeAll()
   }
 
 }

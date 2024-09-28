@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <div class="row no-gutters">
+        <div class="visualization-heading col-12">
+            <div class="heading-info row">
+                <div class="col-10">
+                    <h2 class="heading-title">Confirm your details before casting your vote</h2>
+                </div>
+                <div class="col-2">
+                    <button mat-raised-button class="bg-warning text-white btn btn-block" [routerLink]="['/voting/overview']" style="float: right;">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row container-fluid">
+                <h6>You are now voting on behalf of {{ mMembData.membname }}, CPR: {{ mMembData.membno }}</h6>
+                <h6>Please keep in mind that as per RERA regulations, if you have more than one property under your name, every voter must cast their vote for every property they own. Therefore kindly make sure you vote for each property individually. If your property has not fully paid its dues as of March 2024, the vote will be considered invalid.</h6>
+                <br>
+                <table #table1 class="table table-striped table-hover table-sm table-bordered" >
+                    <thead>
+                        <tr style="background-color: darkblue; color: white;">
+                            <th></th>
+                            <th>House Number</th>
+                            <th>Plot Number</th>
+                            <th>Title Deed</th>
+                            <th>Plot Area</th>
+                            <th>Built Up Area</th>
+                            <th>Voting Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let n of propData; let i = index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ n.house }}</td>
+                            <td>{{ n.plotno }}</td>
+                            <td>{{ n.titledeed }}</td>
+                            <td>{{ n.plotarea }}</td>
+                            <td>{{ n.builtuparea }}</td>
+                            <td>{{ n.status }}</td>
+                            <td>
+                                <button class="btn btn-primary" (click)="gotoVotingDetails(mAgmCode,n.titledeed,mCat,mYear)" *ngIf="n.status==='Not Voted'">
+                                    <i class="fa fa-vote-yea"></i> Cast your vote!
+                                </button>
+                                <button class="btn btn-success" *ngIf="n.status==='Voted'">
+                                    <i class="fa fa-check"></i> Already Voted!
+                                </button>
+                            </td>                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+    </div>    
+</div>

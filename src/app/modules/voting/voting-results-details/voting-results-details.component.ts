@@ -21,6 +21,9 @@ export class VotingResultsDetailsComponent implements OnInit {
   sumArea: number;
   area: number;
 
+  agmBool = false;
+  electionBool = false;
+
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -43,6 +46,12 @@ export class VotingResultsDetailsComponent implements OnInit {
         this.pieChartData.push(data)
       }
     })*/
+
+      if(this.mCat === 'ELECTION') {
+        this.electionBool = true;
+      } else {
+        this.agmBool = true;
+      }
 
     this.votingservice.getVotingCalculatedQuestionWiseResults(this.mCat).subscribe((res: any) => {
       console.log(res.recordset)

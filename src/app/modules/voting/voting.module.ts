@@ -27,6 +27,7 @@ import { VotingDetailsComponent } from './voting-details/voting-details.componen
 import { AttendanceComponent } from './attendance/attendance.component';
 import { VotingResultsDetailsComponent } from './voting-results-details/voting-results-details.component';
 import { VotingAnalysisComponent } from './voting-analysis/voting-analysis.component';
+import { VotingConfirmationComponent } from './voting-confirmation/voting-confirmation.component';
 
 export const votingRoutes = [
   {
@@ -42,6 +43,10 @@ export const votingRoutes = [
     component: VotingOverviewComponent
   },  
   {
+    path: 'confirmation/:agmcode/:category/:year',
+    component: VotingConfirmationComponent
+  },
+  {
     path: 'details/:agmcode/:category/:year',
     component: VotingDetailsComponent
   },
@@ -56,7 +61,14 @@ export const votingRoutes = [
 ];
 
 @NgModule({
-  declarations: [VotingOverviewComponent, VotingResultsComponent, VotingDetailsComponent, AttendanceComponent, VotingResultsDetailsComponent, VotingAnalysisComponent
+  declarations: [
+    VotingOverviewComponent, 
+    VotingResultsComponent, 
+    VotingDetailsComponent, 
+    AttendanceComponent, 
+    VotingResultsDetailsComponent, 
+    VotingAnalysisComponent, 
+    VotingConfirmationComponent
   ],
   imports: [
     CommonModule,
