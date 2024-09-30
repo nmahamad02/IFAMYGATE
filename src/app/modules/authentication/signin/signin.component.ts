@@ -56,7 +56,7 @@ export class SigninComponent implements OnInit {
             this.authenticationService.signin(res.recordset[0].USERCODE, res.recordset[0].FIRSTNAME, res.recordset[0].LASTNAME, res.recordset[0].USERCLASS).subscribe((res: any) => {
               this.router.navigate(['home/dashboard']);
               //Email submit
-              this.authenticationService.sendUserLoginEmail(resp.recordset[0].MemberNo, resp.recordset[0].NAME, resp.recordset[0].Email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
+              /*this.authenticationService.sendUserLoginEmail(resp.recordset[0].MemberNo, resp.recordset[0].NAME, resp.recordset[0].Email, this.mCurDate, this.mCurTime).subscribe((res: any) => {
                 console.log('EMAIL SENT')
               }, (err: any) => {
                 console.log(err)
@@ -64,13 +64,13 @@ export class SigninComponent implements OnInit {
               this.signinForm = new FormGroup({
                 username: new FormControl('', [ Validators.required ]),
                 password: new FormControl('', [ Validators.required ])
-              });
+              });*/
             })
           }, (err: any) => {
             this.authenticationService.signin(res.recordset[0].USERCODE, res.recordset[0].FIRSTNAME, res.recordset[0].LASTNAME, res.recordset[0].USERCLASS).subscribe((resP: any) => {
               this.router.navigate(['home/dashboard']);
               //Email submit
-              this.authenticationService.sendUserLoginEmail(res.recordset[0].USERCODE, res.recordset[0].FIRSTNAME, 'noohmanzoor02@gmail.com', this.mCurDate, this.mCurTime).subscribe((res: any) => {
+              /*this.authenticationService.sendUserLoginEmail(res.recordset[0].USERCODE, res.recordset[0].FIRSTNAME, 'noohmanzoor02@gmail.com', this.mCurDate, this.mCurTime).subscribe((res: any) => {
                 console.log('EMAIL SENT')
               }, (err: any) => {
                 console.log(err)
@@ -78,7 +78,7 @@ export class SigninComponent implements OnInit {
               this.signinForm = new FormGroup({
                 username: new FormControl('', [ Validators.required ]),
                 password: new FormControl('', [ Validators.required ])
-              });
+              });*/
             })
           })
         }

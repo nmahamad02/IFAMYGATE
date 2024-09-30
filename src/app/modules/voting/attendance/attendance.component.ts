@@ -44,6 +44,7 @@ export class AttendanceComponent implements OnInit {
                 let A = {
                   agmcode: resp.recordset[k].agmcode,
                   cprno: resp.recordset[k].Memberno,
+                  email: resp.recordset[k].email,
                   name: resp.recordset[k].name,
                   agmname: resp.recordset[k].agmname,
                   agmdate: resp.recordset[k].agmdate,
@@ -62,6 +63,7 @@ export class AttendanceComponent implements OnInit {
                   agmcode: resp.recordset[k].agmcode,
                   cprno: resp.recordset[k].Memberno,
                   name: resp.recordset[k].name,
+                  email: resp.recordset[k].email,
                   agmname: resp.recordset[k].agmname,
                   agmdate: resp.recordset[k].agmdate,
                   registered: resp.recordset[k].CREATEDDATE,  

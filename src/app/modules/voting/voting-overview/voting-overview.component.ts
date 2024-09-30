@@ -102,9 +102,10 @@ export class VotingOverviewComponent implements OnInit {
 
   public gotoVotingDetails(agmcode, status, category, year) {
     if(status === 'Closed') {
-      var myurl = `/voting/results/details/${agmcode}/${category}/${year}`;
+      /*var myurl = `/voting/results/details/${agmcode}/${category}/${year}`;
       this.router.navigateByUrl(myurl).then(e => {
-      });
+      });*/
+      alert('Please wait, the results will be declared shortly.')
     } else if(status === 'Open') {
       this.votingService.checkMemberRegistration(agmcode,this.uC).subscribe((res:any) => {
         console.log(res)
@@ -138,6 +139,8 @@ export class VotingOverviewComponent implements OnInit {
       }, (err: any) => {
         alert('You are not registered to vote! Kindly register yourself from the home page.')
       })
+    } else if(status === 'Processing') {
+      alert('Voting has closed and the results will be available once certified.')
     } else {
       alert('The voting portal will soon be opened to allow you to cast your vote. We appreciate your patience.')
     }

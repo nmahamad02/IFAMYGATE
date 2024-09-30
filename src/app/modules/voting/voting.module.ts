@@ -67,8 +67,7 @@ export const votingRoutes = [
     VotingDetailsComponent, 
     AttendanceComponent, 
     VotingResultsDetailsComponent, 
-    VotingAnalysisComponent, 
-    VotingConfirmationComponent
+    VotingAnalysisComponent, VotingConfirmationComponent
   ],
   imports: [
     CommonModule,

@@ -44,6 +44,10 @@ export class VotingService {
   getVotingCalculatedQuestionWiseResults(category: string) {
     return this.http.get(this.url + '/voting/calculated/results/' + category)
   }  
+
+  getelectionresults(agmcode: string) {
+    return this.http.get(this.url + '/results/election/' + agmcode)
+  }  
   
   checkVotingNumber(code: string) {
     return this.http.get(this.url + '/voting/number/' + code)

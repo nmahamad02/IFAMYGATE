@@ -59,7 +59,45 @@
                 </table>
             </div>
             <div class="col-12" *ngIf="electionBool">
-
+                <canvas baseChart #baseChart [data]="barChartData" [colors]="barChartColors" [labels]="barChartLabels" [chartType]="barChartType" [options]="barChartOptions" [legend]="barChartLegend" [plugins]="barChartPlugins"></canvas>
+                <hr>
+                <table class="table table-borderless table-hover table-responsive-xxl">
+                    <thead>
+                        <tr class="table-reflow" style="background-color: rgb(2, 46, 82); color: white;">
+                            <th style="width: 10%;">
+                                SL NO
+                            </th>
+                            <th style="width: 80%;">
+                                DESCRIPTION
+                            </th>
+                            <th style="width: 10%;">
+                                VOTES
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let vote of resultList; let i = index;">
+                            <td>
+                                {{ i+1 }}
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img [src]="this.resultList[i].imageSrc" *ngIf="this.resultList[i].imageSrc" style="width:100%;border-radius: 35%;">
+                                    </div>
+                                    <div class="col">
+                                        {{ this.resultList[i].NAME }}
+                                        <hr>
+                                         CPR: {{ this.resultList[i].BLITEM }}
+                                    </div>
+                                </div>
+                            </td>
+                            <th>
+                                <h5>{{ this.resultList[i].VOTE }}</h5>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>    
