@@ -84,13 +84,18 @@ export class VotingResultsDetailsComponent implements OnInit {
       this.electionBool = true;
       this.votingservice.getelectionresults(this.mAgmCode).subscribe((res: any) => {
         console.log(res.recordset)
+        for(let i=0; i<res.recordset.length; i++) {
+          this.barChartData.push(res.recordset[i].VOTE)
+          this.barChartLabels.push(res.recordset[0].BLEDESCRIPTION)
+        }
+      })
+      this.votingservice.getelectionresults(this.mAgmCode).subscribe((res: any) => {
+        console.log(res.recordset)
         this.resultList = res.recordset;
         for(let i=0; i<res.recordset.length; i++) {
           this.crmService.getMemberFromCPR(this.resultList[i].BLITEM).subscribe((respo: any) => {
             console.log(respo)
-            this.barChartData.push(res.recordset[i].VOTE)
             this.resultList[i].NAME = respo.recordset[0].NAME
-            this.barChartLabels.push(respo.recordset[0].NAME)
             var imgVal: string = respo.recordset[0].IMAGENAME;
             if ((respo.recordset[0].IMAGENAME === null) || (respo.recordset[0].IMAGENAME === "")) {
               this.resultList[i].imageSrc = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/images/imgNaN.png";
@@ -112,7 +117,7 @@ export class VotingResultsDetailsComponent implements OnInit {
       monkeyPatchChartJsLegend();
     } else {
       this.agmBool = true;
-      this.votingservice.getVotingCalculatedQuestionWiseResults(this.mCat).subscribe((res: any) => {
+      this.votingservice.getVotingCalculatedQuestionWiseResults(this.mAgmCode).subscribe((res: any) => {
         console.log(res.recordset)
         this.resultList = res.recordset;
         for(let i=0; i<res.recordset.length; i++) {

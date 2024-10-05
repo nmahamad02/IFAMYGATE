@@ -47,6 +47,10 @@ export class VotingService {
 
   getelectionresults(agmcode: string) {
     return this.http.get(this.url + '/results/election/' + agmcode)
+  } 
+
+  getelectionchart(agmcode: string) {
+    return this.http.get(this.url + '/results/electionchart/' + agmcode)
   }  
   
   checkVotingNumber(code: string) {
