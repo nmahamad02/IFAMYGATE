@@ -14,11 +14,13 @@ export class UploadService {
     const bucket = new S3({
       accessKeyId: 'AKIAXIAMAZUGCY6N7BNH',
       secretAccessKey: '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',
-      region: 'me-south-1'
+      //region: 'me-south-1'
+      region: 'us-east-1'
     });
     const fileName = 'images/' + file.name;
     const params = {
-      Bucket: 'ifamygate-floatingcity',
+      //Bucket: 'ifamygate-floatingcity',
+      Bucket: 'ifaoryx',
       Key: fileName,
       Body: file,
       ACL: 'public-read',

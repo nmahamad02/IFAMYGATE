@@ -36,9 +36,11 @@ export class AttendanceComponent implements OnInit {
           for(let k=0; k<resp.recordset.length; k++) {
             this.crmService.getLandlordWiseProperties(resp.recordset[k].Memberno).subscribe((respo: any) => {
               var properties = ''
+              var entitlement = 0
               console.log(respo)
               for(let l=0; l<respo.recordset.length;l++) {
                 properties = properties + '  ' + respo.recordset[l].house_flat_no
+                entitlement = entitlement + ((Number(respo.recordset[l].plotarea)+(Number(respo.recordset[l].plotarea)*1.8))/140822.433)*100
               }
               if(resp.recordset[k].membtype === 'O') {
                 let A = {
@@ -52,6 +54,7 @@ export class AttendanceComponent implements OnInit {
                   status: resp.recordset[k].votingStatus,
                   position: resp.recordset[k].position,
                   properties: properties,
+                  entitlement: entitlement,
                   proxy: 'N',
                   titledeed: 'Y',
                   cprdoc: 'Y',
@@ -70,6 +73,7 @@ export class AttendanceComponent implements OnInit {
                   status: resp.recordset[k].votingStatus,
                   position: resp.recordset[k].position,
                   proxy: resp.recordset[k].proxy_OF,
+                  entitlement: entitlement,
                   properties: 'Proxy',
                   titledeed: 'Y',
                   cprdoc: 'Y',

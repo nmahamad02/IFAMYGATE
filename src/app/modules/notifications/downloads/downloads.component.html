@@ -12,6 +12,17 @@
                             <div class="col-3">
                                 <mat-card>
                                     <mat-card-content>
+                                        <mat-card-header>Minutes of Meeting AGM 2024</mat-card-header>
+                                        <pdf-viewer [src]="mom24" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(mom24)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
                                         <mat-card-header>Voting Paper 2024-25</mat-card-header>
                                         <pdf-viewer [src]="votingPaper24" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                         <button class="btn btn-primary" (click)="download(votingPaper24)">
