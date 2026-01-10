@@ -6,8 +6,8 @@
                 <hr>
             </div>
             <div class="col-12">
-                <mat-tab-group>
-                    <mat-tab label="2023-2024">        
+                <mat-tab-group>                    
+                    <mat-tab label="2025-2026">        
                         <div class="row">
                             <div class="col-3">
                                 <mat-card>
@@ -15,6 +15,87 @@
                                         <mat-card-header>Minutes of Meeting AGM 2024</mat-card-header>
                                         <pdf-viewer [src]="mom24" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                         <button class="btn btn-primary" (click)="download(mom24)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Voting Paper 2025-26</mat-card-header>
+                                        <pdf-viewer [src]="votingPaper26" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(votingPaper26)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Meeting Agenda </mat-card-header>
+                                        <pdf-viewer [src]="agenda26" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(agenda26)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Budget 2025-26</mat-card-header>
+                                        <pdf-viewer [src]="budget2526" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(budget2526)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Audit Report</mat-card-header>
+                                        <pdf-viewer [src]="auditReport25" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(auditReport25)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Announcement</mat-card-header>
+                                        <pdf-viewer [src]="ann26" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(ann26)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Proxy Form</mat-card-header>
+                                        <pdf-viewer [src]="proxUl26" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(proxUl26)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="2023-2024">        
+                        <div class="row">
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-card-header>Minutes of Meeting AGM 2023</mat-card-header>
+                                        <pdf-viewer [src]="mom24" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(mom23)">
                                             <i class="fa fa-download"></i>
                                         </button>
                                     </mat-card-content>
@@ -56,9 +137,9 @@
                             <div class="col-3">
                                 <mat-card>
                                     <mat-card-content>
-                                        <mat-card-header>AGM Minutes of Meeting 2023</mat-card-header>
+                                        <mat-card-header>AGM Minutes of Meeting 2022</mat-card-header>
                                         <pdf-viewer [src]="mom23" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
-                                        <button class="btn btn-primary" (click)="download(mom23)">
+                                        <button class="btn btn-primary" (click)="download(mom22)">
                                             <i class="fa fa-download"></i>
                                         </button>
                                     </mat-card-content>

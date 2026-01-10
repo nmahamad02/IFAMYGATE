@@ -8,22 +8,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DownloadsComponent implements OnInit {
 
-  arUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/04-Election+form+HOA-AR.pdf"
-  enUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/04-Election+Form+HOA-EN.pdf"
-  proxEnUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Proxy+Form-EN.pdf"
-  proxArUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Proxy+form-AR.pdf"
-  auditReport23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Float+City+Owners+Association+-+2023+Audit+report+signed.pdf"
-  budget2425 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Proposed+Budget+Y2024-2025-FCMOA.pdf"
-  insurance = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Insurance+Policy.pdf"
-  annEnUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Announcement-EN.pdf"
-  annArUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Announcement-AR.pdf"
-  mom23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/AGM+MOM.pdf"
-  agendaEn23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Agenda+of+meeting-EN.pdf"
-  agendaAr23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Agenda+of+meeting-AR.pdf"  
-  votingPaper24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Voting+Paper+2024-2025+-+EN_AR.pdf"
-  workReport24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Work+completion+report+Amwaj+Island-+PCT+505+-+R0+(1).pdf"
-  TRAudit24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Amwaj+Floating+City+-+TR+Audit+Report-240620.pdf"
-  mom24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/MOM+AGM-FC+final+signed.pdf"
+  arUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/04-Election+form+HOA-AR.pdf";
+  enUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/04-Election+Form+HOA-EN.pdf";
+  proxEnUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Proxy+Form-EN.pdf";
+  proxArUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Proxy+form-AR.pdf";
+  auditReport23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Float+City+Owners+Association+-+2023+Audit+report+signed.pdf";
+  budget2425 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Proposed+Budget+Y2024-2025-FCMOA.pdf";
+  insurance = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Insurance+Policy.pdf";
+  annEnUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Announcement-EN.pdf";
+  annArUrl = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Announcement-AR.pdf";
+  mom22 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/AGM+MOM.pdf";
+  agendaEn23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Agenda+of+meeting-EN.pdf";
+  agendaAr23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Agenda+of+meeting-AR.pdf"; 
+  votingPaper24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Voting+Paper+2024-2025+-+EN_AR.pdf";
+  workReport24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Work+completion+report+Amwaj+Island-+PCT+505+-+R0+(1).pdf";
+  TRAudit24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/Amwaj+Floating+City+-+TR+Audit+Report-240620.pdf";
+  mom23 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/MOM+AGM-FC+final+signed.pdf";
+
+  mom24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/MOM+AGM-FC+final+signed+2026.pdf";
+  votingPaper26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/voting_paper_26.pdf";
+  agenda26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/agm_agenda_26.pdf";
+  budget2526 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FC+PROPOSED+BUDGET+2025-2026.pdf";
+  auditReport25 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FLOATING+CITY+FINAL+AUDIT+REPORT-2025_0001.pdf";
+  ann26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/agm_announcement_2026.pdf";
+  proxUl26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/proxy_form_26.docx";
+
   constructor() { }
 
   ngOnInit() {

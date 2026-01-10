@@ -24,30 +24,16 @@
                             </mat-panel-title>
                             <mat-panel-description style="color: white;">Message from Chairman of the Floating City Main Association</mat-panel-description>
                         </mat-expansion-panel-header>
-                        <div class="row">
-                            <div class="col-6">
-                                <mat-card>
-                                    <mat-card-content>
-                                        <pdf-viewer [src]="arUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
-                                        <button class="btn btn-primary" (click)="downloadAr()">
-                                            <i class="fa fa-download"></i>
-                                        </button>
-                                    </mat-card-content>
-                                </mat-card>
-                            </div>
-                            <div class="col-6">
-                                <mat-card>
-                                    <mat-card-content>
-                                        <pdf-viewer [src]="enUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
-                                        <button class="btn btn-primary" (click)="downloadEn()">
-                                            <i class="fa fa-download"></i>
-                                        </button>
-                                    </mat-card-content>
-                                </mat-card>
-                            </div>
-                        </div>
+                        <mat-card>
+                            <mat-card-content>
+                                <pdf-viewer [src]="enUrl" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                <button class="btn btn-primary" (click)="downloadEn()">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </mat-card-content>                            
+                        </mat-card>
                     </mat-expansion-panel>
-                    <!-- <mat-expansion-panel hideToggle style="background-color: rgb(255, 57, 57); color: white;">
+                    <!--<mat-expansion-panel hideToggle style="background-color: rgb(255, 57, 57); color: white;">
                         <mat-expansion-panel-header>
                             <mat-panel-title style="color: white;">
                                 <i class="fa fa-bullhorn"></i>
@@ -147,8 +133,8 @@
                         <button mat-raised-button class="btn btn-danger btn-block" style="float: center;" (click)="openNomination()" title="Open Nomination">
                             <mat-icon>how_to_reg</mat-icon> File Your Nomination Here
                         </button> 
-                    </mat-expansion-panel>-->               
-                    <!-- <mat-expansion-panel hideToggle style="background-color: goldenrod; color: white">
+                    </mat-expansion-panel>-->        
+                    <mat-expansion-panel hideToggle style="background-color: goldenrod; color: white">
                         <mat-expansion-panel-header>
                             <mat-panel-title style="color: white;"> 
                                 <i class="fa fa-bullhorn"></i>
@@ -156,26 +142,26 @@
                                 &nbsp;
                                 <h6>Announcement:</h6> 
                             </mat-panel-title>
-                            <mat-panel-description style="color: white;"> Register to vote in Board election and AGM 2023-24 </mat-panel-description>
+                            <mat-panel-description style="color: white;"> Register to vote in AGM 2025-26 </mat-panel-description>
                         </mat-expansion-panel-header>
                         <div class="row">
                             <div class="col-6">
                                 <h5 style="text-align: center; "><u>Announcement</u></h5><br>
                                 <p style="text-align: justify;"><b>Dear Floating City Owners Association</b></p>
-                                <p style="text-align: justify;"><u>Subject: HOA General Assembly Meeting Registration for the year 2023-2024</u></p>
-                                <p style="text-align: justify; ">To register your interest to attend the Annual General Body Meeting 2023-2024, please click the link below and follow the steps. The eligibility of your attendance for the AGM will be subject to scrutiny of your documents such as your Government ID (CPR, Passport, etc.), your property Title Deeds, and the EWA Payment Receipt. Registering your intent to attend the AGM will allow you to vote on Bylaws and the upcoming Floating City Owners Association Board Election.</p>
+                                <p style="text-align: justify;"><u>Subject: HOA General Assembly Meeting Registration for the year 2025-2025</u></p>
+                                <p style="text-align: justify; ">To register your interest to attend the Annual General Body Meeting 2025-2026, please click the link below and follow the steps. The eligibility of your attendance for the AGM will be subject to scrutiny of your documents such as your Government ID (CPR, Passport, etc.), your property Title Deeds, and the EWA Payment Receipt.</p>
                             </div>
                             <div class="col-6" dir="rtl" lang="ar" style="float: right;text-align: right; ">
                                 <h5 style="text-align: center; "><u>الإعلان</u></h5>
                                 <p style="text-align: justify; "><b>السادة أعضاء الجمعية العمومية لاتحاد ملاك المدينة العائمة الرئيسي</b></p>
-                                <p style="text-align: justify; "><u>الموضوع: عقد جمعية عمومية اعتيادية لإتحاد ملاك المدينة العائمة الرئيسي لعام 2023-2024</u></p>
-                                <p style="text-align: justify;">لتسجيل اهتمامك بحضور اجتماع الهيئة العامة السنوي 2023-2024، يرجى النقر على الرابط أدناه واتباع الخطوات. ستخضع أهلية حضورك لاجتماع الجمعية العمومية السنوي لتدقيق مستنداتك مثل بطاقة الهوية الحكومية (البطاقة الشخصية، جواز السفر)، وسندات ملكية الممتلكات الخاصة بك، وإيصال دفع EWA. إن تسجيل نيتك لحضور الاجتماع السنوي العام سيسمح لك بالتصويت على اللوائح الداخلية وانتخابات مجلس إدارة جمعية مالكي المدن العائمة القادمة.</p>
+                                <p style="text-align: justify; "><u>الموضوع: عقد جمعية عمومية اعتيادية لإتحاد ملاك المدينة العائمة الرئيسي لعام 2026-2025</u></p>
+                                <p style="text-align: justify;">للتسجيل لحضور اجتماع الجمعية العمومية السنوي 2025-2026، يرجى النقر على الرابط أدناه واتباع الخطوات. يخضع حضوركم للاجتماع لتدقيق وثائقكم، مثل بطاقة الهوية الحكومية (الرقم الوطني، جواز السفر، إلخ)، وسندات ملكية العقار، وإيصال دفع رسوم هيئة المياه والصرف الصحي.</p>
                             </div>
                         </div>
                         <button mat-raised-button class="btn btn-warning btn-lg" style="float: center; width: 100%;" (click)="openRegisteration()" title="Open Registration">
                             <mat-icon>how_to_reg</mat-icon> Register your interest to attend the AGM here
                         </button> 
-                    </mat-expansion-panel> -->
+                    </mat-expansion-panel>
                     <mat-expansion-panel hideToggle style="background-color: rgb(76, 182, 31); color: white;">
                         <mat-expansion-panel-header>
                             <mat-panel-title style="color: white;"> 
@@ -184,7 +170,7 @@
                                 &nbsp;
                                 <h6>Announcement:</h6> 
                             </mat-panel-title>
-                            <mat-panel-description style="color: white;"> General Assembly Meeting Dates 2023-2024</mat-panel-description>
+                            <mat-panel-description style="color: white;"> General Assembly Announcement 2025-2026</mat-panel-description>
                         </mat-expansion-panel-header>
                         <div class="row">
                             <div class="col-6">
@@ -195,7 +181,7 @@
                             </div>
                         </div>
                     </mat-expansion-panel>
-                    <mat-expansion-panel hideToggle style="background-color: rgb(0, 150, 255); color: white;">
+                    <!--<mat-expansion-panel hideToggle style="background-color: rgb(0, 150, 255); color: white;">
                         <mat-expansion-panel-header>
                             <mat-panel-title style="color: white;">
                                 <i class="fa fa-bullhorn"></i>
@@ -219,7 +205,7 @@
                                 <p dir="rtl" lang="ar" style="float: right;text-align: right;text-align: justify;">سيتم الإعلان عن الاجتماع العام السنوي قريبًا جدًا ونتطلع إلى لقائكم جميعًا قريبًا.</p>
                             </div>
                         </div>
-                    </mat-expansion-panel>
+                    </mat-expansion-panel>-->
                 </mat-accordion>
             </div>
             <hr>
@@ -256,7 +242,7 @@
             <div class="col-12">
                 <ng-template #AGMLookupDialog >
                     <h3 matDialogTitle>
-                        <b>Register for AGM 2023-24</b>
+                        <b>Register for AGM 2025-26</b>
                     </h3>
                     <hr>
                     <div mat-dialog-content>

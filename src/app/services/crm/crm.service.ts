@@ -7,8 +7,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CrmService {
-  private url = 'http://15.185.46.105:5030/api';
-
+  //private url = 'http://15.185.46.105:5030/api';
+  private url = 'https://api.ifagate-floatingcity.theworkpc.com/api';
   constructor(private http:HttpClient) { }
 
   getAllMembers() {
