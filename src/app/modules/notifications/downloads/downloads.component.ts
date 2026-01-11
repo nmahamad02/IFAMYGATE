@@ -28,7 +28,8 @@ export class DownloadsComponent implements OnInit {
   mom24 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/MOM+AGM-FC+final+signed+2026.pdf";
   votingPaper26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/voting_paper_26.pdf";
   agenda26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/agm_agenda_26.pdf";
-  budget2526 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FC+PROPOSED+BUDGET+2025-2026.pdf";
+  budget2526 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FC_PROPOSED_BUDGET_2025-2026+final.pdf";
+  budget2627 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FC_PROPOSED_BUDGET_2026-2027+.pdf";
   auditReport25 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/FLOATING+CITY+FINAL+AUDIT+REPORT-2025_0001.pdf";
   ann26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/agm_announcement_2026.pdf";
   proxUl26 = "https://ifamygate-floatingcity.s3.me-south-1.amazonaws.com/information/proxy_form_26.docx";

@@ -56,6 +56,17 @@
                             <div class="col-3">
                                 <mat-card>
                                     <mat-card-content>
+                                        <mat-card-header>Budget 2026-27</mat-card-header>
+                                        <pdf-viewer [src]="budget2627" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
+                                        <button class="btn btn-primary" (click)="download(budget2627)">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-3">
+                                <mat-card>
+                                    <mat-card-content>
                                         <mat-card-header>Audit Report</mat-card-header>
                                         <pdf-viewer [src]="auditReport25" [original-size]="false" style="height: 100%; width: 100%;"></pdf-viewer>
                                         <button class="btn btn-primary" (click)="download(auditReport25)">
