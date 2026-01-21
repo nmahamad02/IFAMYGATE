@@ -33,6 +33,10 @@ export class VotingOverviewComponent implements OnInit {
   public pieChartLegend = true;
   public pieChartOptions: any = { legend: { display: true, labels: { fontColor: 'black' } } }
   public pieChartPlugins = [];
+  public pieChartColors: Array < any > = [{
+    backgroundColor: ['#5f9c5f', '#b52424'],
+    borderColor: []
+  }];  
 
   constructor(private votingService: VotingService, private router: Router, private crmservice: CrmService, private dataSharingService: DataSharingService,private dialog: MatDialog,) { 
     this.getData() 
