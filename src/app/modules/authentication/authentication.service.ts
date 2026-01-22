@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class AuthenticationService {
   //private url = 'http://15.185.46.105:5030/api/user';
-  private url = 'https://api.ifagate-floatingcity.theworkpc.com/api/user';
+  private url = 'https://ifagate-floatingcity-api.theworkpc.com/api/user';
 
   loggedUserSubject: BehaviorSubject<LoggedUserModel>;
   loggedUser: LoggedUserModel;
