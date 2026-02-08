@@ -75,10 +75,10 @@ export class SigninComponent implements OnInit {
               }, (err: any) => {
                 console.log(err)
               })
-              this.signinForm = new FormGroup({
+              /*this.signinForm = new FormGroup({
                 username: new FormControl('', [ Validators.required ]),
                 password: new FormControl('', [ Validators.required ])
-              });
+              });*/
             })
           })
         }
